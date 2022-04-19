@@ -2,6 +2,8 @@
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\admin\JacketController;
+use App\Http\Controllers\AdminController;
 use Inertia\Inertia;
 
 /*
@@ -23,6 +25,26 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+
+Route::controller(JacketController::class)->prefix("admin")->group(function () {
+    Route::get('/jaket', "index")->name('admin.jacket.index');
+    Route::get('/jaket/tambah', "create")->name('admin.jacket.create');
+    Route::post('/jaket/tambah', "store")->name('admin.jacket.store');
+    Route::delete('/jaket/hapus/{id}', "destroy")->name('admin.jacket.destroy');
+    Route::get('/jaket/edit/{id}', "edit")->name('admin.jacket.edit');
+    Route::put('/jaket/edit/{id}', "update")->name('admin.jacket.update');
+});
+
+Route::controller(TransactionController::class)->prefix("admin")->group(function () {
+    Route::get("/transaksi", "index")->name("admin.transaction.index");
+    Route::get("/transaksi/tambah", "create")->name("admin.transaction.create");
+    Route::post("/transaksi/tambah", "store")->name("admin.transaction.store");
+    Route::get("/transaksi/edit/{id}", "edit")->name("admin.transaction.edit");
+    Route::put("/transaksi/edit/{id}", "update")->name("admin.transaction.update");
+});
+
 
 Route::middleware([
     'auth:sanctum',
