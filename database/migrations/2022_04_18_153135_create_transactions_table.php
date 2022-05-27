@@ -23,7 +23,6 @@ return new class extends Migration
             $table->integer("price");
             $table->string("proof")->nullable();
             $table->boolean("is_paid")->default("0");
-            $table->boolean("is_done")->default("0");
             $table->timestamps();
         });
     }
