@@ -1,60 +1,82 @@
 <template>
     <AdminLayout>
-        <div class="row align-items-center mb-3">
-            <div class="col-sm-10">
-                <h1 class="h3 mb-2 text-gray-800">Jaket Admin</h1>
-            </div>
-            <div
-                class="col-sm-2 d-flex align-items-end flex-column bd-highlight mb-3"
+        <p class="text-2xl font-semibold">Jaket Admin</p>
+        <div class="intro-y font-body flex justify-between items-center my-2">
+            <Link
+                :href="route('admin.jacket.create')"
+                class="flex items-center py-2 px-3 text-xs text-white bg-blue-500 rounded text-center"
             >
-                <Link
-                    class="btn btn-primary align-right"
-                    :href="route('admin.jacket.create')"
-                    >Tambah</Link
-                >
-            </div>
+                <span>Tambah</span>
+            </Link>
         </div>
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">
-                    DataTables Example
-                </h6>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
+        <div class="h-full">
+            <div
+                class="border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden"
+            >
+                <div class="nodata" v-if="jackets.data == null">
+                    <h1>NO DATA!</h1>
+                </div>
+                <div v-else class="table-responsive">
                     <table
-                        class="table table-bordered"
+                        class="min-w-full divide-y divide-gray-300"
                         id="dataTable"
                         width="100%"
                         cellspacing="0"
                     >
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Image</th>
-                                <th>Color</th>
-                                <th>Price</th>
-                                <th>Action</th>
+                                <th
+                                    class="px-3 py-3 text-left text-sm font-semibold text-gray-900"
+                                >
+                                    Name
+                                </th>
+                                <th
+                                    class="px-3 py-3 text-left text-sm font-semibold text-gray-900"
+                                >
+                                    Image
+                                </th>
+                                <th
+                                    class="px-3 py-3 text-left text-sm font-semibold text-gray-900"
+                                >
+                                    Color
+                                </th>
+                                <th
+                                    class="px-3 py-3 text-left text-sm font-semibold text-gray-900"
+                                >
+                                    Price
+                                </th>
+                                <th
+                                    class="px-3 py-3 text-left text-sm font-semibold text-gray-900"
+                                >
+                                    Action
+                                </th>
                             </tr>
                         </thead>
-                        <tfoot>
-                            <tr>
-                                <th>Name</th>
-                                <th>Image</th>
-                                <th>Color</th>
-                                <th>Price</th>
-                                <th>Action</th>
-                            </tr>
-                        </tfoot>
                         <tbody>
                             <tr
                                 v-for="jacket in jackets.data"
                                 :key="jacket.slug"
                             >
-                                <td>{{ jacket.name }}</td>
-                                <td>{{ jacket.image }}</td>
-                                <td>{{ jacket.color }}</td>
-                                <td>{{ jacket.price }}</td>
+                                <td
+                                    class="whitespace-nowrap py-2 px-3 text-sm font-medium text-gray-900"
+                                >
+                                    {{ jacket.name }}
+                                </td>
+                                <td
+                                    class="whitespace-nowrap py-2 px-3 text-sm font-medium text-gray-900"
+                                >
+                                    {{ jacket.image }}
+                                </td>
+                                <td
+                                    class="whitespace-nowrap py-2 px-3 text-sm font-medium text-gray-900"
+                                >
+                                    {{ jacket.color }}
+                                </td>
+                                <td
+                                    class="whitespace-nowrap py-2 px-3 text-sm font-medium text-gray-900"
+                                >
+                                    {{ jacket.price }}
+                                </td>
                                 <td>
                                     <div class="row">
                                         <div class="col-sm-6">
