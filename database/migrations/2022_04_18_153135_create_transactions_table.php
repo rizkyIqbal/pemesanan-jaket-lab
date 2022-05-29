@@ -18,7 +18,6 @@ return new class extends Migration
             $table->integer("user_id");
             $table->integer("jacket_id");
             $table->integer("size_id");
-            $table->boolean("order_type")->default("0");
             $table->string("custom")->nullable();
             $table->integer("price");
             $table->string("proof")->nullable();
