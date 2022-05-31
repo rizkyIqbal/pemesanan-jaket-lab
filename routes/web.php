@@ -3,7 +3,11 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\JacketController;
+use App\Http\Controllers\admin\TransactionController;
+use App\Http\Controllers\User\TransactionController as UserTransaction;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserController;
+use App\Models\Transaction;
 use Inertia\Inertia;
 
 /*
@@ -17,16 +21,33 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+// Route::get('/', function () {
+//     return Inertia::render('Welcome', [
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//     ]);
+// });
+
+
+Route::get("/masuk", [UserController::class, "login"])->name("user.login");
+
+Route::get("/", [UserController::class, "index"])->name("user.index");
+
+Route::controller(UserTransaction::class)->prefix("user")->group(function () {
+    Route::get("/transaksi", "index")->name("user.transaction.index");
+    Route::get("/transaksi/tambah", "create")->name("user.transaction.create");
+    Route::post("/transaksi/tambah", "store")->name("user.transaction.store");
+    Route::delete("/transaksi/hapus/{id}", "destroy")->name("user.transaction.destroy");
+    Route::get("transaksi/edit/{id}", "edit")->name("user.transaction.edit");
+    Route::put("transaksi/edit/{id}", "update")->name("user.transaction.update");
 });
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+Route::get('/tes', [AdminController::class, 'tes'])->name('test');
+
+
 
 Route::controller(JacketController::class)->prefix("admin")->group(function () {
     Route::get('/jaket', "index")->name('admin.jacket.index');

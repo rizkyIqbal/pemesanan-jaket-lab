@@ -11,4 +11,9 @@ class AdminController extends Controller
     {
         return Inertia::render('Admin/Index');
     }
+
+    public function tes()
+    {
+        return Inertia::render('Admin/tes/Dashboard');
+    }
 }

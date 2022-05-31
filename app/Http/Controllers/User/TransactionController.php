@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Transaction\CreateRequest;
 use App\Models\Jacket;
@@ -43,9 +44,9 @@ class TransactionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        if($request->size_id == 5) {
+        if ($request->size_id == 5) {
             Transaction::create([
                 "user_id" => $request->user_id,
                 "jacket_id" => $request->jacket_id,
@@ -67,7 +68,7 @@ class TransactionController extends Controller
             return redirect()->route("transaction.index")->with("success", "Data Transaksi Berhasil Ditambahkan !");
         }
     }
-    
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -94,7 +95,7 @@ class TransactionController extends Controller
     public function update(Request $request, $id)
     {
         $path = null;
-        if($request->file("image")) {
+        if ($request->file("image")) {
             $path = Storage::disk("public")->putFile("proof", $request->file("image"));
         }
         Transaction::where("id", $id)->update([

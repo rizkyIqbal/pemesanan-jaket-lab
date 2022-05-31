@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -37,7 +37,7 @@ class JacketController extends Controller
     public function store(CreateRequest $request)
     {
         $path = null;
-        if($request->file("image")) {
+        if ($request->file("image")) {
             $path = Storage::disk("public")->putFile("jackets", $request->file("image"));
         }
 
@@ -73,8 +73,8 @@ class JacketController extends Controller
     {
         $jacket = Jacket::where("id", $id);
         $path = $jacket->image;
-        if($request->file("image")) {
-            if($path) {
+        if ($request->file("image")) {
+            if ($path) {
                 Storage::disk("public")->delete($path);
             }
             $path = Storage::disk("public")->putFile("jackets", $request->file("image"));
