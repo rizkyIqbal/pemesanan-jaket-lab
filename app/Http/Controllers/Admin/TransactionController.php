@@ -24,61 +24,35 @@ class TransactionController extends Controller
     public function create()
     {
         $data = [
-            "jackets" => $jackets = Jacket::all(),
-            "sizes" => $sizes = Size::all(),
+            "jackets" => Jacket::all(),
+            "sizes" => Size::all(),
         ];
         return Inertia::render("Admin/Transaction/Create", $data);
     }
 
     public function store(CreateRequest $request)
     {
-        $path = null;
-        if ($request->file("proof")) {
-            $path = Storage::disk("public")->putFile("transaction", $request->file("proof"));
-            if ($request->size_id == 5) {
-                Transaction::create([
-                    "user_id" => $request->user_id,
-                    "jacket_id" => $request->jacket_id,
-                    "size_id" => $request->size_id,
-                    "custom" => $request->custom,
-                    "price" => $request->price + 35000,
-                    "proof" => $path,
-                    "is_paid" => 1,
-                ]);
-            } else {
-                Transaction::create([
-                    "user_id" => $request->user_id,
-                    "jacket_id" => $request->jacket_id,
-                    "size_id" => $request->size_id,
-                    "custom" => $request->custom,
-                    "price" => $request->price,
-                    "proof" => $path,
-                    "is_paid" => 1,
-                ]);
-            }
-        } else {
-            if ($request->size_id == 5) {
-                Transaction::create([
-                    "user_id" => $request->user_id,
-                    "jacket_id" => $request->jacket_id,
-                    "size_id" => $request->size_id,
-                    "custom" => $request->custom,
-                    "price" => $request->price + 35000,
-                    "proof" => $path,
-                    "is_paid" => 0,
-                ]);
-            } else {
-                Transaction::create([
-                    "user_id" => $request->user_id,
-                    "jacket_id" => $request->jacket_id,
-                    "size_id" => $request->size_id,
-                    "custom" => $request->custom,
-                    "price" => $request->price,
-                    "proof" => $path,
-                    "is_paid" => 0,
-                ]);
-            }
+        $path = "proof";
+        $price = 120000;
+        $is_paid = 0;
+        // if ($request->file("proof")) {
+        //     $path = Storage::disk("public")->putFile("transaction", $request->file("proof"));
+            $is_paid = 1;
+        // }
+
+        if ($request->size_id == 5) {
+            $price += 35000;
         }
+
+        Transaction::create([
+            "user_id" => $request->user_id,
+            "jacket_id" => $request->jacket_id,
+            "size_id" => $request->size_id,
+            "custom" => $request->custom,
+            "price" => $price,
+            "proof" => $path,
+            "is_paid" => $is_paid,
+        ]);
 
         return redirect()->route("admin.transaction.index")->with("success", "Data Transaksi Berhasil Ditambahkan !");
     }
@@ -86,68 +60,49 @@ class TransactionController extends Controller
     public function edit($id)
     {
         $data = [
-            "jackets" => $jackets = Jacket::all(),
-            "sizes" => $sizes = Size::all(),
-            "transaction" => $transaction = Transaction::where("id", $id)->first()
+            "jackets" => Jacket::all(),
+            "sizes" => Size::all(),
+            "transaction" => Transaction::where("id", $id)->first()
         ];
+
+        // dd(Transaction::where("id", $id)->first());
         return Inertia::render("Admin/Transaction/Edit", $data);
     }
 
     public function update(Request $request, $id)
     {
-        $transaction = Transaction::where("id", $id);
+        $transaction = Transaction::where("id", $id)->first();
         $path = $transaction->proof;
-        if ($request->file("proof")) {
-            if ($path) {
-                Storage::disk("public")->delete($path);
-            }
-            $path = Storage::disk("public")->putFile("transaction", $request->file("proof"));
-            if ($request->size_id == 5) {
-                $transaction->update([
-                    "jacket_id" => $request->jacket_id,
-                    "size_id" => $request->size_id,
-                    "custom" => $request->custom,
-                    "price" => $request->price + 35000,
-                    "proof" => $path,
-                    "is_paid" => 1,
-                ]);
-            } else {
-                $transaction->update([
-                    "jacket_id" => $request->jacket_id,
-                    "size_id" => $request->size_id,
-                    "custom" => $request->custom,
-                    "price" => $request->price,
-                    "proof" => $path,
-                    "is_paid" => 1,
-                ]);
-            }
-        } else {
-            if ($request->size_id == 5) {
-                $transaction->update([
-                    "jacket_id" => $request->jacket_id,
-                    "size_id" => $request->size_id,
-                    "custom" => $request->custom,
-                    "price" => $request->price + 35000,
-                    "proof" => $path,
-                    "is_paid" => 0,
-                ]);
-            } else {
-                $transaction->update([
-                    "jacket_id" => $request->jacket_id,
-                    "size_id" => $request->size_id,
-                    "custom" => $request->custom,
-                    "price" => $request->price,
-                    "proof" => $path,
-                    "is_paid" => 0,
-                ]);
-            }
+        $price = 120000;
+        $is_paid = 0;
+
+        // if ($request->file("proof")) {
+        //     if ($path) {
+        //         Storage::disk("public")->delete($path);
+        //     }
+        //     $path = Storage::disk("public")->putFile("transaction", $request->file("proof"));
+            $is_paid = 1;
+        // }
+
+        if ($request->size_id == 5) {
+            $price += 35000;
         }
+
+        $transaction->update([
+            "jacket_id" => $request->jacket_id,
+            "size_id" => $request->size_id,
+            "custom" => $request->custom,
+            "price" => $price,
+            "proof" => $path,
+            "is_paid" => $is_paid,
+        ]);
+
         return redirect()->route("admin.transaction.index")->with("success", "Data Transaksi Berhasil Diubah !");
     }
 
     public function destroy($id)
     {
-        $transaction = Transaction::where("id", $id);
+        $transaction = Transaction::where("id", $id)->first();
         $path = $transaction->proof;
         Storage::disk("public")->delete($path);
         $transaction->delete();

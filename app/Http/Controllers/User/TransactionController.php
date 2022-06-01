@@ -46,27 +46,21 @@ class TransactionController extends Controller
      */
     public function store(CreateRequest $request)
     {
+        $price = $request->price;
+    
         if ($request->size_id == 5) {
-            Transaction::create([
-                "user_id" => $request->user_id,
-                "jacket_id" => $request->jacket_id,
-                "size_id" => $request->size_id,
-                "custom" => $request->custom,
-                "price" => $request->price + 35000,
-                "is_paid" => 0,
-            ]);
-            return redirect()->route("transaction.index")->with("success", "Data Transaksi Berhasil Ditambahkan !");
-        } else {
-            Transaction::create([
-                "user_id" => $request->user_id,
-                "jacket_id" => $request->jacket_id,
-                "size_id" => $request->size_id,
-                "custom" => $request->custom,
-                "price" => $request->price,
-                "is_paid" => 0,
-            ]);
-            return redirect()->route("transaction.index")->with("success", "Data Transaksi Berhasil Ditambahkan !");
+            $price += 35000;
         }
+
+        Transaction::create([
+            "user_id" => $request->user_id,
+            "jacket_id" => $request->jacket_id,
+            "size_id" => $request->size_id,
+            "custom" => $request->custom,
+            "price" => $price,
+            "is_paid" => 0,
+        ]);
+        return redirect()->route("transaction.index")->with("success", "Data Transaksi Berhasil Ditambahkan !");
     }
 
     /**

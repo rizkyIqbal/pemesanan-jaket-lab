@@ -39,7 +39,6 @@ Route::controller(UserTransaction::class)->prefix("user")->group(function () {
     Route::get("/transaksi", "index")->name("user.transaction.index");
     Route::get("/transaksi/tambah", "create")->name("user.transaction.create");
     Route::post("/transaksi/tambah", "store")->name("user.transaction.store");
-    Route::delete("/transaksi/hapus/{id}", "destroy")->name("user.transaction.destroy");
     Route::get("transaksi/edit/{id}", "edit")->name("user.transaction.edit");
     Route::put("transaksi/edit/{id}", "update")->name("user.transaction.update");
 });
@@ -62,6 +61,7 @@ Route::controller(TransactionController::class)->prefix("admin")->group(function
     Route::get("/transaksi", "index")->name("admin.transaction.index");
     Route::get("/transaksi/tambah", "create")->name("admin.transaction.create");
     Route::post("/transaksi/tambah", "store")->name("admin.transaction.store");
+    Route::delete("/transaksi/hapus/{id}", "destroy")->name("admin.transaction.destroy");
     Route::get("/transaksi/edit/{id}", "edit")->name("admin.transaction.edit");
     Route::put("/transaksi/edit/{id}", "update")->name("admin.transaction.update");
 });

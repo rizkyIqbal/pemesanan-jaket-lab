@@ -36,7 +36,7 @@ class JacketController extends Controller
      */
     public function store(CreateRequest $request)
     {
-        $path = null;
+        $path = "jacket";
         if ($request->file("image")) {
             $path = Storage::disk("public")->putFile("jackets", $request->file("image"));
         }
@@ -71,18 +71,19 @@ class JacketController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $jacket = Jacket::where("id", $id);
-        $path = $jacket->image;
-        if ($request->file("image")) {
-            if ($path) {
-                Storage::disk("public")->delete($path);
-            }
-            $path = Storage::disk("public")->putFile("jackets", $request->file("image"));
-        }
+        $jacket = Jacket::where("id", $id)->first();
+        // dd($jacket->image);
+        // $path = $jacket->image;
+        // if ($request->file("image")) {
+        //     if ($path) {
+        //         Storage::disk("public")->delete($path);
+        //     }
+        //     $path = Storage::disk("public")->putFile("jackets", $request->file("image"));
+        // }
 
         $jacket->update([
             'name' => $request->name,
-            "image" => $path,
+            "image" => $request->image,
             "color" => $request->color,
             "price" => $request->price,
         ]);
@@ -97,9 +98,9 @@ class JacketController extends Controller
      */
     public function destroy($id)
     {
-        $jacket = Jacket::where("id", $id);
-        $path = $jacket->image;
-        Storage::disk("public")->delete($path);
+        $jacket = Jacket::where("id", $id)->first();;
+        // $path = $jacket->image;
+        // Storage::disk("public")->delete($path);
         $jacket->delete();
         return redirect()->route('admin.jacket.index')->with('success', 'Data Jaket Berhasil Dihapus !');
     }
