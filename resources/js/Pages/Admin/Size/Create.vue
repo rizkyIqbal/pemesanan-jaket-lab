@@ -1,76 +1,46 @@
 <template>
     <AdminLayout>
         <div class="p-6 border-2">
-            <p class="text-xl mb-2">Create Transaction</p>
+            <p class="text-xl mb-2">Create Size</p>
             <form @submit.prevent="insert">
                 <div class="mb-4">
                     <label for="title" class="leading-7 text-sm text-gray-900"
-                        >User ID</label
+                        >Nama Ukuran</label
                     >
                     <input
                         type="text"
                         class="w-full bg-opacity-40 rounded-lg border border-gray-400 focus:border-primary-100 focus:ring-1 focus:ring-primary-100 text-base outline-none text-gray-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                        v-model="form.user_id"
+                        v-model="form.name"
                     />
                 </div>
                 <div class="mb-4">
                     <label for="title" class="leading-7 text-sm text-gray-900"
-                        >Jacket ID</label
+                        >A Ukuran</label
                     >
                     <input
                         type="text"
                         class="w-full bg-opacity-40 rounded-lg border border-gray-400 focus:border-primary-100 focus:ring-1 focus:ring-primary-100 text-base outline-none text-gray-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                        v-model="form.jacket_id"
+                        v-model="form.a"
                     />
                 </div>
                 <div class="mb-4">
                     <label for="title" class="leading-7 text-sm text-gray-900"
-                        >Size ID</label
+                        >B Ukuran</label
                     >
                     <input
                         type="text"
                         class="w-full bg-opacity-40 rounded-lg border border-gray-400 focus:border-primary-100 focus:ring-1 focus:ring-primary-100 text-base outline-none text-gray-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                        v-model="form.size_id"
+                        v-model="form.b"
                     />
                 </div>
                 <div class="mb-4">
                     <label for="title" class="leading-7 text-sm text-gray-900"
-                        >Custom</label
+                        >C Ukuran</label
                     >
                     <input
                         type="text"
                         class="w-full bg-opacity-40 rounded-lg border border-gray-400 focus:border-primary-100 focus:ring-1 focus:ring-primary-100 text-base outline-none text-gray-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                        v-model="form.custom"
-                    />
-                </div>
-                <div class="mb-4">
-                    <label for="title" class="leading-7 text-sm text-gray-900"
-                        >Price</label
-                    >
-                    <input
-                        type="text"
-                        class="w-full bg-opacity-40 rounded-lg border border-gray-400 focus:border-primary-100 focus:ring-1 focus:ring-primary-100 text-base outline-none text-gray-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                        v-model="form.price"
-                    />
-                </div>
-                <div class="mb-4">
-                    <label for="title" class="leading-7 text-sm text-gray-900"
-                        >Proof</label
-                    >
-                    <input
-                        type="text"
-                        class="w-full bg-opacity-40 rounded-lg border border-gray-400 focus:border-primary-100 focus:ring-1 focus:ring-primary-100 text-base outline-none text-gray-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                        v-model="form.proof"
-                    />
-                </div>
-                <div class="mb-4">
-                    <label for="title" class="leading-7 text-sm text-gray-900"
-                        >Paid</label
-                    >
-                    <input
-                        type="text"
-                        class="w-full bg-opacity-40 rounded-lg border border-gray-400 focus:border-primary-100 focus:ring-1 focus:ring-primary-100 text-base outline-none text-gray-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                        v-model="form.paid"
+                        v-model="form.c"
                     />
                 </div>
                 <button
@@ -92,19 +62,16 @@ export default {
     data() {
         return {
             form: {
-                user_id: "",
-                jacket_id: "",
-                size_id: "",
-                custom: "",
-                price: "",
-                proof: "",
-                is_paid: "",
+                name: "",
+                a: "",
+                b: "",
+                c: "",
             },
         };
     },
     methods: {
         insert() {
-            this.$inertia.post("/admin/transaksi/tambah", this.form);
+            this.$inertia.post("/admin/ukuran/tambah", this.form);
         },
     },
 };

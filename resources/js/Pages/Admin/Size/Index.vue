@@ -1,9 +1,9 @@
 <template>
     <AdminLayout>
-        <p class="text-2xl font-semibold">Transactions Admin</p>
+        <p class="text-2xl font-semibold">Ukuran Admin</p>
         <div class="intro-y font-body flex justify-between items-center my-2">
             <Link
-                :href="route('admin.transaction.create')"
+                :href="route('admin.size.create')"
                 class="flex items-center py-2 px-3 text-xs text-white bg-blue-500 rounded text-center"
             >
                 <span>Tambah</span>
@@ -13,7 +13,7 @@
             <div
                 class="border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden"
             >
-                <div class="nodata" v-if="transactions.data == null">
+                <div class="nodata" v-if="sizes.data == null">
                     <h1>NO DATA!</h1>
                 </div>
                 <div v-else class="table-responsive">
@@ -28,27 +28,22 @@
                                 <th
                                     class="px-3 py-3 text-left text-sm font-semibold text-gray-900"
                                 >
-                                    User
+                                    Name
                                 </th>
                                 <th
                                     class="px-3 py-3 text-left text-sm font-semibold text-gray-900"
                                 >
-                                    Jaket
+                                    A
                                 </th>
                                 <th
                                     class="px-3 py-3 text-left text-sm font-semibold text-gray-900"
                                 >
-                                    Size
+                                    B
                                 </th>
                                 <th
                                     class="px-3 py-3 text-left text-sm font-semibold text-gray-900"
                                 >
-                                    Custom
-                                </th>
-                                <th
-                                    class="px-3 py-3 text-left text-sm font-semibold text-gray-900"
-                                >
-                                    Price
+                                    C
                                 </th>
                                 <th
                                     class="px-3 py-3 text-left text-sm font-semibold text-gray-900"
@@ -59,33 +54,28 @@
                         </thead>
                         <tbody>
                             <tr
-                                v-for="transaction in transactions.data"
-                                :key="transaction.slug"
+                                v-for="size in sizes.data"
+                                :key="size.slug"
                             >
                                 <td
                                     class="whitespace-nowrap py-2 px-3 text-sm font-medium text-gray-900"
                                 >
-                                    {{ transaction.user_id }}
+                                    {{ size.name }}
                                 </td>
                                 <td
                                     class="whitespace-nowrap py-2 px-3 text-sm font-medium text-gray-900"
                                 >
-                                    {{ transaction.jacket_id }}
+                                    {{ size.a }}
                                 </td>
                                 <td
                                     class="whitespace-nowrap py-2 px-3 text-sm font-medium text-gray-900"
                                 >
-                                    {{ transaction.size_id }}
+                                    {{ size.b }}
                                 </td>
                                 <td
                                     class="whitespace-nowrap py-2 px-3 text-sm font-medium text-gray-900"
                                 >
-                                    {{ transaction.custom }}
-                                </td>
-                                <td
-                                    class="whitespace-nowrap py-2 px-3 text-sm font-medium text-gray-900"
-                                >
-                                    {{ transaction.price }}
+                                    {{ size.c }}
                                 </td>
                                 <td>
                                     <div class="row">
@@ -93,12 +83,9 @@
                                             <a
                                                 class="btn btn-primary w-100"
                                                 :href="
-                                                    route(
-                                                        'admin.transaction.edit',
-                                                        {
-                                                            id: transaction.id,
-                                                        }
-                                                    )
+                                                    route('admin.size.edit', {
+                                                        id: size.id,
+                                                    })
                                                 "
                                                 >Update</a
                                             >
@@ -108,7 +95,7 @@
                                                 class="btn btn-danger w-100"
                                                 @click.prevent="
                                                     deletearticle(
-                                                        `${transaction.id}`
+                                                        `${size.id}`
                                                     )
                                                 "
                                             >
@@ -133,12 +120,12 @@ export default {
         Link,
         AdminLayout,
     },
-    props: { transactions: Object },
+    props: { sizes: Object },
     methods: {
         deletearticle(id) {
             if (confirm("data ingin di hapus?")) {
                 this.$inertia.delete(
-                    route("admin.transaction.destroy", { slug: slug })
+                    route("admin.size.destroy", { slug: slug })
                 );
             } else {
                 return false;

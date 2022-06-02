@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\JacketController;
 use App\Http\Controllers\admin\TransactionController;
+use App\Http\Controllers\admin\SizeController;
 use App\Http\Controllers\User\TransactionController as UserTransaction;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
@@ -35,7 +36,7 @@ Route::get("/masuk", [UserController::class, "login"])->name("user.login");
 
 Route::get("/", [UserController::class, "index"])->name("user.index");
 
-Route::controller(UserTransaction::class)->prefix("user")->group(function () {
+Route::controller(UserTransaction::class)->group(function () {
     Route::get("/transaksi", "index")->name("user.transaction.index");
     Route::get("/transaksi/tambah", "create")->name("user.transaction.create");
     Route::post("/transaksi/tambah", "store")->name("user.transaction.store");
@@ -64,6 +65,15 @@ Route::controller(TransactionController::class)->prefix("admin")->group(function
     Route::delete("/transaksi/hapus/{id}", "destroy")->name("admin.transaction.destroy");
     Route::get("/transaksi/edit/{id}", "edit")->name("admin.transaction.edit");
     Route::put("/transaksi/edit/{id}", "update")->name("admin.transaction.update");
+});
+
+Route::controller(SizeController::class)->prefix("admin")->group(function () {
+    Route::get("/ukuran", "index")->name("admin.size.index");
+    Route::get("/ukuran/tambah", "create")->name("admin.size.create");
+    Route::post("/ukuran/tambah", "store")->name("admin.size.store");
+    Route::delete("/ukuran/hapus/{id}", "destroy")->name("admin.size.destroy");
+    Route::get("/ukuran/edit/{id}", "edit")->name("admin.size.edit");
+    Route::put("/ukuran/edit/{id}", "update")->name("admin.size.update");
 });
 
 

@@ -1,7 +1,7 @@
 <template>
     <AdminLayout>
         <div class="p-6 border-2">
-            <p class="text-xl mb-2">Create Transaction</p>
+            <p class="text-xl mb-2">Edit Transaction</p>
             <form @submit.prevent="insert">
                 <div class="mb-4">
                     <label for="title" class="leading-7 text-sm text-gray-900"
@@ -89,22 +89,28 @@ export default {
     components: {
         AdminLayout,
     },
+    props: {
+        transaction: Object,
+    },
     data() {
         return {
             form: {
-                user_id: "",
-                jacket_id: "",
-                size_id: "",
-                custom: "",
-                price: "",
-                proof: "",
-                is_paid: "",
+                user_id: this.transaction.user_id,
+                jacket_id: this.transaction.jacket_id,
+                size_id: this.transaction.size_id,
+                custom: this.transaction.custom,
+                price: this.transaction.price,
+                proof: this.transaction.proof,
+                is_paid: this.transaction.is_paid,
             },
         };
     },
     methods: {
         insert() {
-            this.$inertia.post("/admin/transaksi/tambah", this.form);
+            this.$inertia.put(
+                this.route("admin.transaction.update", { id: this.transaction.id }),
+                this.form
+            );
         },
     },
 };
