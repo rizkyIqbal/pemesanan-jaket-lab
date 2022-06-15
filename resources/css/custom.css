@@ -1,22 +1,38 @@
-.bg-theme-primary {
-    background-color: #023B70 !important;
-  }
+    .bg-theme-primary {
+        background-color: #DF610C !important;
+    }
 
-  .custom-overflow{
-    overflow-x: hidden;
-  }
+    .bg-theme-primary:hover{
+        background-color: #DF610C;
+    }
 
-  .theme-secondary{
-      color: #FF802B;
-  }
+    .bg-theme-secondary {
+        background-color: #023B70 !important;
+    }
 
-.nav-admin span{
-    color: #fff;
-}
+    .border-theme-primary {
+        border-color: #DF610C;
+    }
 
-.admin-logo{
-    height: 90px;
-}
+    .text-primary{
+        color : #DF610C;
+    }
+
+    .custom-overflow{
+        overflow-x: hidden;
+    }
+
+    .theme-secondary{
+        color: #FF802B;
+    }
+
+    .nav-admin span{
+        color: #fff;
+    }
+
+    .admin-logo{
+        height: 90px;
+    }
 
 @media (min-width: 576px) {
     .h-sm-100 {

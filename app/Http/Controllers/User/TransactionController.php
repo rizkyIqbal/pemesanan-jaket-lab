@@ -20,7 +20,17 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        return Inertia::render("Transaction/Index");
+        return Inertia::render("User/Transaction/Index");
+    }
+
+    public function payment()
+    {
+        return Inertia::render("User/Transaction/Payment");
+    }
+
+    public function receipt()
+    {
+        return Inertia::render("User/Transaction/Resi");
     }
 
     /**
@@ -47,7 +57,7 @@ class TransactionController extends Controller
     public function store(CreateRequest $request)
     {
         $price = $request->price;
-    
+
         if ($request->size_id == 5) {
             $price += 35000;
         }

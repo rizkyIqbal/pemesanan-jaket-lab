@@ -132,6 +132,36 @@
                         </div>
                     </Link>
                 </li>
+                <li
+                    class="flex w-full justify-between text-gray-600 hover:text-gray-500 cursor-pointer items-center mb-6"
+                >
+                    <Link
+                        :href="route('admin.size.index')"
+                        class="nav-link px-sm-0 px-2"
+                    >
+                        <div class="flex items-center">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="icon icon-tabler icon-tabler-compass"
+                                width="18"
+                                height="18"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                fill="none"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <path stroke="none" d="M0 0h24v24H0z"></path>
+                                <polyline
+                                    points="8 16 10 10 16 8 14 14 8 16"
+                                ></polyline>
+                                <circle cx="12" cy="12" r="9"></circle>
+                            </svg>
+                            <span class="text-sm ml-2">Sizes</span>
+                        </div>
+                    </Link>
+                </li>
             </ul>
         </div>
     </div>

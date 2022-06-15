@@ -38,6 +38,8 @@ Route::get("/", [UserController::class, "index"])->name("user.index");
 
 Route::controller(UserTransaction::class)->group(function () {
     Route::get("/transaksi", "index")->name("user.transaction.index");
+    Route::get("/transaksi/pembayaran", "payment")->name("user.transaction.payment");
+    Route::get("/transaksi/resi", "receipt")->name("user.transaction.receipt");
     Route::get("/transaksi/tambah", "create")->name("user.transaction.create");
     Route::post("/transaksi/tambah", "store")->name("user.transaction.store");
     Route::get("transaksi/edit/{id}", "edit")->name("user.transaction.edit");

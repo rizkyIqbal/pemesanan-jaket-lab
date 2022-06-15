@@ -107,9 +107,7 @@
                                             <a
                                                 class="btn btn-danger w-100"
                                                 @click.prevent="
-                                                    deletearticle(
-                                                        `${transaction.id}`
-                                                    )
+                                                    deletearticle(transaction)
                                                 "
                                             >
                                                 Delete</a
@@ -135,10 +133,14 @@ export default {
     },
     props: { transactions: Object },
     methods: {
-        deletearticle(id) {
-            if (confirm("data ingin di hapus?")) {
+        deletearticle(transaction) {
+            if (
+                confirm(
+                    `data ingin di hapus? transaksi dari ${transaction.user}`
+                )
+            ) {
                 this.$inertia.delete(
-                    route("admin.transaction.destroy", { slug: slug })
+                    route("admin.transaction.destroy", { id: transaction.id })
                 );
             } else {
                 return false;

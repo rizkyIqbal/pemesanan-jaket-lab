@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Jacket\CreateRequest;
@@ -98,7 +99,7 @@ class JacketController extends Controller
      */
     public function destroy($id)
     {
-        $jacket = Jacket::where("id", $id)->first();;
+        $jacket = Jacket::where("id", $id)->first();
         // $path = $jacket->image;
         // Storage::disk("public")->delete($path);
         $jacket->delete();

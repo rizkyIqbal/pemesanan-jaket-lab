@@ -94,9 +94,7 @@
                                             <a
                                                 class="btn btn-danger w-100"
                                                 @click.prevent="
-                                                    deletearticle(
-                                                        `${jacket.id}`
-                                                    )
+                                                    deletearticle(jacket)
                                                 "
                                             >
                                                 Delete</a
@@ -122,10 +120,10 @@ export default {
     },
     props: { jackets: Object },
     methods: {
-        deletearticle(id) {
-            if (confirm("data ingin di hapus?")) {
+        deletearticle(jacket) {
+            if (confirm(`data ingin di hapus? data ${jacket.name}`)) {
                 this.$inertia.delete(
-                    route("admin.jacket.destroy", { slug: slug })
+                    route("admin.jacket.destroy", { id: jacket.id })
                 );
             } else {
                 return false;

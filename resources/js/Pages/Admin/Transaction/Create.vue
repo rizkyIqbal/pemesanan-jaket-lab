@@ -104,7 +104,7 @@ export default {
     },
     methods: {
         insert() {
-            this.$inertia.post("/admin/transaksi/tambah", this.form);
+            this.$inertia.post(route("admin.transaction.store"), this.form);
         },
     },
 };
