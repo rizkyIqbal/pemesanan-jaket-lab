@@ -32,12 +32,10 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $data = [
-            "jacket" => $this->jacket,
-            "sizes" => $this->sizes,
-            "user_login" => $this->user_login
-        ];
-        return Inertia::render("User/Transaction/Index", $data);
+        $jackets = $this->jacket;
+        $sizes = $this->sizes;
+        $user_login = $this->user_login;
+        return Inertia::render("User/Transaction/Index", ['jackets' => $jackets, 'sizes' => $sizes, 'user_login' => $user_login]);
     }
 
     public function payment()

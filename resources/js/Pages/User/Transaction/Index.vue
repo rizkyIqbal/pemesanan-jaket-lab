@@ -27,6 +27,7 @@
                             type="text"
                             class="w-full bg-opacity-40 rounded-lg border border-gray-400 focus:border-primary-100 focus:ring-1 focus:ring-primary-100 text-base outline-none text-gray-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                             v-model="form.name"
+                            disabled
                         />
                     </div>
                     <div class="mt-6">
@@ -39,6 +40,7 @@
                             type="text"
                             class="w-full bg-opacity-40 rounded-lg border border-gray-400 focus:border-primary-100 focus:ring-1 focus:ring-primary-100 text-base outline-none text-gray-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                             v-model="form.nim"
+                            disabled
                         />
                     </div>
                     <div class="mt-6">
@@ -86,7 +88,7 @@
                     </div>
                     <div class="mt-4">
                         <p class="font-semibold">
-                            Jaket Lab Informatika Ganjil
+                            {{ jackets.name }}
                         </p>
                     </div>
                     <div class="mt-1.5">
@@ -144,13 +146,15 @@ export default {
         UserLightLayout,
     },
     props: {
-        data: Object,
+        jackets: Object,
+        sizes: Object,
+        user_login: Object,
     },
     data() {
         return {
             form: {
-                name: this.data.user_login.full_name,
-                nim: this.data.user_login.user_name,
+                name: this.user_login.full_name,
+                nim: this.user_login.user_name,
             },
         };
     },
