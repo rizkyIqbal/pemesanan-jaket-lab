@@ -8,11 +8,23 @@ use App\Http\Requests\Transaction\CreateRequest;
 use App\Models\Jacket;
 use App\Models\Transaction;
 use App\Models\Size;
+use App\Models\User_Login;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class TransactionController extends Controller
 {
+    public function __construct()
+    {
+        $this->sizes = Size::all();
+        $this->user_login = User_Login::where("id", 1)->first();
+        $nim = intval(substr($this->user_login["user_name"], 0, 4));
+        if ($nim % 2 == 0) {
+            $this->jacket = Jacket::where("id", 2)->first();
+        } else {
+            $this->jacket = Jacket::where("id", 1)->first();
+        }
+    }
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +32,12 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        return Inertia::render("User/Transaction/Index");
+        $data = [
+            "jacket" => $this->jacket,
+            "sizes" => $this->sizes,
+            "user_login" => $this->user_login
+        ];
+        return Inertia::render("User/Transaction/Index", $data);
     }
 
     public function payment()

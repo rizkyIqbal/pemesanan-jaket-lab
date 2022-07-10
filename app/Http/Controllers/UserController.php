@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Jacket;
+use App\Models\Size;
+use App\Models\Transaction;
+use App\Models\User_Login;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -12,14 +19,37 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+
         return Inertia::render('User/Index');
     }
 
     public function login()
     {
         return Inertia::render('User/LoginUser');
+    }
+
+    public function sign_in(Request $request)
+    {
+        $response = Http::post("https://api.infotech.umm.ac.id/dotlab/api/v1/auth/student", [
+            "username" => $request->username,
+            "password" => $request->password
+        ]);
+
+        if ($response["success"] == true) {
+            $user = Http::withToken($response["access_token"])->post('https://api.infotech.umm.ac.id/dotlab/api/v1/auth/me');
+
+            $this->user_login->update([
+                "user_name" => $user["user_name"],
+                "email" => $user["email"],
+                "full_name" => $user["full_name"]
+            ]);
+
+            return redirect()->route("user.index");
+        } else {
+            return redirect()->route("user.login");
+        }
     }
 
     /**
@@ -29,7 +59,13 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $data = [
+            "jacket" => $this->jacket,
+            "sizes" => $this->sizes,
+            "user_login" => $this->user_login
+        ];
+
+        // return Inertia::render("", $data);
     }
 
     /**
@@ -40,7 +76,28 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $price = $this->jacket->price;
+        $path = null;
+        $is_paid = 0;
+
+        if ($request->file("proof")) {
+            $path = Storage::disk("public")->putFile("transaction", $request->file("proof"));
+            $is_paid = 1;
+        }
+
+        if ($request->size_id == 5) {
+            $price += 35000;
+        }
+
+        Transaction::create([
+            "user_id" => $this->user_login["user_name"],
+            "jacket_id" => $this->jacket->id,
+            "size_id" => $request->size_id,
+            "custom" => $request->custom,
+            "price" => $price,
+            "proof" => $path,
+            "is_paid" => $is_paid
+        ]);
     }
 
     /**
@@ -62,7 +119,14 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = [
+            "jackets" => $this->jackets,
+            "sizes" => $this->sizes,
+            "user_login" => $this->user_login,
+            "transaction" => Transaction::where("id", $id)->first()
+        ];
+
+        // return Inertia::render("", $data);
     }
 
     /**
@@ -74,17 +138,39 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $transaction = Transaction::where("id", $id)->first();
+        $path = $transaction->proof;
+        $price = $this->jacket->price;
+        $is_paid = 0;
+
+        if ($request->file("proof")) {
+            if ($path) {
+                Storage::disk("public")->delete($path);
+            }
+            $path = Storage::disk("public")->putFile("transaction", $request->file("proof"));
+            $is_paid = 1;
+        }
+
+        if ($request->size_id == 5) {
+            $price += 35000;
+        }
+
+        $transaction->update([
+            "user_id" => $this->user_login["user_name"],
+            "jacket_id" => $this->jacket->id,
+            "size_id" => $request->size_id,
+            "custom" => $request->custom,
+            "price" => $price,
+            "proof" => $path,
+            "is_paid" => $is_paid,
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function testPdf()
     {
-        //
+        $transaction = Transaction::where("user_id", $this->user_login["user_name"])->first();
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadView('pdf', ["transaction" => $transaction]);
+        return $pdf->stream();
     }
 }

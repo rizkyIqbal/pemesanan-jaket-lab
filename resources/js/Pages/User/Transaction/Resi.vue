@@ -108,7 +108,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mt-4">
+                    <div class="mt-2">
                         <div class="flex">
                             <div class="w-1/2">
                                 <p class="text-sm">CC Number</p>

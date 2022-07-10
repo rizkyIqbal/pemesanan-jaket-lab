@@ -26,6 +26,7 @@
                         <input
                             type="text"
                             class="w-full bg-opacity-40 rounded-lg border border-gray-400 focus:border-primary-100 focus:ring-1 focus:ring-primary-100 text-base outline-none text-gray-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                            v-model="form.name"
                         />
                     </div>
                     <div class="mt-6">
@@ -37,6 +38,7 @@
                         <input
                             type="text"
                             class="w-full bg-opacity-40 rounded-lg border border-gray-400 focus:border-primary-100 focus:ring-1 focus:ring-primary-100 text-base outline-none text-gray-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                            v-model="form.nim"
                         />
                     </div>
                     <div class="mt-6">
@@ -140,6 +142,17 @@ import UserLightLayout from "@/Layouts/UserLightLayout";
 export default {
     components: {
         UserLightLayout,
+    },
+    props: {
+        data: Object,
+    },
+    data() {
+        return {
+            form: {
+                name: this.data.user_login.full_name,
+                nim: this.data.user_login.user_name,
+            },
+        };
     },
 };
 </script>

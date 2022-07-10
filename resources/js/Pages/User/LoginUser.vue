@@ -27,20 +27,21 @@
 
                 <div class="mt-8">
                     <div class="mt-6">
-                        <form action="#" method="POST" class="space-y-6">
+                        <form @submit.prevent="insert" class="space-y-6">
                             <div>
                                 <label
-                                    for="email"
+                                    for="username"
                                     class="block text-sm font-medium text-gray-700"
                                 >
                                     NIM
                                 </label>
                                 <div class="mt-1">
                                     <input
-                                        id="email"
-                                        name="email"
-                                        type="email"
+                                        id="username"
+                                        name="username"
+                                        type="text"
                                         autocomplete="email"
+                                        v-model="form.username"
                                         required
                                         class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                     />
@@ -59,6 +60,7 @@
                                         id="password"
                                         name="password"
                                         type="password"
+                                        v-model="form.password"
                                         autocomplete="current-password"
                                         required
                                         class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -118,6 +120,10 @@ export default {
     data() {
         return {
             moved: true,
+            form: {
+                username: "",
+                password: "",
+            },
         };
     },
     methods: {
@@ -131,6 +137,9 @@ export default {
                 sideBar.style.transform = "translateX(-260px)";
                 this.$data.moved = true;
             }
+        },
+        insert() {
+            this.$inertia.post(this.route("user.sign_in"), this.form);
         },
     },
 };

@@ -17,11 +17,7 @@
                     <label for="title" class="leading-7 text-sm text-gray-900"
                         >Foto Jaket</label
                     >
-                    <input
-                        type="text"
-                        class="w-full bg-opacity-40 rounded-lg border border-gray-400 focus:border-primary-100 focus:ring-1 focus:ring-primary-100 text-base outline-none text-gray-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                        v-model="form.image"
-                    />
+                    <input type="file" @change="upload" />
                 </div>
                 <div class="mb-4">
                     <label for="title" class="leading-7 text-sm text-gray-900"
@@ -72,6 +68,9 @@ export default {
     methods: {
         insert() {
             this.$inertia.post("/admin/jaket/tambah", this.form);
+        },
+        upload(e) {
+            this.form.image = e.target.files[0];
         },
     },
 };

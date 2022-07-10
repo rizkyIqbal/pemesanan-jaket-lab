@@ -33,6 +33,9 @@ use Inertia\Inertia;
 
 
 Route::get("/masuk", [UserController::class, "login"])->name("user.login");
+Route::post("/masuk/ahh", [UserController::class, "sign_in"])->name("user.sign_in");
+
+Route::get("/pdf", [UserController::class, "testPdf"]);
 
 Route::get("/", [UserController::class, "index"])->name("user.index");
 
