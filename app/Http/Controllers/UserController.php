@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Jacket;
 use App\Models\Size;
 use App\Models\Transaction;
-use App\Models\User_Login;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Inertia\Inertia;
@@ -40,11 +39,9 @@ class UserController extends Controller
         if ($response["success"] == true) {
             $user = Http::withToken($response["access_token"])->post('https://api.infotech.umm.ac.id/dotlab/api/v1/auth/me');
 
-            $this->user_login->update([
-                "user_name" => $user["user_name"],
-                "email" => $user["email"],
-                "full_name" => $user["full_name"]
-            ]);
+            $request->session()->put("user_name", $user["user_name"]);
+            $request->session()->put("email", $user["email"]);
+            $request->session()->put("full_name", $user["full_name"]);
 
             return redirect()->route("user.index");
         } else {
@@ -59,13 +56,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $data = [
-            "jacket" => $this->jacket,
-            "sizes" => $this->sizes,
-            "user_login" => $this->user_login
-        ];
-
-        // return Inertia::render("", $data);
+        //
     }
 
     /**
@@ -76,28 +67,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $price = $this->jacket->price;
-        $path = null;
-        $is_paid = 0;
-
-        if ($request->file("proof")) {
-            $path = Storage::disk("public")->putFile("transaction", $request->file("proof"));
-            $is_paid = 1;
-        }
-
-        if ($request->size_id == 5) {
-            $price += 35000;
-        }
-
-        Transaction::create([
-            "user_id" => $this->user_login["user_name"],
-            "jacket_id" => $this->jacket->id,
-            "size_id" => $request->size_id,
-            "custom" => $request->custom,
-            "price" => $price,
-            "proof" => $path,
-            "is_paid" => $is_paid
-        ]);
+        //
     }
 
     /**
@@ -119,14 +89,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $data = [
-            "jackets" => $this->jackets,
-            "sizes" => $this->sizes,
-            "user_login" => $this->user_login,
-            "transaction" => Transaction::where("id", $id)->first()
-        ];
-
-        // return Inertia::render("", $data);
+        //
     }
 
     /**
@@ -138,37 +101,12 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $transaction = Transaction::where("id", $id)->first();
-        $path = $transaction->proof;
-        $price = $this->jacket->price;
-        $is_paid = 0;
-
-        if ($request->file("proof")) {
-            if ($path) {
-                Storage::disk("public")->delete($path);
-            }
-            $path = Storage::disk("public")->putFile("transaction", $request->file("proof"));
-            $is_paid = 1;
-        }
-
-        if ($request->size_id == 5) {
-            $price += 35000;
-        }
-
-        $transaction->update([
-            "user_id" => $this->user_login["user_name"],
-            "jacket_id" => $this->jacket->id,
-            "size_id" => $request->size_id,
-            "custom" => $request->custom,
-            "price" => $price,
-            "proof" => $path,
-            "is_paid" => $is_paid,
-        ]);
+        //
     }
 
     public function testPdf()
     {
-        $transaction = Transaction::where("user_id", $this->user_login["user_name"])->first();
+        $transaction = Transaction::where("user_id", session("user_name"))->first();
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadView('pdf', ["transaction" => $transaction]);
         return $pdf->stream();

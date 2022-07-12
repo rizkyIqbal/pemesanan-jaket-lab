@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string("custom")->nullable();
             $table->integer("price");
             $table->string("proof")->nullable();
+            $table->integer("status")->default("1");
             $table->boolean("is_paid")->default("0");
             $table->timestamps();
         });

@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\User_Login;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -39,7 +38,11 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             "user" => function () {
-                $user_login = User_Login::where("id", 1)->first();
+                $user_login = [
+                    "user_name" => session("user_name"),
+                    "email" => session("email"),
+                    "full_name" => session("full_name")
+                ];
                 return $user_login;
             }
         ]);

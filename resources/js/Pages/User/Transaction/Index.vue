@@ -88,7 +88,7 @@
                     </div>
                     <div class="mt-4">
                         <p class="font-semibold">
-                            {{ jackets.name }}
+                            {{ jacket.name }}
                         </p>
                     </div>
                     <div class="mt-1.5">
@@ -146,7 +146,7 @@ export default {
         UserLightLayout,
     },
     props: {
-        jackets: Object,
+        jacket: Object,
         sizes: Object,
         user_login: Object,
     },

@@ -8,7 +8,6 @@ use App\Http\Requests\Transaction\CreateRequest;
 use App\Models\Jacket;
 use App\Models\Transaction;
 use App\Models\Size;
-use App\Models\User_Login;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -17,13 +16,6 @@ class TransactionController extends Controller
     public function __construct()
     {
         $this->sizes = Size::all();
-        $this->user_login = User_Login::where("id", 1)->first();
-        $nim = intval(substr($this->user_login["user_name"], 0, 4));
-        if ($nim % 2 == 0) {
-            $this->jacket = Jacket::where("id", 2)->first();
-        } else {
-            $this->jacket = Jacket::where("id", 1)->first();
-        }
     }
     /**
      * Display a listing of the resource.
@@ -32,10 +24,18 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $jackets = $this->jacket;
+        $nim = intval(substr(session("user_name"), 0, 4));
+        if($nim % 2 == 0) {
+            $jacket = Jacket::where("id", 2)->first();
+        } else {
+            $jacket = Jacket::where("id", 1)->first();
+        }
         $sizes = $this->sizes;
-        $user_login = $this->user_login;
-        return Inertia::render("User/Transaction/Index", ['jackets' => $jackets, 'sizes' => $sizes, 'user_login' => $user_login]);
+        $user_login = [
+            "user_name" => session("user_name"),
+            "full_name" => session("full_name")
+        ];
+        return Inertia::render("User/Transaction/Index", ['jacket' => $jacket, 'sizes' => $sizes, 'user_login' => $user_login]);
     }
 
     public function payment()
@@ -55,12 +55,19 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        $data = [
-            "jackets" => $jackets = Jacket::all(),
-            "sizes" => $sizes = Size::all(),
+        $nim = intval(substr(session("user_name"), 0, 4));
+        if($nim % 2 == 0) {
+            $jacket = Jacket::where("id", 2)->first();
+        } else {
+            $jacket = Jacket::where("id", 1)->first();
+        }
+        $sizes = $this->sizes;
+        $user_login = [
+            "user_name" => session("user_name"),
+            "full_name" => session("full_name")
         ];
 
-        return Inertia::render("Transaction/Create", $data);
+        return Inertia::render("Transaction/Create", ['jacket' => $jacket, 'sizes' => $sizes, 'user_login' => $user_login]);
     }
 
     /**
@@ -71,14 +78,20 @@ class TransactionController extends Controller
      */
     public function store(CreateRequest $request)
     {
-        $price = $request->price;
+        $nim = intval(substr(session("user_name"), 0, 4));
+        if($nim % 2 == 0) {
+            $jacket = Jacket::where("id", 2)->first();
+        } else {
+            $jacket = Jacket::where("id", 1)->first();
+        }
+        $price = $jacket->price;
 
         if ($request->size_id == 5) {
             $price += 35000;
         }
 
         Transaction::create([
-            "user_id" => $request->user_id,
+            "user_id" => session("user_name"),
             "jacket_id" => $request->jacket_id,
             "size_id" => $request->size_id,
             "custom" => $request->custom,
@@ -96,12 +109,16 @@ class TransactionController extends Controller
      */
     public function edit($id)
     {
-        $data = [
-            "jackets" => $jackets = Jacket::all(),
-            "sizes" => $sizes = Size::all(),
-            "transaction" => $transaction = Transaction::where("id", $id)->first()
-        ];
-        return Inertia::render("Admin/Transaction/Edit", $data);
+        $nim = intval(substr(session("user_name"), 0, 4));
+        if($nim % 2 == 0) {
+            $jacket = Jacket::where("id", 2)->first();
+        } else {
+            $jacket = Jacket::where("id", 1)->first();
+        }
+        $sizes = Size::all();
+        $transaction = Transaction::where("id", $id)->first();
+
+        return Inertia::render("Admin/Transaction/Edit", ['jacket' => $jacket, 'sizes' => $sizes, 'transaction' => $transaction]);
     }
 
     /**
@@ -119,6 +136,7 @@ class TransactionController extends Controller
         }
         Transaction::where("id", $id)->update([
             "proof" => $path,
+            "status" => 2,
             "is_paid" => 1,
         ]);
         return redirect()->route("admin.transaction.index")->with("success", "Data Transaksi Berhasil Diubah !");
