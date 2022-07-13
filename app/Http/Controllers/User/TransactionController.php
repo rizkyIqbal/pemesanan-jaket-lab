@@ -63,7 +63,6 @@ class TransactionController extends Controller
                 "user_id" => session("user_name"),
                 "jacket_id" => $jacket->id,
                 "size_id" => $request->size,
-                // "size_id" => 3,
                 "custom" => $request->custom,
                 "price" => $price,
             ]);
@@ -80,8 +79,11 @@ class TransactionController extends Controller
                 "user_name" => session("user_name"),
                 "full_name" => session("full_name")
             ];
-            $transaction = Transaction::select("custom", "price", "jackets.name", "sizes.name")->whereColumn("jacket_id", "jackets.id")->whereColumn("size_id", "sizes.id")->where("user_id", session("user_name"))->first();
-            return Inertia::render("User/Transaction/Payment");
+            $transaction = Transaction::where("user_id", $user_login["user_name"])->first();
+            $jacket = Jacket::where("id", $transaction["jacket_id"])->first();
+            $size = Size::where("id", $transaction["size_id"])->first();
+            // $transaction = Transaction::select("custom", "price", "jackets.name", "sizes.name")->whereColumn("jacket_id", "jackets.id")->whereColumn("size_id", "sizes.id")->where("user_id", session("user_name"))->first();
+            return Inertia::render("User/Transaction/Payment", ['jackets' => $jacket, 'sizes' => $size, 'user_logins' => $user_login, "transactions" => $transaction]);
         } else {
             return redirect()->route("user.login");
         }
