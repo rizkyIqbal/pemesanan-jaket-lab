@@ -15,66 +15,79 @@
                     ></div>
                     <p class="text-gray-500">Receipt</p>
                 </div>
-                <div class="mt-14">
-                    <p class="font-bold">Personal Informations</p>
-                    <div class="mt-6">
-                        <label
-                            for="title"
-                            class="leading-7 text-sm text-gray-900"
-                            >Nama</label
-                        >
-                        <input
-                            type="text"
-                            class="w-full bg-opacity-40 rounded-lg border border-gray-400 focus:border-primary-100 focus:ring-1 focus:ring-primary-100 text-base outline-none text-gray-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                            v-model="form.name"
-                            disabled
-                        />
-                    </div>
-                    <div class="mt-6">
-                        <label
-                            for="title"
-                            class="leading-7 text-sm text-gray-900"
-                            >NIM</label
-                        >
-                        <input
-                            type="text"
-                            class="w-full bg-opacity-40 rounded-lg border border-gray-400 focus:border-primary-100 focus:ring-1 focus:ring-primary-100 text-base outline-none text-gray-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                            v-model="form.nim"
-                            disabled
-                        />
-                    </div>
-                    <div class="mt-6">
-                        <label
-                            for="title"
-                            class="leading-7 text-sm text-gray-900"
-                            >Size</label
-                        >
-                        <select
-                            name="size"
-                            id="size"
-                            class="w-full bg-opacity-40 rounded-lg border border-gray-400 focus:border-primary-100 focus:ring-1 focus:ring-primary-100 text-base outline-none text-gray-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                        >
-                            <option value=""></option>
-                            <option value="S">Small</option>
-                            <option value="M">Medium</option>
-                            <option value="L">Large</option>
-                        </select>
-                    </div>
-                    <div class="flex-grow border-t border-gray-300 mt-12"></div>
-                    <div class="relative">
-                        <div
-                            class="flex absolute lg:inset-y-0 lg:right-0 mt-6 lg:h-12"
-                        >
-                            <p class="text-sm mr-5 lg:mt-4">Cancel Order</p>
-                            <button
-                                class="flex items-center py-4 px-4 text-sm text-white bg-theme-primary rounded text-center"
-                                type="submit"
+                <form @submit.prevent="insert" class="space-y-6">
+                    <div class="mt-14">
+                        <p class="font-bold">Personal Informations</p>
+                        <div class="mt-6">
+                            <label
+                                for="title"
+                                class="leading-7 text-sm text-gray-900"
+                                >Nama</label
                             >
-                                Complete Order
-                            </button>
+                            <input
+                                type="text"
+                                class="w-full bg-opacity-40 rounded-lg border border-gray-400 focus:border-primary-100 focus:ring-1 focus:ring-primary-100 text-base outline-none text-gray-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                                v-model="form.name"
+                                disabled
+                            />
+                        </div>
+                        <div class="mt-6">
+                            <label
+                                for="title"
+                                class="leading-7 text-sm text-gray-900"
+                                >NIM</label
+                            >
+                            <input
+                                type="text"
+                                class="w-full bg-opacity-40 rounded-lg border border-gray-400 focus:border-primary-100 focus:ring-1 focus:ring-primary-100 text-base outline-none text-gray-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                                v-model="form.nim"
+                                disabled
+                            />
+                        </div>
+                        <div class="mt-6">
+                            <label
+                                for="title"
+                                class="leading-7 text-sm text-gray-900"
+                                >Size</label
+                            >
+                            <select
+                                v-model="form.size"
+                                name="size"
+                                id="size"
+                                class="w-full bg-opacity-40 rounded-lg border border-gray-400 focus:border-primary-100 focus:ring-1 focus:ring-primary-100 text-base outline-none text-gray-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                            >
+                                <option value="" disabled>
+                                    Pilih kategori
+                                </option>
+                                <!-- <option value=""></option> -->
+                                <option
+                                    v-for="size in sizes"
+                                    :key="size.id"
+                                    :value="size.id"
+                                >
+                                    ({{ size.name }}) A : {{ size.a }} B:
+                                    {{ size.b }} C:{{ size.c }}
+                                </option>
+                            </select>
+                        </div>
+                        <div
+                            class="flex-grow border-t border-gray-300 mt-12"
+                        ></div>
+                        <div class="relative">
+                            <div
+                                class="flex absolute lg:inset-y-0 lg:right-0 mt-6 lg:h-12"
+                            >
+                                <p class="text-sm mr-5 lg:mt-4">Cancel Order</p>
+                                <button
+                                    class="flex items-center py-4 px-4 text-sm text-white bg-theme-primary rounded text-center"
+                                    type="submit"
+                                >
+                                    Complete Order
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
             <div class="w-1/2">
                 <div class="py-12 pl-8 pr-40">
@@ -155,8 +168,14 @@ export default {
             form: {
                 name: this.user_login.full_name,
                 nim: this.user_login.user_name,
+                size: "",
             },
         };
+    },
+    methods: {
+        insert() {
+            this.$inertia.post(this.route("user.transaction.store"), this.form);
+        },
     },
 };
 </script>
