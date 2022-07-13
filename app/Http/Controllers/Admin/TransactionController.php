@@ -83,18 +83,22 @@ class TransactionController extends Controller
         $path = $transaction->proof;
         $jacket = Jacket::where("id", $request->jacket_id)->first();
         $price = $jacket->price;
-        $is_paid = 0;
 
         if ($request->file("proof")) {
             if ($path) {
                 Storage::disk("public")->delete($path);
             }
             $path = Storage::disk("public")->putFile("transaction", $request->file("proof"));
-            $is_paid = 1;
         }
 
         if ($request->size_id == 5) {
             $price += 35000;
+        }
+
+        if ($request->approve == 1) {
+            $paid = 1;
+        } else if ($request->approve == 0) {
+            $paid = 0;
         }
 
         $transaction->update([
@@ -102,9 +106,10 @@ class TransactionController extends Controller
             "jacket_id" => $jacket->id,
             "size_id" => $request->size_id,
             "custom" => $request->custom,
+            // "status" => $status,
             "price" => $price,
             "proof" => $path,
-            "is_paid" => $is_paid,
+            "is_paid" => $paid,
         ]);
 
         return redirect()->route("admin.transaction.index")->with("success", "Data Transaksi Berhasil Diubah !");

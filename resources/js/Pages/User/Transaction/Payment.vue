@@ -24,7 +24,7 @@
                             </div>
                             <div class="w-1/2">
                                 <p class="text-sm font-semibold text-right">
-                                    Izza Nur Fahtony
+                                    {{ user_logins.full_name }}
                                 </p>
                             </div>
                         </div>
@@ -36,7 +36,7 @@
                             </div>
                             <div class="w-1/2">
                                 <p class="text-sm font-semibold text-right">
-                                    202110370311297
+                                    {{ user_logins.user_name }}
                                 </p>
                             </div>
                         </div>
