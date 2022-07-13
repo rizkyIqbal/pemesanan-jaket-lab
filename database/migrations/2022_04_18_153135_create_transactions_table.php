@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->integer("user_id");
+            $table->string("user_id");
             $table->integer("jacket_id");
             $table->integer("size_id");
             $table->string("custom")->nullable();
