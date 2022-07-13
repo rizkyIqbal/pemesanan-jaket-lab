@@ -87,20 +87,22 @@ class TransactionController extends Controller
         }
     }
 
-    public function store_payment() {
-        if(session()->has("user_name")) {
-            if($request->bank == "BCA") {
+    public function store_payment(Request $request)
+    {
+        if (session()->has("user_name")) {
+            // dd($request->bank);
+            if ($request->bank == "BCA") {
                 $bank = "Bank Central Asia";
-            } else if($request->bank == "BRI") {
+            } else if ($request->bank == "BRI") {
                 $bank = "Bank Rakyat Indonesia";
-            } else if($request->bank == "Mandiri") {
+            } else if ($request->bank == "Mandiri") {
                 $bank = "Bank Mandiri";
             }
             Transaction::where("user_id", session("user_name"))->update([
                 "bank" => $bank,
                 "status" => 2,
             ]);
-            return redirect()->route("admin.transaction.index")->with("success", "Data Transaksi Berhasil Diubah !");
+            return redirect()->route("user.transaction.receipt")->with("success", "Data Transaksi Berhasil Diubah !");
         } else {
             return redirect()->route("user.login");
         }

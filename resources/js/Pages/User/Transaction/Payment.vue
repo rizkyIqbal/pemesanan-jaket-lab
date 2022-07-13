@@ -77,66 +77,76 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex-grow border-t border-gray-300 mt-12"></div>
-                    <div class="relative">
-                        <div
-                            class="flex absolute lg:inset-y-0 lg:right-0 mt-6 lg:h-12"
-                        >
-                            <p class="text-sm mr-5 lg:mt-4">Cancel Order</p>
-                            <button
-                                class="flex items-center py-4 px-4 text-sm text-white bg-theme-primary rounded text-center"
-                                type="submit"
-                            >
-                                Complete Order
-                            </button>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="w-1/2">
-                <div class="py-12 pl-8 pr-40">
-                    <p class="font-bold">Choose Payment</p>
-                    <div class="mt-4">
-                        <div
-                            class="bg-white border-2 border-gray-700 rounded w-full py-3 pl-4"
-                        >
-                            <input
-                                class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-400 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-                                type="radio"
-                                name="flexRadioDefault"
-                                id="flexRadioDefault1"
-                            />
+                <form @submit.prevent="insert" class="space-y-6">
+                    <div class="py-12 pl-8 pr-40">
+                        <p class="font-bold">Choose Payment</p>
+                        <div class="mt-4">
+                            <div
+                                class="bg-white border-2 border-gray-700 rounded w-full py-3 pl-4"
+                            >
+                                <input
+                                    class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-400 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                                    type="radio"
+                                    name="flexRadioDefault"
+                                    id="flexRadioDefault1"
+                                    v-model="form.bank"
+                                    value="BCA"
+                                />
 
-                            <p class="ml-2">Bank Central Asia</p>
+                                <p class="ml-2">Bank Central Asia</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="mt-4">
+                        <div class="mt-4">
+                            <div
+                                class="bg-white border-2 border-gray-700 rounded w-full py-3 pl-4"
+                            >
+                                <input
+                                    class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-400 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                                    type="radio"
+                                    name="flexRadioDefault"
+                                    id="flexRadioDefault2"
+                                    v-model="form.bank"
+                                    value="BRI"
+                                />
+                                <p class="ml-2">Bank Rakyat Indonesia</p>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div
+                                class="bg-white border-2 border-gray-700 rounded w-full py-3 pl-4"
+                            >
+                                <input
+                                    class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-400 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                                    type="radio"
+                                    name="flexRadioDefault"
+                                    id="flexRadioDefault3"
+                                    v-model="form.bank"
+                                    value="Mandiri"
+                                />
+                                <p class="ml-2">Bank Mandiri</p>
+                            </div>
+                        </div>
                         <div
-                            class="bg-white border-2 border-gray-700 rounded w-full py-3 pl-4"
-                        >
-                            <input
-                                class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-400 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-                                type="radio"
-                                name="flexRadioDefault"
-                                id="flexRadioDefault2"
-                            />
-                            <p class="ml-2">Bank Rakyat Indonesia</p>
+                            class="flex-grow border-t border-gray-300 mt-12"
+                        ></div>
+                        <div class="relative">
+                            <div
+                                class="flex absolute lg:inset-y-0 lg:right-0 mt-6 lg:h-12"
+                            >
+                                <p class="text-sm mr-5 lg:mt-4">Cancel Order</p>
+                                <button
+                                    class="flex items-center py-4 px-4 text-sm text-white bg-theme-primary rounded text-center"
+                                    type="submit"
+                                >
+                                    Complete Order
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div class="mt-4">
-                        <div
-                            class="bg-white border-2 border-gray-700 rounded w-full py-3 pl-4"
-                        >
-                            <input
-                                class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-400 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-                                type="radio"
-                                name="flexRadioDefault"
-                                id="flexRadioDefault3"
-                            />
-                            <p class="ml-2">Bank Jago</p>
-                        </div>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
     </main>
@@ -146,6 +156,27 @@ import UserLightLayout from "@/Layouts/UserLightLayout";
 export default {
     components: {
         UserLightLayout,
+    },
+    props: {
+        jacket: Object,
+        sizes: Object,
+        user_logins: Object,
+        transactions: Object,
+    },
+    data() {
+        return {
+            form: {
+                bank: "",
+            },
+        };
+    },
+    methods: {
+        insert() {
+            this.$inertia.post(
+                this.route("user.transaction.store_payment"),
+                this.form
+            );
+        },
     },
 };
 </script>
