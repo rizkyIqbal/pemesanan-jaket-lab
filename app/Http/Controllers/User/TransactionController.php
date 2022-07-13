@@ -45,7 +45,6 @@ class TransactionController extends Controller
 
     public function store(CreateRequest $request)
     {
-        // dd($request);
         if (session()->has("user_name")) {
             $nim = intval(substr(session("user_name"), 0, 4));
             if ($nim % 2 == 0) {
@@ -82,8 +81,26 @@ class TransactionController extends Controller
             $transaction = Transaction::where("user_id", $user_login["user_name"])->first();
             $jacket = Jacket::where("id", $transaction["jacket_id"])->first();
             $size = Size::where("id", $transaction["size_id"])->first();
-            // $transaction = Transaction::select("custom", "price", "jackets.name", "sizes.name")->whereColumn("jacket_id", "jackets.id")->whereColumn("size_id", "sizes.id")->where("user_id", session("user_name"))->first();
             return Inertia::render("User/Transaction/Payment", ['jackets' => $jacket, 'sizes' => $size, 'user_logins' => $user_login, "transactions" => $transaction]);
+        } else {
+            return redirect()->route("user.login");
+        }
+    }
+
+    public function store_payment() {
+        if(session()->has("user_name")) {
+            if($request->bank == "BCA") {
+                $bank = "Bank Central Asia";
+            } else if($request->bank == "BRI") {
+                $bank = "Bank Rakyat Indonesia";
+            } else if($request->bank == "Mandiri") {
+                $bank = "Bank Mandiri";
+            }
+            Transaction::where("user_id", session("user_name"))->update([
+                "bank" => $bank,
+                "status" => 2,
+            ]);
+            return redirect()->route("admin.transaction.index")->with("success", "Data Transaksi Berhasil Diubah !");
         } else {
             return redirect()->route("user.login");
         }

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer("size_id");
             $table->string("custom")->nullable();
             $table->integer("price");
+            $table->string("bank")->nullable();
             $table->string("proof")->nullable();
             $table->integer("status")->default("1");
             $table->boolean("is_paid")->default("0");
