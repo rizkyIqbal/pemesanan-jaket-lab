@@ -42,7 +42,19 @@ class UserController extends Controller
             $request->session()->put("user_name", $user["user_name"]);
             $request->session()->put("email", $user["email"]);
             $request->session()->put("full_name", $user["full_name"]);
+            $request->session()->put("access_token", $response["access_token"]);
 
+            return redirect()->route("user.index");
+        } else {
+            return redirect()->route("user.login");
+        }
+    }
+
+    public function logout() {
+        $response = Http::withToken(session("access_token"))->post('https://api.infotech.umm.ac.id/dotlab/api/v1/auth/logout');
+
+        if($response["message"] != "Unauthorized") {
+            session()->flush();
             return redirect()->route("user.index");
         } else {
             return redirect()->route("user.login");

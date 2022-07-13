@@ -34,6 +34,7 @@ use Inertia\Inertia;
 
 Route::get("/masuk", [UserController::class, "login"])->name("user.login");
 Route::post("/masuk/ahh", [UserController::class, "sign_in"])->name("user.sign_in");
+Route::get("/logout", [UserController::class, "logout"])->name("user.logout");
 
 Route::get("/pdf", [UserController::class, "testPdf"]);
 
@@ -43,8 +44,7 @@ Route::controller(UserTransaction::class)->group(function () {
     Route::get("/transaksi", "index")->name("user.transaction.index");
     Route::get("/transaksi/pembayaran", "payment")->name("user.transaction.payment");
     Route::get("/transaksi/resi", "receipt")->name("user.transaction.receipt");
-    Route::get("/transaksi/tambah", "create")->name("user.transaction.create");
-    Route::post("/transaksi/tambah", "store")->name("user.transaction.store");
+    Route::post("/transaksi", "store")->name("user.transaction.store");
     Route::get("transaksi/edit/{id}", "edit")->name("user.transaction.edit");
     Route::put("transaksi/edit/{id}", "update")->name("user.transaction.update");
 });
