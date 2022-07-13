@@ -42,12 +42,12 @@ Route::get("/", [UserController::class, "index"])->name("user.index");
 
 Route::controller(UserTransaction::class)->group(function () {
     Route::get("/transaksi", "index")->name("user.transaction.index");
+    Route::post("/transaksi", "store")->name("user.transaction.store");
     Route::get("/transaksi/pembayaran", "payment")->name("user.transaction.payment");
     Route::post("/transaksi/pembayaran", "store_payment")->name("user.transaction.store_payment");
     Route::get("/transaksi/resi", "receipt")->name("user.transaction.receipt");
-    Route::post("/transaksi", "store")->name("user.transaction.store");
-    Route::get("transaksi/edit/{id}", "edit")->name("user.transaction.edit");
-    Route::put("transaksi/edit/{id}", "update")->name("user.transaction.update");
+    Route::post("/transaksi/resi", "store_receipt")->name("user.transaction.store_receipt");
+    Route::delete('/transaksi/hapus', "destroy")->name('user.transaction.destroy');
 });
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');

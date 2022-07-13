@@ -111,30 +111,17 @@ class TransactionController extends Controller
     public function receipt()
     {
         if (session()->has("user_name")) {
-            return Inertia::render("User/Transaction/Resi");
+            $user_login = [
+                "user_name" => session("user_name"),
+                "full_name" => session("full_name")
+            ];
+            $transaction = Transaction::where("user_id", $user_login["user_name"])->first();
+            $jacket = Jacket::where("id", $transaction["jacket_id"])->first();
+            $size = Size::where("id", $transaction["size_id"])->first();
+            return Inertia::render("User/Transaction/Resi", ['jackets' => $jacket, 'sizes' => $size, 'user_logins' => $user_login, "transactions" => $transaction]);
         } else {
             return redirect()->route("user.login");
         }
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $nim = intval(substr(session("user_name"), 0, 4));
-        if ($nim % 2 == 0) {
-            $jacket = Jacket::where("id", 2)->first();
-        } else {
-            $jacket = Jacket::where("id", 1)->first();
-        }
-        $sizes = Size::all();
-        $transaction = Transaction::where("id", $id)->first();
-
-        return Inertia::render("Admin/Transaction/Edit", ['jacket' => $jacket, 'sizes' => $sizes, 'transaction' => $transaction]);
     }
 
     /**
@@ -144,18 +131,21 @@ class TransactionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function store_receipt(Request $request)
     {
-        $path = null;
-        if ($request->file("image")) {
-            $path = Storage::disk("public")->putFile("proof", $request->file("image"));
+        if(session()->has("user_name")) {
+            $path = null;
+            if ($request->file("image")) {
+                $path = Storage::disk("public")->putFile("proof", $request->file("image"));
+            }
+            Transaction::where("user_id", session("user_name"))->update([
+                "proof" => $path,
+                "status" => 3,
+            ]);
+            return redirect()->route("user.transaction.receipt")->with("success", "Data Transaksi Berhasil Diubah !");
+        } else {
+            return redirect()->route("user.login");
         }
-        Transaction::where("id", $id)->update([
-            "proof" => $path,
-            "status" => 2,
-            "is_paid" => 1,
-        ]);
-        return redirect()->route("admin.transaction.index")->with("success", "Data Transaksi Berhasil Diubah !");
     }
 
     public function destroy()
