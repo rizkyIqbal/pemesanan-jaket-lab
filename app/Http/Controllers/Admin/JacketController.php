@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Jacket\CreateRequest;
+use App\Http\Requests\Jacket\UpdateRequest;
 use App\Models\Jacket;
 use Inertia\Inertia;
 
@@ -37,7 +38,6 @@ class JacketController extends Controller
      */
     public function store(CreateRequest $request)
     {
-        $path = "jacket";
         if ($request->file("image")) {
             $path = Storage::disk("public")->putFile("jackets", $request->file("image"));
         }
@@ -70,10 +70,9 @@ class JacketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
-        $jacket = Jacket::where("id", $id)->firstOrFail();
-        // dd($jacket->image);
+        $jacket = Jacket::where("id", $id)->first();
         $path = $jacket->image;
         if ($request->file("image")) {
             if ($path) {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Transaction\CreateRequest;
+use App\Http\Requests\Transaction\UpdateRequest;
 use App\Models\Jacket;
 use App\Models\Transaction;
 use App\Models\Size;
@@ -41,14 +42,18 @@ class TransactionController extends Controller
         $jacket = Jacket::where("id", $request->jacket_id)->first();
         $price = $jacket->price;
         $path = null;
-        $is_paid = 0;
         if ($request->file("proof")) {
             $path = Storage::disk("public")->putFile("transaction", $request->file("proof"));
-            $is_paid = 1;
         }
 
         if ($request->size_id == 5) {
             $price += 35000;
+        }
+
+        if ($request->approve == 1) {
+            $paid = 1;
+        } else if ($request->approve == 0) {
+            $paid = 0;
         }
 
         Transaction::create([
@@ -58,7 +63,8 @@ class TransactionController extends Controller
             "custom" => $request->custom,
             "price" => $price,
             "proof" => $path,
-            "is_paid" => $is_paid,
+            // "status" => $request->status,
+            "is_paid" => $paid,
         ]);
 
         return redirect()->route("admin.transaction.index")->with("success", "Data Transaksi Berhasil Ditambahkan !");
@@ -76,12 +82,11 @@ class TransactionController extends Controller
         return Inertia::render("Admin/Transaction/Edit", $data);
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
-        // dd($request->jacket_id);
         $transaction = Transaction::where("id", $id)->first();
         $path = $transaction->proof;
-        $jacket = Jacket::where("id", $request->jacket_id)->first();
+        $jacket = Jacket::where("id", $transaction->jacket_id)->first();
         $price = $jacket->price;
 
         if ($request->file("proof")) {
@@ -106,7 +111,7 @@ class TransactionController extends Controller
             "jacket_id" => $jacket->id,
             "size_id" => $request->size_id,
             "custom" => $request->custom,
-            // "status" => $status,
+            // "status" => $request->status,
             "price" => $price,
             "proof" => $path,
             "is_paid" => $paid,

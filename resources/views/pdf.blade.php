@@ -9,11 +9,7 @@
 </head>
 
 <body>
-    <?php foreach ($transaction as $tr) { ?>
-        <ul>
-            <li><?= $tr["user_id"]; ?></li>
-        </ul>
-    <?php } ?>
+    <h1>Hello World</h1>
 </body>
 
 </html>

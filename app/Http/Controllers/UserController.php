@@ -6,10 +6,11 @@ use App\Models\Jacket;
 use App\Models\Size;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
+// use Illuminate\Support\Facades\App;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class UserController extends Controller
 {
@@ -26,7 +27,11 @@ class UserController extends Controller
 
     public function login()
     {
-        return Inertia::render('User/LoginUser');
+        if(session()->has("user_name")) {
+            return redirect()->route("user.index");
+        } else {
+            return Inertia::render('User/LoginUser');
+        }
     }
 
     public function sign_in(Request $request)
@@ -51,6 +56,18 @@ class UserController extends Controller
     }
 
     public function logout() {
+        // if(session()->has("user_name")) {
+        //     $response = Http::withToken(session("access_token"))->post('https://api.infotech.umm.ac.id/dotlab/api/v1/auth/logout');
+
+        //     if($response["message"] != "Unauthorized") {
+        //         session()->flush();
+        //         return redirect()->route("user.index");
+        //     } else {
+        //         return redirect()->route("user.login");
+        //     }
+        // } else {
+            
+        // }
         $response = Http::withToken(session("access_token"))->post('https://api.infotech.umm.ac.id/dotlab/api/v1/auth/logout');
 
         if($response["message"] != "Unauthorized") {
@@ -118,9 +135,7 @@ class UserController extends Controller
 
     public function testPdf()
     {
-        $transaction = Transaction::where("user_id", session("user_name"))->first();
-        $pdf = App::make('dompdf.wrapper');
-        $pdf->loadView('pdf', ["transaction" => $transaction]);
+        $pdf = Pdf::loadView('pdf');
         return $pdf->stream();
     }
 }

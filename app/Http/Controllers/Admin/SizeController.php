@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Size\CreateRequest;
+use App\Http\Requests\Size\UpdateRequest;
 use App\Models\Size;
 use Inertia\Inertia;
 
@@ -39,7 +40,7 @@ class SizeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
         Size::create([
             "name" => $request->name,
@@ -81,7 +82,7 @@ class SizeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
         Size::where("id", $id)->update([
             "name" => $request->name,

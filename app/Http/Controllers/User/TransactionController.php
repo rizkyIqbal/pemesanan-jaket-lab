@@ -26,18 +26,25 @@ class TransactionController extends Controller
     public function index()
     {
         if (session()->has("user_name")) {
-            $nim = intval(substr(session("user_name"), 0, 4));
-            if ($nim % 2 == 0) {
-                $jacket = Jacket::where("id", 2)->first();
-            } else {
-                $jacket = Jacket::where("id", 1)->first();
+            $transaction = Transaction::where("user_id", session("user_name"))->first();
+            if($transaction == null) {
+                $nim = intval(substr(session("user_name"), 0, 4));
+                if ($nim % 2 == 0) {
+                    $jacket = Jacket::where("id", 2)->first();
+                } else {
+                    $jacket = Jacket::where("id", 1)->first();
+                }
+                $sizes = $this->sizes;
+                $user_login = [
+                    "user_name" => session("user_name"),
+                    "full_name" => session("full_name")
+                ];
+                return Inertia::render("User/Transaction/Index", ['jacket' => $jacket, 'sizes' => $sizes, 'user_login' => $user_login]);
+            } else if($transaction->status == 1) {
+                return redirect()->route("user.transaction.payment");
+            } else if($transaction->status == 2 || $transaction->status == 3) {
+                return redirect()->route("user.transaction.receipt");
             }
-            $sizes = $this->sizes;
-            $user_login = [
-                "user_name" => session("user_name"),
-                "full_name" => session("full_name")
-            ];
-            return Inertia::render("User/Transaction/Index", ['jacket' => $jacket, 'sizes' => $sizes, 'user_login' => $user_login]);
         } else {
             return redirect()->route("user.login");
         }
@@ -74,14 +81,21 @@ class TransactionController extends Controller
     public function payment()
     {
         if (session()->has("user_name")) {
-            $user_login = [
-                "user_name" => session("user_name"),
-                "full_name" => session("full_name")
-            ];
-            $transaction = Transaction::where("user_id", $user_login["user_name"])->first();
-            $jacket = Jacket::where("id", $transaction["jacket_id"])->first();
-            $size = Size::where("id", $transaction["size_id"])->first();
-            return Inertia::render("User/Transaction/Payment", ['jackets' => $jacket, 'sizes' => $size, 'user_logins' => $user_login, "transactions" => $transaction]);
+            $transaction = Transaction::where("user_id", session("user_name"))->first();
+            if($transaction == null) {
+                return redirect()->route("user.transaction.index");
+            } else if($transaction->status == 1) {
+                $user_login = [
+                    "user_name" => session("user_name"),
+                    "full_name" => session("full_name")
+                ];
+                $transaction = Transaction::where("user_id", $user_login["user_name"])->first();
+                $jacket = Jacket::where("id", $transaction["jacket_id"])->first();
+                $size = Size::where("id", $transaction["size_id"])->first();
+                return Inertia::render("User/Transaction/Payment", ['jackets' => $jacket, 'sizes' => $size, 'user_logins' => $user_login, "transactions" => $transaction]);
+            } else if($transaction->status == 2 || $transaction->status == 3) {
+                return redirect()->route("user.transaction.receipt");
+            }
         } else {
             return redirect()->route("user.login");
         }
@@ -111,14 +125,21 @@ class TransactionController extends Controller
     public function receipt()
     {
         if (session()->has("user_name")) {
-            $user_login = [
-                "user_name" => session("user_name"),
-                "full_name" => session("full_name")
-            ];
-            $transaction = Transaction::where("user_id", $user_login["user_name"])->first();
-            $jacket = Jacket::where("id", $transaction["jacket_id"])->first();
-            $size = Size::where("id", $transaction["size_id"])->first();
-            return Inertia::render("User/Transaction/Resi", ['jackets' => $jacket, 'sizes' => $size, 'user_logins' => $user_login, "transactions" => $transaction]);
+            $transaction = Transaction::where("user_id", session("user_name"))->first();
+            if($transaction == null) {
+                return redirect()->route("user.transaction.index");
+            } else if($transaction->status == 1) {
+                return redirect()->route("user.transaction.payment");
+            } else if($transaction->status == 2 || $transaction->status == 3) {
+                $user_login = [
+                    "user_name" => session("user_name"),
+                    "full_name" => session("full_name")
+                ];
+                $transaction = Transaction::where("user_id", $user_login["user_name"])->first();
+                $jacket = Jacket::where("id", $transaction["jacket_id"])->first();
+                $size = Size::where("id", $transaction["size_id"])->first();
+                return Inertia::render("User/Transaction/Resi", ['jackets' => $jacket, 'sizes' => $size, 'user_logins' => $user_login, "transactions" => $transaction]);
+            }
         } else {
             return redirect()->route("user.login");
         }
