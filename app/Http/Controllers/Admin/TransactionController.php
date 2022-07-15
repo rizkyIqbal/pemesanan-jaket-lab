@@ -46,8 +46,11 @@ class TransactionController extends Controller
             $path = Storage::disk("public")->putFile("transaction", $request->file("proof"));
         }
 
-        if ($request->size_id == 5) {
+        if ($request->custom != null) {
+            $size = 0;
             $price += 35000;
+        } else {
+            $size = $request->size_id;
         }
 
         if ($request->approve == 1) {
@@ -59,7 +62,7 @@ class TransactionController extends Controller
         Transaction::create([
             "user_id" => $request->user_id,
             "jacket_id" => $jacket->id,
-            "size_id" => $request->size_id,
+            "size_id" => $size,
             "custom" => $request->custom,
             "price" => $price,
             "proof" => $path,
@@ -90,8 +93,11 @@ class TransactionController extends Controller
             $path = Storage::disk("public")->putFile("transaction", $request->file("proof"));
         }
 
-        if ($request->size_id == 5) {
+        if ($request->custom != null) {
+            $size = 0;
             $price += 35000;
+        } else {
+            $size = $request->size_id;
         }
 
         if ($request->approve == 1) {
@@ -103,7 +109,7 @@ class TransactionController extends Controller
         $transaction->update([
             "user_id" => $request->user_id,
             "jacket_id" => $jacket->id,
-            "size_id" => $request->size_id,
+            "size_id" => $size,
             "custom" => $request->custom,
             // "status" => $request->status,
             "price" => $price,

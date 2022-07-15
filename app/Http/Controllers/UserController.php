@@ -135,7 +135,26 @@ class UserController extends Controller
 
     public function testPdf()
     {
-        $pdf = Pdf::loadView('pdf');
-        return $pdf->stream();
+        $transaction = Transaction::where("user_id", session("user_name"))->first();
+        $jacket = Jacket::where("id", $transaction["jacket_id"])->first();
+        $size = Size::where("id", $transaction["size_id"])->first();
+        $data = [
+            "user_name" => session("user_name"),
+            "full_name" => session("full_name"),
+            "transaction" => $transaction,
+            "jacket" => $jacket,
+            "size" => $size
+        ];
+
+        $name = substr(session("user_name"), 0, 4) . "-" . substr(session("user_name"), 12, 15) . ".pdf";
+        // $user_name = session("user_name");
+        // $full_name = session("full_name");
+        // $transaction = Transaction::where("user_id", $user_name)->first();
+        // $jacket = Jacket::where("id", $transaction["jacket_id"])->first();
+        // $size = Size::where("id", $transaction["size_id"])->first();
+        // $pdf = Pdf::loadView('pdf', $data);
+        // return $pdf->stream();
+        // return $pdf->download($name);
+        return view("pdf", $data);
     }
 }

@@ -30,7 +30,6 @@ class UpdateRequest extends FormRequest
             // "color" => "required",
             // // "price" => "required|integer"
             'name' => 'required',
-            "image" => "required|mimes:jpeg,png,jpg",
             "color" => "required",
             "price" => "required"
         ];

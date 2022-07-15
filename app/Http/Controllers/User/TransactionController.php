@@ -62,21 +62,20 @@ class TransactionController extends Controller
             }
             $price = $jacket->price;
 
-            if ($request->size_id == 5) {
-                $price += 35000;
-            }
-
             if ($request->a != null && $request->b != null && $request->c != null) {
                 $custom = "A : $request->a cm B : $request->b cm C : $request->c cm";
+                $size = 0;
+                $price += 35000;
             } else {
                 $custom = null;
+                $size = $request->size;
             }
 
 
             Transaction::create([
                 "user_id" => session("user_name"),
                 "jacket_id" => $jacket->id,
-                "size_id" => $request->size,
+                "size_id" => $size,
                 "custom" => $custom,
                 "price" => $price,
             ]);
@@ -99,7 +98,11 @@ class TransactionController extends Controller
                 ];
                 $transaction = Transaction::where("user_id", $user_login["user_name"])->first();
                 $jacket = Jacket::where("id", $transaction["jacket_id"])->first();
-                $size = Size::where("id", $transaction["size_id"])->first();
+                if($transaction->custom != null) {
+                    $size = $transaction->custom;
+                } else {
+                    $size = Size::where("id", $transaction["size_id"])->first();
+                }
                 return Inertia::render("User/Transaction/Payment", ['jackets' => $jacket, 'sizes' => $size, 'user_logins' => $user_login, "transactions" => $transaction]);
             } else if ($transaction->status == 2 || $transaction->status == 3) {
                 return redirect()->route("user.transaction.receipt");
@@ -145,7 +148,11 @@ class TransactionController extends Controller
                 ];
                 $transaction = Transaction::where("user_id", $user_login["user_name"])->first();
                 $jacket = Jacket::where("id", $transaction["jacket_id"])->first();
-                $size = Size::where("id", $transaction["size_id"])->first();
+                if($transaction->custom != null) {
+                    $size = $transaction->custom;
+                } else {
+                    $size = Size::where("id", $transaction["size_id"])->first();
+                }
                 return Inertia::render("User/Transaction/Resi", ['jackets' => $jacket, 'sizes' => $size, 'user_logins' => $user_login, "transactions" => $transaction]);
             }
         } else {

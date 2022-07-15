@@ -30,7 +30,7 @@ class CreateRequest extends FormRequest
             // "color" => "required",
             // // "price" => "required|integer"
             'name' => 'required',
-            "image" => "required|size:10000|mimes:jpeg,png,jpg",
+            "image" => "required|mimes:jpeg,png,jpg",
             "color" => "required",
             "price" => "required"
         ];
