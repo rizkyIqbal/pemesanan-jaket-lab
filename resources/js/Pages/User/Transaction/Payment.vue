@@ -48,7 +48,7 @@
                             </div>
                             <div class="w-1/2">
                                 <p class="text-sm font-semibold text-right">
-                                    Small
+                                    {{ sizes.name }}
                                 </p>
                             </div>
                         </div>
@@ -59,8 +59,17 @@
                                 <p class="text-sm">Custom</p>
                             </div>
                             <div class="w-1/2">
-                                <p class="text-sm font-semibold text-right">
+                                <p
+                                    v-if="transactions.custom == null"
+                                    class="text-sm font-semibold text-right"
+                                >
                                     Tidak Ada
+                                </p>
+                                <p
+                                    v-else
+                                    class="text-sm font-semibold text-right"
+                                >
+                                    {{ transactions.custom }}
                                 </p>
                             </div>
                         </div>
@@ -136,7 +145,12 @@
                             <div
                                 class="flex absolute lg:inset-y-0 lg:right-0 mt-6 lg:h-12"
                             >
-                                <p class="text-sm mr-5 lg:mt-4">Cancel Order</p>
+                                <p
+                                    class="text-sm mr-5 lg:mt-4"
+                                    :href="route('user.transaction.destroy')"
+                                >
+                                    Cancel Order
+                                </p>
                                 <button
                                     class="flex items-center py-4 px-4 text-sm text-white bg-theme-primary rounded text-center"
                                     type="submit"

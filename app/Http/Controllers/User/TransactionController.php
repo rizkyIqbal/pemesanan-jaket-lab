@@ -27,7 +27,7 @@ class TransactionController extends Controller
     {
         if (session()->has("user_name")) {
             $transaction = Transaction::where("user_id", session("user_name"))->first();
-            if($transaction == null) {
+            if ($transaction == null) {
                 $nim = intval(substr(session("user_name"), 0, 4));
                 if ($nim % 2 == 0) {
                     $jacket = Jacket::where("id", 2)->first();
@@ -40,9 +40,9 @@ class TransactionController extends Controller
                     "full_name" => session("full_name")
                 ];
                 return Inertia::render("User/Transaction/Index", ['jacket' => $jacket, 'sizes' => $sizes, 'user_login' => $user_login]);
-            } else if($transaction->status == 1) {
+            } else if ($transaction->status == 1) {
                 return redirect()->route("user.transaction.payment");
-            } else if($transaction->status == 2 || $transaction->status == 3) {
+            } else if ($transaction->status == 2 || $transaction->status == 3) {
                 return redirect()->route("user.transaction.receipt");
             }
         } else {
@@ -52,6 +52,7 @@ class TransactionController extends Controller
 
     public function store(CreateRequest $request)
     {
+        // dd($request->all());
         if (session()->has("user_name")) {
             $nim = intval(substr(session("user_name"), 0, 4));
             if ($nim % 2 == 0) {
@@ -65,11 +66,18 @@ class TransactionController extends Controller
                 $price += 35000;
             }
 
+            if ($request->a != null && $request->b != null && $request->c != null) {
+                $custom = "A : $request->a cm B : $request->b cm C : $request->c cm";
+            } else {
+                $custom = null;
+            }
+
+
             Transaction::create([
                 "user_id" => session("user_name"),
                 "jacket_id" => $jacket->id,
                 "size_id" => $request->size,
-                "custom" => $request->custom,
+                "custom" => $custom,
                 "price" => $price,
             ]);
             return redirect()->route("user.transaction.payment")->with("success", "Data Transaksi Berhasil Ditambahkan !");
@@ -82,9 +90,9 @@ class TransactionController extends Controller
     {
         if (session()->has("user_name")) {
             $transaction = Transaction::where("user_id", session("user_name"))->first();
-            if($transaction == null) {
+            if ($transaction == null) {
                 return redirect()->route("user.transaction.index");
-            } else if($transaction->status == 1) {
+            } else if ($transaction->status == 1) {
                 $user_login = [
                     "user_name" => session("user_name"),
                     "full_name" => session("full_name")
@@ -93,7 +101,7 @@ class TransactionController extends Controller
                 $jacket = Jacket::where("id", $transaction["jacket_id"])->first();
                 $size = Size::where("id", $transaction["size_id"])->first();
                 return Inertia::render("User/Transaction/Payment", ['jackets' => $jacket, 'sizes' => $size, 'user_logins' => $user_login, "transactions" => $transaction]);
-            } else if($transaction->status == 2 || $transaction->status == 3) {
+            } else if ($transaction->status == 2 || $transaction->status == 3) {
                 return redirect()->route("user.transaction.receipt");
             }
         } else {
@@ -126,11 +134,11 @@ class TransactionController extends Controller
     {
         if (session()->has("user_name")) {
             $transaction = Transaction::where("user_id", session("user_name"))->first();
-            if($transaction == null) {
+            if ($transaction == null) {
                 return redirect()->route("user.transaction.index");
-            } else if($transaction->status == 1) {
+            } else if ($transaction->status == 1) {
                 return redirect()->route("user.transaction.payment");
-            } else if($transaction->status == 2 || $transaction->status == 3) {
+            } else if ($transaction->status == 2 || $transaction->status == 3) {
                 $user_login = [
                     "user_name" => session("user_name"),
                     "full_name" => session("full_name")
@@ -154,7 +162,7 @@ class TransactionController extends Controller
      */
     public function store_receipt(Request $request)
     {
-        if(session()->has("user_name")) {
+        if (session()->has("user_name")) {
             $path = null;
             if ($request->file("image")) {
                 $path = Storage::disk("public")->putFile("proof", $request->file("image"));

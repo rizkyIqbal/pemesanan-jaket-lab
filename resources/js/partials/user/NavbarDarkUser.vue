@@ -40,8 +40,15 @@
                     <a
                         :href="route('user.login')"
                         class="font-medium text-primary hover:text-indigo-500"
-                        >Log in</a
-                    >
+                        v-if="$page.props.user.username == null"
+                        >Log in
+                    </a>
+                    <a
+                        :href="route('user.logout')"
+                        class="font-medium text-primary hover:text-indigo-500"
+                        v-if="$page.props.user.username != null"
+                        >Log out
+                    </a>
                 </div>
             </nav>
         </div>
@@ -106,3 +113,8 @@ const navigation = [
     { name: "About Us", href: "#" },
 ];
 </script>
+<!-- <script computed>
+ pages() {
+          return this.$page.props.pages
+      }
+</script> -->

@@ -72,14 +72,8 @@ class TransactionController extends Controller
 
     public function edit($id)
     {
-        $data = [
-            "jackets" => $this->jackets,
-            "sizes" => $this->sizes,
-            "transaction" => Transaction::where("id", $id)->first()
-        ];
-
-        // dd(Transaction::where("id", $id)->first());
-        return Inertia::render("Admin/Transaction/Edit", $data);
+        $transactions = Transaction::where("id", $id)->first();
+        return Inertia::render("Admin/Transaction/Edit", ['transaction' => $transactions]);
     }
 
     public function update(UpdateRequest $request, $id)

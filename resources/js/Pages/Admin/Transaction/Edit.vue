@@ -74,6 +74,12 @@
                     >
                     <input type="file" @change="upload" />
                 </div>
+                <img
+                    v-if="transaction.proof"
+                    class="w-auto h-96 mb-6"
+                    :src="'/storage/' + transaction.proof"
+                    alt=""
+                />
 
                 <button
                     class="flex items-center py-2 px-3 text-sm text-white bg-blue-500 rounded text-center"

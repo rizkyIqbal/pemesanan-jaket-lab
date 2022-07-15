@@ -47,7 +47,7 @@ Route::controller(UserTransaction::class)->group(function () {
     Route::post("/transaksi/pembayaran", "store_payment")->name("user.transaction.store_payment");
     Route::get("/transaksi/resi", "receipt")->name("user.transaction.receipt");
     Route::put("/transaksi/resi", "store_receipt")->name("user.transaction.store_receipt");
-    Route::delete('/transaksi/hapus', "destroy")->name('user.transaction.destroy');
+    Route::get('/transaksi/hapus', "destroy")->name('user.transaction.destroy');
 });
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
