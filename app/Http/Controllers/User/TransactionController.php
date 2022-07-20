@@ -65,7 +65,9 @@ class TransactionController extends Controller
             if ($request->a != null && $request->b != null && $request->c != null) {
                 $custom = "A : $request->a cm B : $request->b cm C : $request->c cm";
                 $size = 0;
-                $price += 35000;
+                if ($request->a > 80 || $request->b > 80 || $request->c > 80) {
+                    $price += 35000;
+                }
             } else {
                 $custom = null;
                 $size = $request->size;
@@ -98,7 +100,7 @@ class TransactionController extends Controller
                 ];
                 $transaction = Transaction::where("user_id", $user_login["user_name"])->first();
                 $jacket = Jacket::where("id", $transaction["jacket_id"])->first();
-                if($transaction->custom != null) {
+                if ($transaction->custom != null) {
                     $size = $transaction->custom;
                 } else {
                     $size = Size::where("id", $transaction["size_id"])->first();
@@ -148,7 +150,7 @@ class TransactionController extends Controller
                 ];
                 $transaction = Transaction::where("user_id", $user_login["user_name"])->first();
                 $jacket = Jacket::where("id", $transaction["jacket_id"])->first();
-                if($transaction->custom != null) {
+                if ($transaction->custom != null) {
                     $size = $transaction->custom;
                 } else {
                     $size = Size::where("id", $transaction["size_id"])->first();

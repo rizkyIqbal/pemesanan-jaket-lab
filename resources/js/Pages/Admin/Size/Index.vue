@@ -53,10 +53,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr
-                                v-for="size in sizes.data"
-                                :key="size.slug"
-                            >
+                            <tr v-for="size in sizes.data" :key="size.slug">
                                 <td
                                     class="whitespace-nowrap py-2 px-3 text-sm font-medium text-gray-900"
                                 >
@@ -91,16 +88,15 @@
                                             >
                                         </div>
                                         <div class="col-sm-6">
-                                            <a
-                                                class="btn btn-danger w-100"
+                                            <button
                                                 @click.prevent="
-                                                    deletearticle(
-                                                        `${size.id}`
-                                                    )
+                                                    deletearticle(size)
                                                 "
                                             >
-                                                Delete</a
-                                            >
+                                                <a class="btn btn-danger w-100">
+                                                    Delete</a
+                                                >
+                                            </button>
                                         </div>
                                     </div>
                                 </td>
@@ -122,10 +118,10 @@ export default {
     },
     props: { sizes: Object },
     methods: {
-        deletearticle(id) {
-            if (confirm("data ingin di hapus?")) {
+        deletearticle(size) {
+            if (confirm(`data ingin di hapus?  data ${size.name}`)) {
                 this.$inertia.delete(
-                    route("admin.size.destroy", { slug: slug })
+                    route("admin.size.destroy", { id: size.id })
                 );
             } else {
                 return false;

@@ -110,7 +110,7 @@
 const navigation = [
     { name: "Home", href: route("user.index") },
     { name: "Order", href: route("user.transaction.index") },
-    { name: "About Us", href: "#" },
+    { name: "About Us", href: route("user.about") },
 ];
 </script>
 <!-- <script computed>

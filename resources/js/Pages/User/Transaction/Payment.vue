@@ -47,7 +47,16 @@
                                 <p class="text-sm">Size</p>
                             </div>
                             <div class="w-1/2">
-                                <p class="text-sm font-semibold text-right">
+                                <p
+                                    class="text-sm font-semibold text-right"
+                                    v-if="transactions.size_id == 0"
+                                >
+                                    Custom
+                                </p>
+                                <p
+                                    class="text-sm font-semibold text-right"
+                                    v-else
+                                >
                                     {{ sizes.name }}
                                 </p>
                             </div>
@@ -81,7 +90,7 @@
                             </div>
                             <div class="w-1/2">
                                 <p class="text-sm font-bold text-right">
-                                    Rp. 150.200
+                                    Rp. {{ transactions.price }}
                                 </p>
                             </div>
                         </div>
@@ -145,12 +154,12 @@
                             <div
                                 class="flex absolute lg:inset-y-0 lg:right-0 mt-6 lg:h-12"
                             >
-                                <p
+                                <a
                                     class="text-sm mr-5 lg:mt-4"
                                     :href="route('user.transaction.destroy')"
                                 >
                                     Cancel Order
-                                </p>
+                                </a>
                                 <button
                                     class="flex items-center py-4 px-4 text-sm text-white bg-theme-primary rounded text-center"
                                     type="submit"
@@ -167,9 +176,11 @@
 </template>
 <script>
 import UserLightLayout from "@/Layouts/UserLightLayout";
+import footerlanding from "@/partials/user/FooterTransaction";
 export default {
     components: {
         UserLightLayout,
+        footerlanding,
     },
     props: {
         jacket: Object,

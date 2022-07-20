@@ -41,7 +41,7 @@
                         >
                             <div class="rounded-md shadow">
                                 <a
-                                    href="#"
+                                    :href="route('user.transaction.index')"
                                     class="bg-theme-primary w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
                                 >
                                     Order Now
@@ -60,13 +60,73 @@
             />
         </div>
     </div>
+    <div class="h-fit bg-white">
+        <div class="w-full h-fit flex justify-center">
+            <p class="text-center mt-12 text-3xl">Our Products</p>
+        </div>
+        <div class="h-fit bg-white w-full flex">
+            <div class="w-1/3 p-16">
+                <img
+                    class="h-12"
+                    src="https://infotech.umm.ac.id/assets/frontside/images/logo_irc.png"
+                />
+                <div><p class="font-bold mb-2 mt-1">Research Center</p></div>
+                <div>
+                    <p>
+                        Web riset adalah website yang bertujuan untuk
+                        menunjukkan hasil riset yang dilakukan oleh dosen dan
+                        mahasiswa prodi Informatika. Hasil riset yang
+                        ditampilkan, terbagi menjadi 4, Rekayasa Perangkat
+                        Lunak, Sistem dan Keamanan Jaringan, Sains Data, dan
+                        Game Cerdas.
+                    </p>
+                </div>
+            </div>
+            <div class="w-1/3 p-16">
+                <img
+                    class="h-12"
+                    src="https://infotech.umm.ac.id/assets/frontside/images/logo_sevenman.png"
+                />
+                <div><p class="font-bold mb-2 mt-1">Sevenman</p></div>
+                <div>
+                    <p>
+                        Sevenman adalah sistem manajemen inventaris dan
+                        peminjaman di lab informatika. Mahasiswa bisa melakukan
+                        peminjaman alat dan ruangan laboratorium melalui sistem
+                        ini. Sevenman is an inventory and loan management system
+                        in informatics Laboratory. Students can borrow
+                        laboratory equipment and rooms through this system.
+                    </p>
+                </div>
+            </div>
+            <div class="w-1/3 p-16">
+                <img
+                    class="h-12 bg-black"
+                    src="https://infotech.umm.ac.id/assets/frontside/images/logo_simponia.png"
+                />
+                <div><p class="font-bold mb-2 mt-1">Simponia</p></div>
+                <div>
+                    <p>
+                        Simponia adalah sistem showcase portofolio dan manajemen
+                        komunitas. Selain bertujuan untuk memamerkan aplikasi
+                        buatan mahasiswa, sistem ini juga berfungsi untuk
+                        monitoring komunitas di Informatika.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footerlanding></footerlanding>
 </template>
 
 <script>
 import UserDarkLayout from "@/Layouts/UserDarkLayout";
+import footerlanding from "@/partials/user/FooterLanding";
 export default {
     components: {
         UserDarkLayout,
+        footerlanding,
     },
 };
 </script>

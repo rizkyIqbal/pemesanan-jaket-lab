@@ -156,6 +156,18 @@
                         </div>
                     </Link>
                 </li>
+                <div class="flex-grow border-t border-gray-300"></div>
+                <li
+                    class="flex w-full justify-between text-gray-600 hover:text-gray-500 cursor-pointer items-center mb-6 mt-4"
+                >
+                    <Link class="nav-link px-sm-0 px-2">
+                        <div class="flex items-center">
+                            <button @click="logout">
+                                <span class="text-sm ml-2">Logout</span>
+                            </button>
+                        </div>
+                    </Link>
+                </li>
             </ul>
         </div>
     </div>
@@ -185,6 +197,9 @@ export default {
                 sideBar.style.transform = "translateX(-260px)";
                 this.$data.moved = true;
             }
+        },
+        logout() {
+            this.$inertia.post(this.route("logout"));
         },
     },
 };

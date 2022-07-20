@@ -5,16 +5,31 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>{{ $name }}</title>
     <style>
+        .background_gray {
+            background-color: #e6e6e6;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
         .border {
             border: 1px solid black;
             border-collapse: collapse;
-            width: 100%;
         }
 
         .full {
             width: 100%;
+        }
+
+        .h25 {
+            height: 25px;
+        }
+
+        .h50 {
+            height: 50px
         }
 
         .h150 {
@@ -29,12 +44,12 @@
             text-align: right;
         }
 
-        .background_gray {
-            background-color: #e6e6e6;
+        .w400 {
+            width: 400px;
         }
 
-        img {
-            width: 100px;
+        .w500 {
+            width: 300px;
         }
     </style>
 </head>
@@ -43,16 +58,14 @@
     <table class="full">
         <tr>
             <th class="text_left" colspan="2">Pemesanan Jaket Lab</th>
-            <th>RECEIPT</th>
+            <th class="text_right">RECEIPT</th>
         </tr>
         <tr>
             <th colspan="2" class="h150"></th>
-            <!-- <th>LOGO</th> -->
-            <!-- <th><img src="https://drive.google.com/file/d/1bU0xMTZV8s8hmZ_uK3wP2MY3XYgHklZU/view?usp=sharing" alt=""></th> -->
-            <th><img src="{{ asset('storage/app/public/labitputih.png') }}" alt=""></th>
+            <th class="text_right">LOGO</th>
         </tr>
         <tr>
-            <th class="text_left">Bill To</th>
+            <th class="text_left w400">Bill To</th>
             <th class="text_right">Receipt #</th>
             <td class="text_right">{{ $transaction->id }}</td>
         </tr>
@@ -70,38 +83,42 @@
 
     <br><br>
 
-    <table class="border">
+    <table class="border full">
         <tr class="background_gray border">
-            <th class="border" colspan="2">DESCRIPTION</th>
+            <th class="border w500 h50" colspan="2">DESCRIPTION</th>
             <th class="border">AMOUNT</th>
         </tr>
         <!-- <tr style="height:200px"> -->
         <tr class="border">
-            <td class="border" colspan="2">{{ $jacket->name }}</td>
-            <td class="text_right border">{{ number_format($jacket->price,2,',','.') }}</td>
+            <td class="border h25" colspan="2">{{ $jacket->name }}</td>
+            <td class="text_right border">{{ number_format($jacket->price, 2, ',', '.') }}</td>
         </tr>
         <tr class="border">
-            <td class="border" colspan="2">Custom Size</td>
-            <td class="text_right border">35.000,00</td>
-            <!-- @if ($transaction->custom == null)
-                <td class="border" colspan="2">{{ $size->name }} Size</td>
+            <!-- <td class="border h25" colspan="2">Custom Size</td>
+            <td class="text_right border">35.000,00</td> -->
+            @if ($custom['a'] > 80 || ($custom['b'] > 80) | ($custom['c'] > 80))
+                <td class="border h25" colspan="2">Custom Size</td>
+                <td class="text_right border">35.000,00</td>
+            @elseif ($custom['a'] < 80 || ($custom['b'] < 80) | ($custom['c'] < 80))
+                <td class="border h25" colspan="2">Custom Size</td>
                 <td class="text_right border">0,00</td>
             @else
-                <td class="border" colspan="2">Custom Size</td>
-                <td class="text_right border">35.000,00</td>
-            @endif -->
+                <td class="border h25" colspan="2">{{ $size->name }} Size</td>
+                <td class="text_right border">0,00</td>
+            @endif
         </tr>
-        <tr class="full">
-            <td class="full"></td>
-            <th class="text_right">TOTAL</th>
-            <th class="background_gray border text_right">Rp{{ number_format($transaction->price,2,',','.') }}</th>
+        <tr>
+            <td></td>
+            <th class="text_right h50">TOTAL</th>
+            <th class="background_gray border text_right">Rp{{ number_format($transaction->price, 2, ',', '.') }}</th>
         </tr>
     </table>
 
-    <br><br><br><br><br>
-    <br><br><br><br><br>
+    <br><br><br>
+    <br><br><br>
 
-    <h3>STATUS : Paid</h3>
+    <p class="bold">STATUS</p>
+    <p>Paid</p>
 </body>
 
 </html>

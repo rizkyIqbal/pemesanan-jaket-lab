@@ -91,14 +91,15 @@
                                             >
                                         </div>
                                         <div class="col-sm-6">
-                                            <a
-                                                class="btn btn-danger w-100"
+                                            <button
                                                 @click.prevent="
                                                     deletearticle(jacket)
                                                 "
                                             >
-                                                Delete</a
-                                            >
+                                                <a class="btn btn-danger w-100">
+                                                    Delete</a
+                                                >
+                                            </button>
                                         </div>
                                     </div>
                                 </td>

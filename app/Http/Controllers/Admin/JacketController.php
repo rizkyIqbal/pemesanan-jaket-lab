@@ -38,6 +38,7 @@ class JacketController extends Controller
      */
     public function store(CreateRequest $request)
     {
+        $path = null;
         if ($request->file("image")) {
             $path = Storage::disk("public")->putFile("jackets", $request->file("image"));
         }
@@ -100,7 +101,9 @@ class JacketController extends Controller
     {
         $jacket = Jacket::where("id", $id)->first();
         $path = $jacket->image;
-        Storage::disk("public")->delete($path);
+        if ($path) {
+            Storage::disk("public")->delete($path);
+        }
         $jacket->delete();
         return redirect()->route('admin.jacket.index')->with('success', 'Data Jaket Berhasil Dihapus !');
     }

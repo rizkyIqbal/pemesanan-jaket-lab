@@ -94,12 +94,16 @@
                 <div class="w-1/2">
                     <div class="py-12 pl-8 pr-40">
                         <p class="font-bold">Custom Order</p>
-                        <div class="mt-4">
+                        <div
+                            class="mt-4 h-40 overflow-hidden"
+                            @click="openModalImg"
+                        >
                             <img
-                                :src="'/img/jaketlab.png'"
+                                :src="'/storage/' + jacket.image"
                                 alt=""
-                                class="h-40 w-full"
+                                class="h-fit w-full"
                             />
+                            <!-- <img v-else src="" alt="" /> -->
                         </div>
                         <div class="mt-4">
                             <p class="font-semibold">
@@ -107,7 +111,7 @@
                             </p>
                         </div>
                         <div class="mt-1.5">
-                            <p class="font-extrabold">Rp.150.000</p>
+                            <p class="font-extrabold">Rp. {{ jacket.price }}</p>
                         </div>
                         <div class="mt-4 text-center">
                             <button
@@ -126,7 +130,7 @@
                                 </div>
                                 <div class="w-1/2">
                                     <p class="text-sm text-right">
-                                        Rp. 150.000
+                                        Rp.{{ jacket.price }}
                                     </p>
                                 </div>
                             </div>
@@ -134,10 +138,10 @@
                         <div class="mt-4">
                             <div class="flex">
                                 <div class="w-1/2">
-                                    <p class="text-sm">Tax</p>
+                                    <p class="text-sm">Tax (A/B/C) > 80</p>
                                 </div>
                                 <div class="w-1/2">
-                                    <p class="text-sm text-right">Rp. 200</p>
+                                    <p class="text-sm text-right">Rp. 35000</p>
                                 </div>
                             </div>
                         </div>
@@ -148,7 +152,7 @@
                                 </div>
                                 <div class="w-1/2">
                                     <p class="text-sm font-bold text-right">
-                                        Rp. 150.200
+                                        Rp. {{ jacket.price }}
                                     </p>
                                 </div>
                             </div>
@@ -244,6 +248,53 @@
                     </div>
                 </Dialog>
             </TransitionRoot>
+            <TransitionRoot appear :show="imgOpen" as="template">
+                <Dialog as="div" @close="closeModalImg" class="relative z-10">
+                    <TransitionChild
+                        as="template"
+                        enter="duration-300 ease-out"
+                        enter-from="opacity-0"
+                        enter-to="opacity-100"
+                        leave="duration-200 ease-in"
+                        leave-from="opacity-100"
+                        leave-to="opacity-0"
+                    >
+                        <div class="fixed inset-0 bg-black bg-opacity-25" />
+                    </TransitionChild>
+
+                    <div class="fixed inset-0 overflow-y-auto">
+                        <div
+                            class="flex min-h-full items-center justify-center p-4 text-center"
+                        >
+                            <TransitionChild
+                                as="template"
+                                enter="duration-300 ease-out"
+                                enter-from="opacity-0 scale-95"
+                                enter-to="opacity-100 scale-100"
+                                leave="duration-200 ease-in"
+                                leave-from="opacity-100 scale-100"
+                                leave-to="opacity-0 scale-95"
+                            >
+                                <DialogPanel
+                                    class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
+                                >
+                                    <DialogTitle
+                                        as="h3"
+                                        class="text-lg font-medium leading-6 text-gray-900"
+                                    >
+                                        Jacket Picture
+                                    </DialogTitle>
+                                    <img
+                                        :src="'/storage/' + jacket.image"
+                                        alt=""
+                                        class="h-full w-full mt-4"
+                                    />
+                                </DialogPanel>
+                            </TransitionChild>
+                        </div>
+                    </div>
+                </Dialog>
+            </TransitionRoot>
         </form>
     </main>
 </template>
@@ -259,11 +310,15 @@ import {
 
 const isOpen = ref(false);
 
+const imgOpen = ref(false);
+
 import UserLightLayout from "@/Layouts/UserLightLayout";
+import footerlanding from "@/partials/user/FooterTransaction";
 export default {
     setup() {
         return {
             isOpen,
+            imgOpen,
         };
     },
     components: {
@@ -274,6 +329,7 @@ export default {
         DialogPanel,
         DialogTitle,
         isOpen,
+        footerlanding,
     },
     props: {
         jacket: Object,
@@ -307,6 +363,12 @@ export default {
         openModal() {
             // console.log("haha");
             isOpen.value = true;
+        },
+        openModalImg() {
+            imgOpen.value = true;
+        },
+        closeModalImg() {
+            imgOpen.value = false;
         },
     },
 };

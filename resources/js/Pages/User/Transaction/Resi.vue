@@ -47,7 +47,16 @@
                                 <p class="text-sm">Size</p>
                             </div>
                             <div class="w-1/2">
-                                <p class="text-sm font-semibold text-right">
+                                <p
+                                    class="text-sm font-semibold text-right"
+                                    v-if="transactions.size_id == 0"
+                                >
+                                    Custom
+                                </p>
+                                <p
+                                    class="text-sm font-semibold text-right"
+                                    v-else
+                                >
                                     {{ sizes.name }}
                                 </p>
                             </div>
@@ -81,7 +90,7 @@
                             </div>
                             <div class="w-1/2">
                                 <p class="text-sm font-bold text-right">
-                                    Rp. 150.200
+                                    Rp. {{ transactions.price }}
                                 </p>
                             </div>
                         </div>
@@ -137,11 +146,12 @@
                             <p class="text-sm text-green-600 mt-4">
                                 Silahkan Print Resi
                             </p>
-                            <p
+                            <a
                                 class="text-sm text-sky-500 underline-offset-1 underline"
+                                :href="route('pdf')"
                             >
                                 Print Disini
-                            </p>
+                            </a>
                         </div>
                         <div
                             class="flex-grow border-t border-gray-300 mt-6"
@@ -207,8 +217,8 @@
                                 <div class="mt-2">
                                     <p class="text-sm text-gray-500">
                                         Your payment has been successfully
-                                        submitted. We’ve sent you an email with
-                                        all of the details of your order.
+                                        submitted. You can print the receipt
+                                        after you close this dialog.
                                     </p>
                                 </div>
 

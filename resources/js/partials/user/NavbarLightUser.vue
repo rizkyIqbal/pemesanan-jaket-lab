@@ -34,6 +34,12 @@
                     class="font-medium text-black hover:text-gray-300"
                     >{{ item.name }}</a
                 >
+                <a
+                    :href="route('user.logout')"
+                    class="font-medium text-primary hover:text-indigo-500"
+                    v-if="$page.props.user.username != null"
+                    >Log out
+                </a>
             </div>
         </nav>
     </div>
@@ -43,6 +49,6 @@
 const navigation = [
     { name: "Home", href: route("user.index") },
     { name: "Order", href: route("user.transaction.index") },
-    { name: "About Us", href: "#" },
+    { name: "About Us", href: route("user.about") },
 ];
 </script>

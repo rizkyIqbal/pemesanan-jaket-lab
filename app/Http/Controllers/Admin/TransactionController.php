@@ -124,7 +124,10 @@ class TransactionController extends Controller
     {
         $transaction = Transaction::where("id", $id)->first();
         $path = $transaction->proof;
-        Storage::disk("public")->delete($path);
+        if ($path) {
+
+            Storage::disk("public")->delete($path);
+        }
         $transaction->delete();
         return redirect()->route("admin.transaction.index")->with("success", "Data Transaksi Berhasil Dihapus");
     }

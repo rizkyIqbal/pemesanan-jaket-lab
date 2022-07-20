@@ -27,7 +27,7 @@ class UserController extends Controller
 
     public function login()
     {
-        if(session()->has("user_name")) {
+        if (session()->has("user_name")) {
             return redirect()->route("user.index");
         } else {
             return Inertia::render('User/LoginUser');
@@ -55,7 +55,8 @@ class UserController extends Controller
         }
     }
 
-    public function logout() {
+    public function logout()
+    {
         // if(session()->has("user_name")) {
         //     $response = Http::withToken(session("access_token"))->post('https://api.infotech.umm.ac.id/dotlab/api/v1/auth/logout');
 
@@ -66,15 +67,15 @@ class UserController extends Controller
         //         return redirect()->route("user.login");
         //     }
         // } else {
-            
+
         // }
         $response = Http::withToken(session("access_token"))->post('https://api.infotech.umm.ac.id/dotlab/api/v1/auth/logout');
 
-        if($response["message"] != "Unauthorized") {
+        if ($response["message"] != "Unauthorized") {
             session()->flush();
-            return redirect()->route("user.index");
-        } else {
             return redirect()->route("user.login");
+        } else {
+            return redirect()->route("user.index");
         }
     }
 
@@ -133,28 +134,46 @@ class UserController extends Controller
         //
     }
 
+    public function about()
+    {
+        return Inertia::render('User/About');
+    }
+
     public function testPdf()
     {
-        $transaction = Transaction::where("user_id", session("user_name"))->first();
-        $jacket = Jacket::where("id", $transaction["jacket_id"])->first();
-        $size = Size::where("id", $transaction["size_id"])->first();
-        $data = [
-            "user_name" => session("user_name"),
-            "full_name" => session("full_name"),
-            "transaction" => $transaction,
-            "jacket" => $jacket,
-            "size" => $size
-        ];
+        if (session()->has("user_name")) {
+            $transaction = Transaction::where("user_id", session("user_name"))->first();
+            if ($transaction->is_paid == 1) {
+                $jacket = Jacket::where("id", $transaction["jacket_id"])->first();
+                $size = Size::where("id", $transaction["size_id"])->first();
+                $name = substr(session("user_name"), 0, 4) . "-" . substr(session("user_name"), 12, 15) . ".pdf";
 
-        $name = substr(session("user_name"), 0, 4) . "-" . substr(session("user_name"), 12, 15) . ".pdf";
-        // $user_name = session("user_name");
-        // $full_name = session("full_name");
-        // $transaction = Transaction::where("user_id", $user_name)->first();
-        // $jacket = Jacket::where("id", $transaction["jacket_id"])->first();
-        // $size = Size::where("id", $transaction["size_id"])->first();
-        // $pdf = Pdf::loadView('pdf', $data);
-        // return $pdf->stream();
-        // return $pdf->download($name);
-        return view("pdf", $data);
+                $a = intval(substr($transaction->custom, 4, 2));
+                $b = intval(substr($transaction->custom, 14, 2));
+                $c = intval(substr($transaction->custom, 24, 2));
+
+                $data = [
+                    "user_name" => session("user_name"),
+                    "full_name" => session("full_name"),
+                    "transaction" => $transaction,
+                    "jacket" => $jacket,
+                    "size" => $size,
+                    "name" => $name,
+                    "custom" => [
+                        "a" => $a,
+                        "b" => $b,
+                        "c" => $c
+                    ],
+                ];
+
+                $pdf = Pdf::loadView('pdf', $data);
+                return $pdf->stream();
+                // return $pdf->download($name);
+            } else {
+                return redirect()->route("user.transaction.index");
+            }
+        } else {
+            return redirect()->route("user.login");
+        }
     }
 }
