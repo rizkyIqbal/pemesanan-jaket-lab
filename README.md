@@ -23,15 +23,19 @@ Below is commands of setting up this app after you pull/download.
    ```sh
    npm install
    
-2. Install the Public Disk
+2. Install Composer packages
+   ```sh
+   composer install
+   
+3. Install the Public Disk
    ```sh
    php artisan storage:link
    
-3. Run the Migration
+4. Run the Migration
    ```sh
    php artisan migrate
    
-4. Run the NPM
+5. Run the NPM
    ```sh
    npm run watch
    
