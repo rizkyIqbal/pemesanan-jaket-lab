@@ -23,19 +23,23 @@ Below is commands of setting up this app after you pull/download.
    ```sh
    npm install
    
-2. Install Composer packages
+3. Install Headless/vue packages
+   ```sh
+   npm install @headlessui/vue
+   
+4. Install Composer packages
    ```sh
    composer install
    
-3. Install the Public Disk
+5. Install the Public Disk
    ```sh
    php artisan storage:link
    
-4. Run the Migration
+6. Run the Migration
    ```sh
    php artisan migrate
    
-5. Run the NPM
+7. Run the NPM
    ```sh
    npm run watch
    
