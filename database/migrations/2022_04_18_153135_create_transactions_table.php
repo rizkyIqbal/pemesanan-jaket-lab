@@ -15,15 +15,15 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->string("user_id");
             $table->integer("jacket_id");
             $table->integer("size_id");
-            $table->string("custom")->nullable();
+            $table->string("user_id");
+            $table->string("phone_number");
             $table->integer("price");
-            $table->string("bank")->nullable();
-            $table->string("proof")->nullable();
-            $table->integer("status")->default("1");
-            $table->boolean("is_paid")->default("0");
+            $table->string("rekening");
+            $table->string("transfer_from");
+            $table->string("proof");
+            $table->integer("track");
             $table->timestamps();
         });
     }
