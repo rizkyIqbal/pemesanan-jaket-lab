@@ -87,6 +87,12 @@ class JacketController extends Controller
             }
             $path = Storage::disk("public")->putFile("jackets", $request->file("image"));
         }
+        if ($request->file("image_size_chart")) {
+            if ($path) {
+                Storage::disk("public")->delete($path);
+            }
+            $path = Storage::disk("public")->putFile("jackets", $request->file("image_size_chart"));
+        }
 
         $jacket->update([
             "name" => $request->name,
