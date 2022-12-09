@@ -39,15 +39,20 @@ class JacketController extends Controller
     public function store(CreateRequest $request)
     {
         $path = null;
+        $path2 = null;
         if ($request->file("image")) {
             $path = Storage::disk("public")->putFile("jackets", $request->file("image"));
         }
+        if($request->file("image_size_chart")) {
+            $path2 = Storage::disk("public")->putFile("jackets", $request->file("image_size_chart"));
+        }
 
         Jacket::create([
-            'name' => $request->name,
-            "image" => $path,
-            "color" => $request->color,
+            "name" => $request->name,
             "price" => $request->price,
+            "custom_price" => $request->custom_price,
+            "image" => $path,
+            "image_size_chart" => $path2,
         ]);
         return redirect()->route('admin.jacket.index')->with('success', 'Data Jaket Berhasil Ditambahkan !');
     }
@@ -75,6 +80,7 @@ class JacketController extends Controller
     {
         $jacket = Jacket::where("id", $id)->first();
         $path = $jacket->image;
+        $path2 = $jacket->image_size_chart;
         if ($request->file("image")) {
             if ($path) {
                 Storage::disk("public")->delete($path);
@@ -83,10 +89,11 @@ class JacketController extends Controller
         }
 
         $jacket->update([
-            'name' => $request->name,
-            "image" => $path,
-            "color" => $request->color,
+            "name" => $request->name,
             "price" => $request->price,
+            "custom_price" => $request->custom_price,
+            "image" => $path,
+            "image_size_chart" => $path2,
         ]);
         return redirect()->route('admin.jacket.index')->with('success', 'Data Jaket Berhasil Diubah !');
     }
@@ -101,8 +108,10 @@ class JacketController extends Controller
     {
         $jacket = Jacket::where("id", $id)->first();
         $path = $jacket->image;
-        if ($path) {
+        $path2 = $jacket->image_size_chart;
+        if ($path && $path2) {
             Storage::disk("public")->delete($path);
+            Storage::disk("public")->delete($path2);
         }
         $jacket->delete();
         return redirect()->route('admin.jacket.index')->with('success', 'Data Jaket Berhasil Dihapus !');
