@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer("price");
             $table->integer("custom_price");
             $table->string("image");
+            $table->string("image2");
             $table->string("image_size_chart");
             $table->timestamps();
         });
