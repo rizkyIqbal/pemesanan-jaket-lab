@@ -43,8 +43,11 @@ class JacketController extends Controller
         if ($request->file("image")) {
             $path = Storage::disk("public")->putFile("jackets", $request->file("image"));
         }
+        if ($request->file("image2")) {
+            $path2 = Storage::disk("public")->putFile("jackets", $request->file("image2"));
+        }
         if($request->file("image_size_chart")) {
-            $path2 = Storage::disk("public")->putFile("jackets", $request->file("image_size_chart"));
+            $path3 = Storage::disk("public")->putFile("jackets", $request->file("image_size_chart"));
         }
 
         Jacket::create([
@@ -52,7 +55,8 @@ class JacketController extends Controller
             "price" => $request->price,
             "custom_price" => $request->custom_price,
             "image" => $path,
-            "image_size_chart" => $path2,
+            "image2" => $path2,
+            "image_size_chart" => $path3,
         ]);
         return redirect()->route('admin.jacket.index')->with('success', 'Data Jaket Berhasil Ditambahkan !');
     }
@@ -80,18 +84,25 @@ class JacketController extends Controller
     {
         $jacket = Jacket::where("id", $id)->first();
         $path = $jacket->image;
-        $path2 = $jacket->image_size_chart;
+        $path2 = $jacket->image2;
+        $path3 = $jacket->image_size_chart;
         if ($request->file("image")) {
             if ($path) {
                 Storage::disk("public")->delete($path);
             }
             $path = Storage::disk("public")->putFile("jackets", $request->file("image"));
         }
-        if ($request->file("image_size_chart")) {
-            if ($path) {
-                Storage::disk("public")->delete($path);
+        if ($request->file("image2")) {
+            if ($path2) {
+                Storage::disk("public")->delete($path2);
             }
-            $path = Storage::disk("public")->putFile("jackets", $request->file("image_size_chart"));
+            $path2 = Storage::disk("public")->putFile("jackets", $request->file("image2"));
+        }
+        if ($request->file("image_size_chart")) {
+            if ($path3) {
+                Storage::disk("public")->delete($path3);
+            }
+            $path3 = Storage::disk("public")->putFile("jackets", $request->file("image_size_chart"));
         }
 
         $jacket->update([
@@ -99,7 +110,8 @@ class JacketController extends Controller
             "price" => $request->price,
             "custom_price" => $request->custom_price,
             "image" => $path,
-            "image_size_chart" => $path2,
+            "image2" => $path2,
+            "image_size_chart" => $path3,
         ]);
         return redirect()->route('admin.jacket.index')->with('success', 'Data Jaket Berhasil Diubah !');
     }
@@ -114,10 +126,12 @@ class JacketController extends Controller
     {
         $jacket = Jacket::where("id", $id)->first();
         $path = $jacket->image;
-        $path2 = $jacket->image_size_chart;
-        if ($path && $path2) {
+        $path2 = $jacket->image2;
+        $path3 = $jacket->image_size_chart;
+        if ($path && $path2 && $path3) {
             Storage::disk("public")->delete($path);
             Storage::disk("public")->delete($path2);
+            Storage::disk("public")->delete($path3);
         }
         $jacket->delete();
         return redirect()->route('admin.jacket.index')->with('success', 'Data Jaket Berhasil Dihapus !');
