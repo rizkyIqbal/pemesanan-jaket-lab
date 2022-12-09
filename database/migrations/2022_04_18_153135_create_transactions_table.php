@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string("user_id");
             $table->string("phone_number");
             $table->integer("price");
-            $table->string("rekening");
+            $table->string("bank");
             $table->string("transfer_from");
             $table->string("proof");
             $table->integer("track");
