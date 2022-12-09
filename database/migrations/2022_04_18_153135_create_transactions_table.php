@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer("jacket_id");
             $table->integer("size_id");
+            $table->string("custom")->nullable();
             $table->string("user_id");
             $table->string("phone_number");
             $table->integer("price");
