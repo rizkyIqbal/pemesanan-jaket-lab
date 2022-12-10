@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\JacketController;
+use App\Http\Controllers\admin\BankController;
 use App\Http\Controllers\admin\TransactionController;
 use App\Http\Controllers\admin\SizeController;
 use App\Http\Controllers\User\TransactionController as UserTransaction;
@@ -77,13 +78,13 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'admin'], function (
         Route::put("/transaksi/edit/{id}", "update")->name("admin.transaction.update");
     });
 
-    Route::controller(SizeController::class)->group(function () {
-        Route::get("/ukuran", "index")->name("admin.size.index");
-        Route::get("/ukuran/tambah", "create")->name("admin.size.create");
-        Route::post("/ukuran/tambah", "store")->name("admin.size.store");
-        Route::delete("/ukuran/hapus/{id}", "destroy")->name("admin.size.destroy");
-        Route::get("/ukuran/edit/{id}", "edit")->name("admin.size.edit");
-        Route::put("/ukuran/edit/{id}", "update")->name("admin.size.update");
+    Route::controller(BankController::class)->group(function () {
+        Route::get("/rekening", "index")->name("admin.bank.index");
+        Route::get("/rekening/tambah", "create")->name("admin.bank.create");
+        Route::post("/rekening/tambah", "store")->name("admin.bank.store");
+        Route::delete("/rekening/hapus/{id}", "destroy")->name("admin.bank.destroy");
+        Route::get("/rekening/edit/{id}", "edit")->name("admin.bank.edit");
+        Route::put("/rekening/edit/{id}", "update")->name("admin.bank.update");
     });
 
     // Route::get("/logout", [AdminController::class, 'perform'])->name("admin.logout");
