@@ -31,8 +31,10 @@ class CreateRequest extends FormRequest
             // // "price" => "required|integer"
             'name' => 'required',
             "image" => "required|mimes:jpeg,png,jpg",
-            "color" => "required",
-            "price" => "required"
+            "image2" => "required|mimes:jpeg,png,jpg",
+            "image_size_chart" => "required|mimes:jpeg,png,jpg",
+            "price" => "required",
+            "custom_price" => "required"
         ];
     }
 }

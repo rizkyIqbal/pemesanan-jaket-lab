@@ -38,17 +38,20 @@ class JacketController extends Controller
      */
     public function store(CreateRequest $request)
     {
+
         $path = null;
         $path2 = null;
+        $path3 = null;
         if ($request->file("image")) {
             $path = Storage::disk("public")->putFile("jackets", $request->file("image"));
         }
         if ($request->file("image2")) {
             $path2 = Storage::disk("public")->putFile("jackets", $request->file("image2"));
         }
-        if($request->file("image_size_chart")) {
+        if ($request->file("image_size_chart")) {
             $path3 = Storage::disk("public")->putFile("jackets", $request->file("image_size_chart"));
         }
+
 
         Jacket::create([
             "name" => $request->name,

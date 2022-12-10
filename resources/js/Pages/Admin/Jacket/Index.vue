@@ -38,11 +38,6 @@
                                 <th
                                     class="px-3 py-3 text-left text-sm font-semibold text-gray-900"
                                 >
-                                    Color
-                                </th>
-                                <th
-                                    class="px-3 py-3 text-left text-sm font-semibold text-gray-900"
-                                >
                                     Price
                                 </th>
                                 <th
@@ -67,11 +62,7 @@
                                 >
                                     {{ jacket.image }}
                                 </td>
-                                <td
-                                    class="whitespace-nowrap py-2 px-3 text-sm font-medium text-gray-900"
-                                >
-                                    {{ jacket.color }}
-                                </td>
+                                
                                 <td
                                     class="whitespace-nowrap py-2 px-3 text-sm font-medium text-gray-900"
                                 >

@@ -15,20 +15,23 @@
                 </div>
                 <div class="mb-4">
                     <label for="title" class="leading-7 text-sm text-gray-900"
-                        >Foto Jaket</label
+                        >Foto Size Chart</label
                     >
-                    <input type="file" @change="upload" />
+                    <input type="file" @change="uploadSizeChart" />
+                </div> 
+                <div class="mb-4">
+                    <label for="title" class="leading-7 text-sm text-gray-900"
+                        >Foto Jaket Depan</label
+                    >
+                    <input type="file" @change="uploadJacketFront" />
                 </div>
                 <div class="mb-4">
                     <label for="title" class="leading-7 text-sm text-gray-900"
-                        >Warna Jaket</label
+                        >Foto Jaket Belakang</label
                     >
-                    <input
-                        type="text"
-                        class="w-full bg-opacity-40 rounded-lg border border-gray-400 focus:border-primary-100 focus:ring-1 focus:ring-primary-100 text-base outline-none text-gray-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                        v-model="form.color"
-                    />
+                    <input type="file" @change="uploadJacketBack" />
                 </div>
+               
                 <div class="mb-4">
                     <label for="title" class="leading-7 text-sm text-gray-900"
                         >Harga Jaket</label
@@ -37,6 +40,16 @@
                         type="text"
                         class="w-full bg-opacity-40 rounded-lg border border-gray-400 focus:border-primary-100 focus:ring-1 focus:ring-primary-100 text-base outline-none text-gray-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                         v-model="form.price"
+                    />
+                </div>
+                <div class="mb-4">
+                    <label for="title" class="leading-7 text-sm text-gray-900"
+                        >Harga Jaket Tambahan</label
+                    >
+                    <input
+                        type="text"
+                        class="w-full bg-opacity-40 rounded-lg border border-gray-400 focus:border-primary-100 focus:ring-1 focus:ring-primary-100 text-base outline-none text-gray-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                        v-model="form.custom_price"
                     />
                 </div>
                 <button
@@ -63,8 +76,10 @@ export default {
             form: {
                 name: this.jacket.name,
                 image: "",
-                color: this.jacket.color,
+                image2: "",
+                image_size_chart: "",
                 price: this.jacket.price,
+                custom_price: this.jacket.custom_price,
                 _method: "put",
             },
         };
@@ -76,8 +91,14 @@ export default {
                 this.form
             );
         },
-        upload(e) {
+        uploadSizeChart(e) {
             this.form.image = e.target.files[0];
+        },
+        uploadJacketFront(e) {
+            this.form.image2 = e.target.files[0];
+        },
+        uploadJacketBack(e) {
+            this.form.image_size_chart = e.target.files[0];
         },
     },
 };
