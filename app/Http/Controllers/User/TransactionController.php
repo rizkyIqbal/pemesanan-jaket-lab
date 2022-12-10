@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Transaction\CreateRequest;
+use App\Models\Bank;
 use App\Models\Jacket;
 use App\Models\Transaction;
 use App\Models\Size;
@@ -52,7 +53,7 @@ class TransactionController extends Controller
 
     public function store(CreateRequest $request)
     {
-        // dd($request->all());
+
         if (session()->has("user_name")) {
             $nim = intval(substr(session("user_name"), 0, 4));
             if ($nim % 2 == 0) {
@@ -66,13 +67,13 @@ class TransactionController extends Controller
                 $custom = "A : $request->a cm B : $request->b cm C : $request->c cm";
                 $size = 0;
                 if ($request->a > 80 || $request->b > 80 || $request->c > 80) {
-                    $price += 35000;
+                    $price += 10000;
                 }
             } else {
                 $custom = null;
                 $size = $request->size;
             }
-
+            // dd($request->all());
 
             Transaction::create([
                 "user_id" => session("user_name"),
@@ -80,7 +81,13 @@ class TransactionController extends Controller
                 "size_id" => $size,
                 "custom" => $custom,
                 "price" => $price,
+                "bank" => null,
+                "transfer_from" => null,
+                "proof" => null,
+                "track" => null,
+                "phone_number" => $request->phone,
             ]);
+
             return redirect()->route("user.transaction.payment")->with("success", "Data Transaksi Berhasil Ditambahkan !");
         } else {
             return redirect()->route("user.login");
@@ -105,7 +112,11 @@ class TransactionController extends Controller
                 } else {
                     $size = Size::where("id", $transaction["size_id"])->first();
                 }
-                return Inertia::render("User/Transaction/Payment", ['jackets' => $jacket, 'sizes' => $size, 'user_logins' => $user_login, "transactions" => $transaction]);
+
+                $nim = intval(substr(session("user_name"), 0, 4));
+                $bank = Bank::where("generation", $nim)->get();
+
+                return Inertia::render("User/Transaction/Payment", ['jackets' => $jacket, 'sizes' => $size, 'user_logins' => $user_login, "transactions" => $transaction, "banks" => $bank]);
             } else if ($transaction->status == 2 || $transaction->status == 3) {
                 return redirect()->route("user.transaction.receipt");
             }
@@ -155,7 +166,10 @@ class TransactionController extends Controller
                 } else {
                     $size = Size::where("id", $transaction["size_id"])->first();
                 }
-                return Inertia::render("User/Transaction/Resi", ['jackets' => $jacket, 'sizes' => $size, 'user_logins' => $user_login, "transactions" => $transaction]);
+
+                $bank = Bank::where("id",  $transaction["bank"])->first();
+
+                return Inertia::render("User/Transaction/Resi", ['jackets' => $jacket, 'sizes' => $size, 'user_logins' => $user_login, "transactions" => $transaction, "banks" => $bank]);
             }
         } else {
             return redirect()->route("user.login");

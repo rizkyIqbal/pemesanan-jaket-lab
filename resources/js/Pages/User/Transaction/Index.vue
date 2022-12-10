@@ -49,6 +49,18 @@
                             <label
                                 for="title"
                                 class="leading-7 text-sm text-gray-900"
+                                >No. Telp Aktif</label
+                            >
+                            <input
+                                type="text"
+                                class="w-full bg-opacity-40 rounded-lg border border-gray-400 focus:border-primary-100 focus:ring-1 focus:ring-primary-100 text-base outline-none text-gray-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                                v-model="form.phone"
+                            />
+                        </div>
+                        <div class="mt-6">
+                            <label
+                                for="title"
+                                class="leading-7 text-sm text-gray-900"
                                 >Size</label
                             >
                             <select
@@ -66,8 +78,7 @@
                                     :key="size.id"
                                     :value="size.id"
                                 >
-                                    ({{ size.name }}) A : {{ size.a }} B:
-                                    {{ size.b }} C:{{ size.c }}
+                                    {{ size.name }}
                                 </option>
                             </select>
                         </div>
@@ -138,10 +149,10 @@
                         <div class="mt-4">
                             <div class="flex">
                                 <div class="w-1/2">
-                                    <p class="text-sm">Tax (A/B/C) > 80</p>
+                                    <p class="text-sm">Tax (A/B/C) > 3XL</p>
                                 </div>
                                 <div class="w-1/2">
-                                    <p class="text-sm text-right">Rp. 35000</p>
+                                    <p class="text-sm text-right">Rp. 10000</p>
                                 </div>
                             </div>
                         </div>
@@ -341,6 +352,7 @@ export default {
             form: {
                 name: this.user_login.full_name,
                 nim: this.user_login.user_name,
+                phone: "",
                 size: "",
                 a: "",
                 b: "",

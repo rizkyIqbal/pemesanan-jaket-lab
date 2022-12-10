@@ -21,10 +21,11 @@ return new class extends Migration
             $table->string("user_id");
             $table->string("phone_number");
             $table->integer("price");
-            $table->string("bank");
-            $table->string("transfer_from");
-            $table->string("proof");
-            $table->integer("track");
+            $table->integer("bank_id")->nullable();
+            $table->string("transfer_from")->nullable();
+            $table->string("proof")->nullable();
+            $table->integer("track")->nullable();
+            $table->integer("status");
             $table->timestamps();
         });
     }

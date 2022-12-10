@@ -130,7 +130,7 @@
                     class="flex w-full justify-between text-gray-600 hover:text-gray-500 cursor-pointer items-center mb-6"
                 >
                     <Link
-                        :href="route('admin.size.index')"
+                        :href="route('admin.bank.index')"
                         class="nav-link px-sm-0 px-2"
                     >
                         <div class="flex items-center">
@@ -152,7 +152,7 @@
                                 ></polyline>
                                 <circle cx="12" cy="12" r="9"></circle>
                             </svg>
-                            <span class="text-sm ml-2">Sizes</span>
+                            <span class="text-sm ml-2">Banks</span>
                         </div>
                     </Link>
                 </li>

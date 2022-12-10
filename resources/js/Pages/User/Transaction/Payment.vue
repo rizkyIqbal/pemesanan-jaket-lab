@@ -44,6 +44,18 @@
                     <div class="mt-4">
                         <div class="flex">
                             <div class="w-1/2">
+                                <p class="text-sm">No.Telp</p>
+                            </div>
+                            <div class="w-1/2">
+                                <p class="text-sm font-semibold text-right">
+                                    {{ transactions.phone_number }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex">
+                            <div class="w-1/2">
                                 <p class="text-sm">Size</p>
                             </div>
                             <div class="w-1/2">
@@ -101,9 +113,12 @@
                 <form @submit.prevent="insert" class="space-y-6">
                     <div class="py-12 pl-8 pr-40">
                         <p class="font-bold">Choose Payment</p>
-                        <div class="mt-4">
+                        <div class="mt-4"
+                                    v-for="bank in banks"
+                                    :key="bank.id">
                             <div
                                 class="bg-white border-2 border-gray-700 rounded w-full py-3 pl-4"
+                                
                             >
                                 <input
                                     class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-400 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
@@ -111,40 +126,10 @@
                                     name="flexRadioDefault"
                                     id="flexRadioDefault1"
                                     v-model="form.bank"
-                                    value="BCA"
+                                    :value="bank.bank"
                                 />
 
-                                <p class="ml-2">Bank Central Asia</p>
-                            </div>
-                        </div>
-                        <div class="mt-4">
-                            <div
-                                class="bg-white border-2 border-gray-700 rounded w-full py-3 pl-4"
-                            >
-                                <input
-                                    class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-400 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-                                    type="radio"
-                                    name="flexRadioDefault"
-                                    id="flexRadioDefault2"
-                                    v-model="form.bank"
-                                    value="BRI"
-                                />
-                                <p class="ml-2">Bank Rakyat Indonesia</p>
-                            </div>
-                        </div>
-                        <div class="mt-4">
-                            <div
-                                class="bg-white border-2 border-gray-700 rounded w-full py-3 pl-4"
-                            >
-                                <input
-                                    class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-400 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-                                    type="radio"
-                                    name="flexRadioDefault"
-                                    id="flexRadioDefault3"
-                                    v-model="form.bank"
-                                    value="Mandiri"
-                                />
-                                <p class="ml-2">Bank Mandiri</p>
+                                <p class="ml-2">{{bank.bank}}</p>
                             </div>
                         </div>
                         <div
@@ -185,6 +170,7 @@ export default {
     props: {
         jacket: Object,
         sizes: Object,
+        banks: Object,
         user_logins: Object,
         transactions: Object,
     },

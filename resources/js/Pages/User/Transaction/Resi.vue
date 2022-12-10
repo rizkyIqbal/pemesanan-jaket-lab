@@ -108,7 +108,7 @@
                                 </div>
                                 <div class="w-1/2">
                                     <p class="text-sm font-semibold text-right">
-                                        {{ transactions.bank }}
+                                        {{ banks.bank }}
                                     </p>
                                 </div>
                             </div>
@@ -116,11 +116,23 @@
                         <div class="mt-2">
                             <div class="flex">
                                 <div class="w-1/2">
-                                    <p class="text-sm">CC Number</p>
+                                    <p class="text-sm">No Rekening</p>
                                 </div>
                                 <div class="w-1/2">
                                     <p class="text-sm font-semibold text-right">
-                                        32323444348
+                                        {{ banks.account_number }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <div class="flex">
+                                <div class="w-1/2">
+                                    <p class="text-sm">Atas Nama</p>
+                                </div>
+                                <div class="w-1/2">
+                                    <p class="text-sm font-semibold text-right">
+                                        {{ banks.name }}
                                     </p>
                                 </div>
                             </div>
@@ -270,6 +282,7 @@ export default {
     props: {
         jacket: Object,
         sizes: Object,
+        banks: Object,
         user_logins: Object,
         transactions: Object,
     },
