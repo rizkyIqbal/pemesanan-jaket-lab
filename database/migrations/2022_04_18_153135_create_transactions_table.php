@@ -24,8 +24,8 @@ return new class extends Migration
             $table->integer("bank_id")->nullable();
             $table->string("transfer_from")->nullable();
             $table->string("proof")->nullable();
-            $table->integer("track")->nullable();
-            $table->integer("status");
+            $table->integer("track")->default("1");
+            $table->integer("status")->default("1");
             $table->timestamps();
         });
     }
