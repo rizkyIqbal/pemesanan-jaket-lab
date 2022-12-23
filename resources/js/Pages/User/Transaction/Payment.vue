@@ -126,7 +126,7 @@
                                     name="flexRadioDefault"
                                     id="flexRadioDefault1"
                                     v-model="form.bank"
-                                    :value="bank.bank"
+                                    :value="bank.id"
                                 />
 
                                 <p class="ml-2">{{bank.bank}}</p>

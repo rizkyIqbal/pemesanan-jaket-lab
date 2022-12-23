@@ -137,9 +137,21 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="mt-8">
+                        <div class="mt-8" v-if="transactions.track == 0">
                             <div class="flex">
                                 <p class="text-md">Upload Proof</p>
+                            </div>
+                            <div class="mb-4">
+                                <div class="w-full">
+                                    <label for="title" class="leading-7 text-sm text-gray-900"
+                                    >Atas Nama Pengirim</label
+                                >
+                                </div>
+                                <input
+                                    type="text"
+                                    class="w-48 bg-opacity-40 rounded-lg border border-gray-400 focus:border-primary-100 focus:ring-1 focus:ring-primary-100 text-base outline-none text-gray-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                                    v-model="form.sender"
+                                />
                             </div>
                             <div class="mt-2">
                                 <input type="file" @change="upload" />
@@ -149,19 +161,19 @@
                             class="text-sm text-red-700 mt-4"
                             v-if="
                                 transactions.status == 3 &&
-                                transactions.is_paid == 0
+                                transactions.track == 1
                             "
                         >
                             Data Anda Sedang Ditinjau
                         </p>
-                        <div class="cont" v-if="transactions.is_paid == 1">
+                        <div class="cont" v-if="transactions.track == 2">
                             <p class="text-sm text-green-600 mt-4">
                                 Silahkan Print Resi
                             </p>
                             <a
                                 class="text-sm text-sky-500 underline-offset-1 underline"
                                 :href="route('pdf')"
-                            >
+                            >   
                                 Print Disini
                             </a>
                         </div>
@@ -323,7 +335,7 @@ export default {
         transactions: {
             immediate: true,
             handler(val) {
-                if (val.is_paid == 1) {
+                if (val.track == 1) {
                     isOpen.value = true;
                 }
             },

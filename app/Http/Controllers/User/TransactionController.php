@@ -81,10 +81,10 @@ class TransactionController extends Controller
                 "size_id" => $size,
                 "custom" => $custom,
                 "price" => $price,
-                "bank" => null,
+                "bank_id" => null,
                 "transfer_from" => null,
                 "proof" => null,
-                "track" => null,
+                "track" => 0,
                 "phone_number" => $request->phone,
             ]);
 
@@ -129,15 +129,15 @@ class TransactionController extends Controller
     {
         if (session()->has("user_name")) {
             // dd($request->bank);
-            if ($request->bank == "BCA") {
-                $bank = "Bank Central Asia";
-            } else if ($request->bank == "BRI") {
-                $bank = "Bank Rakyat Indonesia";
-            } else if ($request->bank == "Mandiri") {
-                $bank = "Bank Mandiri";
-            }
+            // if ($request->bank == "BCA") {
+            //     $bank = "Bank Central Asia";
+            // } else if ($request->bank == "BRI") {
+            //     $bank = "Bank Rakyat Indonesia";
+            // } else if ($request->bank == "Mandiri") {
+            //     $bank = "Bank Mandiri";
+            // }
             Transaction::where("user_id", session("user_name"))->update([
-                "bank" => $bank,
+                "bank_id" => $request->bank,
                 "status" => 2,
             ]);
             return redirect()->route("user.transaction.receipt")->with("success", "Data Transaksi Berhasil Diubah !");
@@ -167,7 +167,7 @@ class TransactionController extends Controller
                     $size = Size::where("id", $transaction["size_id"])->first();
                 }
 
-                $bank = Bank::where("id",  $transaction["bank"])->first();
+                $bank = Bank::where("id",  $transaction["bank_id"])->first();
 
                 return Inertia::render("User/Transaction/Resi", ['jackets' => $jacket, 'sizes' => $size, 'user_logins' => $user_login, "transactions" => $transaction, "banks" => $bank]);
             }
@@ -185,6 +185,7 @@ class TransactionController extends Controller
      */
     public function store_receipt(Request $request)
     {
+        dd("tes");
         if (session()->has("user_name")) {
             $path = null;
             if ($request->file("image")) {
@@ -193,6 +194,8 @@ class TransactionController extends Controller
             Transaction::where("user_id", session("user_name"))->update([
                 "proof" => $path,
                 "status" => 3,
+                "transfer_from" => $request->sender,
+                "track" => 1
             ]);
             return redirect()->route("user.transaction.receipt")->with("success", "Data Transaksi Berhasil Diubah !");
         } else {
