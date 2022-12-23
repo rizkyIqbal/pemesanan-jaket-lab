@@ -25,9 +25,9 @@ class DatabaseSeeder extends Seeder
 
         $tracks = [
             "Pemesanan Sudah Masuk",
-            "Pemesanan Sudah Masuk",
+            "Bukti Pembayaran Sudah Masuk Ke Sistem",
             "Pembayaran Dikonfirmasi",
-            "Proses diPenjahit",
+            "Proses Di Penjahit",
             "Pesanan Jadi",
             "Proses pengecekan",
             "Siap diambil"
