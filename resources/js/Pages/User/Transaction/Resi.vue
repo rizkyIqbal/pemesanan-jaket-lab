@@ -165,7 +165,7 @@
                             "
                         >
                             Bukti Pembayaran Sudah Masuk ke Sistem
-                        </p> 
+                        </p>
                         <p
                             class="text-sm text-red-700 mt-4"
                             v-else-if="
@@ -174,7 +174,7 @@
                             "
                         >
                             Pembayaran Dikonfirmasi
-                        </p> 
+                        </p>
                         <p
                             class="text-sm text-red-700 mt-4"
                             v-else-if="
@@ -183,7 +183,7 @@
                             "
                         >
                             Proses di Penjahit
-                        </p> 
+                        </p>
                         <p
                             class="text-sm text-red-700 mt-4"
                             v-else-if="
@@ -192,7 +192,7 @@
                             "
                         >
                             Pesanan Jadi
-                        </p> 
+                        </p>
                         <p
                             class="text-sm text-red-700 mt-4"
                             v-else-if="
@@ -201,7 +201,7 @@
                             "
                         >
                             Proses Pengecekan
-                        </p> 
+                        </p>
                         <div class="cont" v-if="transactions.track_id == 8">
                             <p class="text-sm text-green-600 mt-4">
                                 Pesanan Siap Diambil
@@ -211,7 +211,7 @@
                             <a
                                 class="text-sm text-sky-500 underline-offset-1 underline"
                                 :href="route('pdf')"
-                            >   
+                            >
                                 Print Disini
                             </a>
                         </div>
@@ -352,6 +352,7 @@ export default {
         return {
             form: {
                 image: "",
+                id: this.transactions.id,
                 _method: "put",
             },
         };
@@ -382,7 +383,7 @@ export default {
         },
         newOrder(){
             this.$inertia.put(this.route("user.transaction.create_new_order"))
-            
+
         }
     },
     watch: {

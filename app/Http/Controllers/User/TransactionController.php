@@ -27,7 +27,7 @@ class TransactionController extends Controller
     public function index()
     {
         if (session()->has("user_name")) {
-            $transaction = Transaction::where("user_id", session("user_name"))->first();
+            $transaction = Transaction::where("user_id", session("user_name"))->latest()->first();
             if ($transaction == null || $transaction->status == 4) {
                 $nim = intval(substr(session("user_name"), 0, 4));
                 if ($nim % 2 == 0) {
@@ -97,7 +97,8 @@ class TransactionController extends Controller
     public function payment()
     {
         if (session()->has("user_name")) {
-            $transaction = Transaction::where("user_id", session("user_name"))->first();
+            $transaction = Transaction::where("user_id", session("user_name"))->latest()->first();
+            // dd($transaction);
             if ($transaction == null || $transaction->status == 4) {
                 return redirect()->route("user.transaction.index");
             } else if ($transaction->status == 1) {
@@ -105,7 +106,7 @@ class TransactionController extends Controller
                     "user_name" => session("user_name"),
                     "full_name" => session("full_name")
                 ];
-                $transaction = Transaction::where("user_id", $user_login["user_name"])->first();
+                $transaction = Transaction::where("user_id", session("user_name"))->latest()->first();
                 $jacket = Jacket::where("id", $transaction["jacket_id"])->first();
                 if ($transaction->custom != null) {
                     $size = $transaction->custom;
@@ -128,6 +129,7 @@ class TransactionController extends Controller
     public function store_payment(Request $request)
     {
         if (session()->has("user_name")) {
+            // dd($request->id);
             // dd($request->bank);
             // if ($request->bank == "BCA") {
             //     $bank = "Bank Central Asia";
@@ -136,7 +138,7 @@ class TransactionController extends Controller
             // } else if ($request->bank == "Mandiri") {
             //     $bank = "Bank Mandiri";
             // }
-            Transaction::where("user_id", session("user_name"))->update([
+            Transaction::where([["user_id", session("user_name")], ["id", $request->id]])->update([
                 "bank_id" => $request->bank,
                 "status" => 2,
             ]);
@@ -149,7 +151,7 @@ class TransactionController extends Controller
     public function receipt()
     {
         if (session()->has("user_name")) {
-            $transaction = Transaction::where("user_id", session("user_name"))->first();
+            $transaction = Transaction::where("user_id", session("user_name"))->latest()->first();
             if ($transaction == null || $transaction->status == 4) {
                 return redirect()->route("user.transaction.index");
             } else if ($transaction->status == 1) {
@@ -159,7 +161,7 @@ class TransactionController extends Controller
                     "user_name" => session("user_name"),
                     "full_name" => session("full_name")
                 ];
-                $transaction = Transaction::where("user_id", $user_login["user_name"])->first();
+                $transaction = Transaction::where("user_id", session("user_name"))->latest()->first();
                 $jacket = Jacket::where("id", $transaction["jacket_id"])->first();
                 if ($transaction->custom != null) {
                     $size = $transaction->custom;
@@ -190,7 +192,7 @@ class TransactionController extends Controller
             if ($request->file("image")) {
                 $path = Storage::disk("public")->putFile("proof", $request->file("image"));
             }
-            Transaction::where("user_id", session("user_name"))->update([
+            Transaction::where([["user_id", session("user_name")], ["id", $request->id]])->update([
                 "proof" => $path,
                 "status" => 3,
                 "transfer_from" => $request->sender,
@@ -216,7 +218,7 @@ class TransactionController extends Controller
 
     public function destroy()
     {
-        $transaction = Transaction::where("user_id", session("user_name"))->first();
+        $transaction = Transaction::where("user_id", session("user_name"))->latest()->first();
         $transaction->delete();
         return redirect()->route("user.transaction.index");
     }
