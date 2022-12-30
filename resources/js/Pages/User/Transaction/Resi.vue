@@ -137,7 +137,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="mt-8" v-if="transactions.track == 0">
+                        <div class="mt-8" v-if="transactions.track_id == 1">
                             <div class="flex">
                                 <p class="text-md">Upload Proof</p>
                             </div>
@@ -161,13 +161,51 @@
                             class="text-sm text-red-700 mt-4"
                             v-if="
                                 transactions.status == 3 &&
-                                transactions.track == 1
+                                transactions.track_id == 3
                             "
                         >
-                            Data Anda Sedang Ditinjau
-                        </p>
-                        <div class="cont" v-if="transactions.track == 2">
+                            Bukti Pembayaran Sudah Masuk ke Sistem
+                        </p> 
+                        <p
+                            class="text-sm text-red-700 mt-4"
+                            v-else-if="
+                                transactions.status == 3 &&
+                                transactions.track_id == 4
+                            "
+                        >
+                            Pembayaran Dikonfirmasi
+                        </p> 
+                        <p
+                            class="text-sm text-red-700 mt-4"
+                            v-else-if="
+                                transactions.status == 3 &&
+                                transactions.track_id == 5
+                            "
+                        >
+                            Proses di Penjahit
+                        </p> 
+                        <p
+                            class="text-sm text-red-700 mt-4"
+                            v-else-if="
+                                transactions.status == 3 &&
+                                transactions.track_id == 6
+                            "
+                        >
+                            Pesanan Jadi
+                        </p> 
+                        <p
+                            class="text-sm text-red-700 mt-4"
+                            v-else-if="
+                                transactions.status == 3 &&
+                                transactions.track_id == 7
+                            "
+                        >
+                            Proses Pengecekan
+                        </p> 
+                        <div class="cont" v-if="transactions.track_id == 8">
                             <p class="text-sm text-green-600 mt-4">
+                                Pesanan Siap Diambil
+                            </p><p class="text-sm text-green-600 mt-4">
                                 Silahkan Print Resi
                             </p>
                             <a
@@ -183,6 +221,7 @@
                         <div class="relative">
                             <div
                                 class="flex absolute lg:inset-y-0 lg:right-0 mt-6 lg:h-12"
+                                v-if ="transactions.track_id == 1"
                             >
                                 <a
                                     class="text-sm mr-5 lg:mt-4"
@@ -195,6 +234,18 @@
                                     type="submit"
                                 >
                                     Complete Order
+                                </button>
+                            </div><div
+                                class="flex absolute lg:inset-y-0 lg:right-0 mt-6 lg:h-12"
+                                v-else-if ="transactions.track_id == 8"
+                            >
+                                <button
+                                    class="flex items-center py-4 px-4 text-sm text-white bg-theme-primary rounded text-center"
+                                    @click.prevent="
+                                            newOrder()
+                                        "
+                                >
+                                    Create New Order
                                 </button>
                             </div>
                         </div>
@@ -240,9 +291,8 @@
                                 </DialogTitle>
                                 <div class="mt-2">
                                     <p class="text-sm text-gray-500">
-                                        Your payment has been successfully
-                                        submitted. You can print the receipt
-                                        after you close this dialog.
+                                       Pesanan anda sudah siap diambil! Silahkan print resi
+                                       dan tunjukkan resi ke resepsionis Lab Informatika
                                     </p>
                                 </div>
 
@@ -330,12 +380,16 @@ export default {
         closeModal() {
             isOpen.value = false;
         },
+        newOrder(){
+            this.$inertia.put(this.route("user.transaction.create_new_order"))
+            
+        }
     },
     watch: {
         transactions: {
             immediate: true,
             handler(val) {
-                if (val.track == 1) {
+                if (val.track_id == 8) {
                     isOpen.value = true;
                 }
             },

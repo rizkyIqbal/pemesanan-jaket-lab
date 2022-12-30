@@ -10,4 +10,9 @@ class Transaction extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function track()
+    {
+        return $this->belongsTo(Track::class, "track_id", "id");
+    }
 }

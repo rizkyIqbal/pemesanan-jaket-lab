@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\JacketController;
 use App\Http\Controllers\admin\BankController;
 use App\Http\Controllers\admin\TransactionController;
-use App\Http\Controllers\admin\SizeController;
+use App\Http\Controllers\admin\JacketCheckController;
 use App\Http\Controllers\User\TransactionController as UserTransaction;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
@@ -48,6 +48,7 @@ Route::controller(UserTransaction::class)->group(function () {
     Route::post("/transaksi/pembayaran", "store_payment")->name("user.transaction.store_payment");
     Route::get("/transaksi/resi", "receipt")->name("user.transaction.receipt");
     Route::put("/transaksi/resi", "store_receipt")->name("user.transaction.store_receipt");
+    Route::put("/transaksi/resi/new-order", "create_new_order")->name("user.transaction.create_new_order");
     Route::get('/transaksi/hapus', "destroy")->name('user.transaction.destroy');
 });
 
@@ -85,6 +86,15 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'admin'], function (
         Route::delete("/rekening/hapus/{id}", "destroy")->name("admin.bank.destroy");
         Route::get("/rekening/edit/{id}", "edit")->name("admin.bank.edit");
         Route::put("/rekening/edit/{id}", "update")->name("admin.bank.update");
+    });
+
+    Route::controller(JacketCheckController::class)->group(function () {
+        Route::get("/filtercek", "index")->name("admin.check.index");
+        Route::get("/filtercek/tambah", "create")->name("admin.check.create");
+        Route::put("/filtercek/tambah/{id}/{index}", "update")->name("admin.check.update");
+        // Route::delete("/filtercek/hapus/{id}", "destroy")->name("admin.check.destroy");
+        // Route::get("/filtercek/edit/{id}", "edit")->name("admin.check.edit");
+        // Route::put("/filtercek/edit/{id}", "update")->name("admin.check.update");
     });
 
     // Route::get("/logout", [AdminController::class, 'perform'])->name("admin.logout");

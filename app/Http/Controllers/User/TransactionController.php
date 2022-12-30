@@ -28,7 +28,7 @@ class TransactionController extends Controller
     {
         if (session()->has("user_name")) {
             $transaction = Transaction::where("user_id", session("user_name"))->first();
-            if ($transaction == null) {
+            if ($transaction == null || $transaction->status == 4) {
                 $nim = intval(substr(session("user_name"), 0, 4));
                 if ($nim % 2 == 0) {
                     $jacket = Jacket::where("id", 2)->first();
@@ -84,7 +84,7 @@ class TransactionController extends Controller
                 "bank_id" => null,
                 "transfer_from" => null,
                 "proof" => null,
-                "track" => 0,
+                "track_id" => 1,
                 "phone_number" => $request->phone,
             ]);
 
@@ -98,7 +98,7 @@ class TransactionController extends Controller
     {
         if (session()->has("user_name")) {
             $transaction = Transaction::where("user_id", session("user_name"))->first();
-            if ($transaction == null) {
+            if ($transaction == null || $transaction->status == 4) {
                 return redirect()->route("user.transaction.index");
             } else if ($transaction->status == 1) {
                 $user_login = [
@@ -150,7 +150,7 @@ class TransactionController extends Controller
     {
         if (session()->has("user_name")) {
             $transaction = Transaction::where("user_id", session("user_name"))->first();
-            if ($transaction == null) {
+            if ($transaction == null || $transaction->status == 4) {
                 return redirect()->route("user.transaction.index");
             } else if ($transaction->status == 1) {
                 return redirect()->route("user.transaction.payment");
@@ -185,7 +185,6 @@ class TransactionController extends Controller
      */
     public function store_receipt(Request $request)
     {
-        dd("tes");
         if (session()->has("user_name")) {
             $path = null;
             if ($request->file("image")) {
@@ -195,9 +194,21 @@ class TransactionController extends Controller
                 "proof" => $path,
                 "status" => 3,
                 "transfer_from" => $request->sender,
-                "track" => 1
+                "track_id" => 2
             ]);
             return redirect()->route("user.transaction.receipt")->with("success", "Data Transaksi Berhasil Diubah !");
+        } else {
+            return redirect()->route("user.login");
+        }
+    }
+
+    public function create_new_order()
+    {
+        if (session()->has("user_name")) {
+            Transaction::where("user_id", session("user_name"))->update([
+                "status" => 4,
+            ]);
+            return redirect()->route("user.transaction.index");
         } else {
             return redirect()->route("user.login");
         }

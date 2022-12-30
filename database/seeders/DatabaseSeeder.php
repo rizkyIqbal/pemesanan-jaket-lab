@@ -17,13 +17,14 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
         $sizes = ["S", "M", "L", "XL", "2XL", "3XL"];
-        for($i = 0; $i < count($sizes); $i++) {
+        for ($i = 0; $i < count($sizes); $i++) {
             DB::table("sizes")->insert([
                 "name" => $sizes[$i],
             ]);
         }
 
         $tracks = [
+            "Pemesanan Belum Masuk",
             "Pemesanan Sudah Masuk",
             "Bukti Pembayaran Sudah Masuk Ke Sistem",
             "Pembayaran Dikonfirmasi",
@@ -32,7 +33,7 @@ class DatabaseSeeder extends Seeder
             "Proses pengecekan",
             "Siap diambil"
         ];
-        for($i = 0; $i < count($tracks); $i++) {
+        for ($i = 0; $i < count($tracks); $i++) {
             DB::table("tracks")->insert([
                 "name" => $tracks[$i],
             ]);
