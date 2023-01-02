@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->integer("jacket_id");
-            $table->integer("size_id");
+            $table->unsignedBigInteger("size_id");
+            $table->foreign("size_id")->references("id")->on("sizes");
             $table->string("custom")->nullable();
             $table->string("user_id");
             $table->string("phone_number");
@@ -27,6 +28,7 @@ return new class extends Migration
             $table->unsignedBigInteger("track_id")->default("1");
             $table->foreign("track_id")->references("id")->on("tracks");
             $table->integer("status")->default("1");
+            $table->integer("order_type");
             $table->timestamps();
         });
     }

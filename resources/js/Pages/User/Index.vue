@@ -40,12 +40,24 @@
                             class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start"
                         >
                             <div class="rounded-md shadow">
-                                <a
-                                    :href="route('user.transaction.index')"
+                                <button
+                                    @click.prevent="stok()"
                                     class="bg-theme-primary w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
                                 >
-                                    Order Now
-                                </a>
+                                    Stok
+                                </button>
+                            </div>
+                        </div>
+                        <div
+                            class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start"
+                        >
+                            <div class="rounded-md shadow">
+                                <button
+                                    @click.prevent="preorder()"
+                                    class="bg-theme-primary w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
+                                >
+                                    Pre-Order
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -127,6 +139,24 @@ export default {
     components: {
         UserDarkLayout,
         footerlanding,
+    },
+    methods: {
+        openModal() {
+            isOpen.value = true;
+        },
+        closeModal() {
+            isOpen.value = false;
+        },
+        stok() {
+            this.$inertia.get(route("user.transaction.index", { id: 1 }));
+        },
+        preorder() {
+            this.$inertia.get(route("user.transaction.index", { id: 2 }));
+        },
+        // newOrder(){
+        //     this.$inertia.put(this.route("user.transaction.create_new_order"))
+
+        // }
     },
 };
 </script>

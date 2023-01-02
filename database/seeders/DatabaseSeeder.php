@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -38,5 +39,17 @@ class DatabaseSeeder extends Seeder
                 "name" => $tracks[$i],
             ]);
         }
+        $stocks = [1, 2, 3, 4, 5, 6];
+        for($i = 0; $i < count($stocks); $i++) {
+            DB::table("stocks")->insert([
+                "stock" => 0,
+                "size_id" => $stocks[$i]
+            ]);
+        }
+        DB::table("users")->insert([
+            "name" => "admin",
+            "email" => "admin@mail",
+            "password" => Hash::make("admin123")
+        ]);
     }
 }

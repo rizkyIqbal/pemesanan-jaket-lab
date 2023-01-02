@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
-            $table->integer("stok");
+            $table->integer("stock");
             $table->unsignedBigInteger("size_id");
             $table->foreign("size_id")->references("id")->on("sizes");
         });

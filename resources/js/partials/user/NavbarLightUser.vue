@@ -48,7 +48,7 @@
 <script setup>
 const navigation = [
     { name: "Home", href: route("user.index") },
-    { name: "Order", href: route("user.transaction.index") },
+    // { name: "Order", href: route("user.transaction.index") },
     { name: "About Us", href: route("user.about") },
 ];
 </script>
