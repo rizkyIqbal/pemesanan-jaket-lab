@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Transaction;
 use App\Models\Track;
+use App\Models\Stock;
 use Inertia\Inertia;
 
 
@@ -21,7 +22,15 @@ class JacketCheckController extends Controller
     }
 
     public function update(Request $request, $id, $index)
-    {
+    { 
+        $transaction = Transaction::where('id', $id)->first();
+        $stock = Stock::where("size_id", $transaction->size_id)->first();
+        if($request->track[$index] == 4 && $transaction->order_type == 1){
+            Stock::where("size_id", $transaction->size_id)->update([
+                "stock" => $stock->stock - 1
+            ]);
+        }
+        
         Transaction::where('id', $id)
             ->update([
                 "track_id" => $request->track[$index]

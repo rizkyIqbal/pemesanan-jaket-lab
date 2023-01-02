@@ -143,9 +143,11 @@
                             </div>
                             <div class="mb-4">
                                 <div class="w-full">
-                                    <label for="title" class="leading-7 text-sm text-gray-900"
-                                    >Atas Nama Pengirim</label
-                                >
+                                    <label
+                                        for="title"
+                                        class="leading-7 text-sm text-gray-900"
+                                        >Atas Nama Pengirim</label
+                                    >
                                 </div>
                                 <input
                                     type="text"
@@ -205,7 +207,8 @@
                         <div class="cont" v-if="transactions.track_id == 8">
                             <p class="text-sm text-green-600 mt-4">
                                 Pesanan Siap Diambil
-                            </p><p class="text-sm text-green-600 mt-4">
+                            </p>
+                            <p class="text-sm text-green-600 mt-4">
                                 Silahkan Print Resi
                             </p>
                             <a
@@ -221,29 +224,28 @@
                         <div class="relative">
                             <div
                                 class="flex absolute lg:inset-y-0 lg:right-0 mt-6 lg:h-12"
-                                v-if ="transactions.track_id == 1"
+                                v-if="transactions.track_id == 1"
                             >
-                                <a
+                                <button
                                     class="text-sm mr-5 lg:mt-4"
-                                    :href="route('user.transaction.destroy')"
+                                    @click.prevent="deleteTransaction()"
                                 >
                                     Cancel Order
-                                </a>
+                                </button>
                                 <button
                                     class="flex items-center py-4 px-4 text-sm text-white bg-theme-primary rounded text-center"
                                     type="submit"
                                 >
                                     Complete Order
                                 </button>
-                            </div><div
+                            </div>
+                            <div
                                 class="flex absolute lg:inset-y-0 lg:right-0 mt-6 lg:h-12"
-                                v-else-if ="transactions.track_id == 8"
+                                v-else-if="transactions.track_id == 8"
                             >
                                 <button
                                     class="flex items-center py-4 px-4 text-sm text-white bg-theme-primary rounded text-center"
-                                    @click.prevent="
-                                            newOrder()
-                                        "
+                                    @click.prevent="newOrder()"
                                 >
                                     Create New Order
                                 </button>
@@ -291,8 +293,9 @@
                                 </DialogTitle>
                                 <div class="mt-2">
                                     <p class="text-sm text-gray-500">
-                                       Pesanan anda sudah siap diambil! Silahkan print resi
-                                       dan tunjukkan resi ke resepsionis Lab Informatika
+                                        Pesanan anda sudah siap diambil!
+                                        Silahkan print resi dan tunjukkan resi
+                                        ke resepsionis Lab Informatika
                                     </p>
                                 </div>
 
@@ -347,6 +350,7 @@ export default {
         banks: Object,
         user_logins: Object,
         transactions: Object,
+        id: Object,
     },
     data() {
         return {
@@ -367,7 +371,7 @@ export default {
     methods: {
         insert() {
             this.$inertia.post(
-                this.route("user.transaction.store_receipt"),
+                this.route("user.transaction.store_receipt", { id: this.id }),
                 this.form
             );
         },
@@ -381,10 +385,14 @@ export default {
         closeModal() {
             isOpen.value = false;
         },
-        newOrder(){
-            this.$inertia.put(this.route("user.transaction.create_new_order"))
-
-        }
+        newOrder() {
+            this.$inertia.put(this.route("user.transaction.create_new_order"));
+        },
+        deleteTransaction() {
+            this.$inertia.delete(
+                this.route("user.transaction.destroy", { id: this.id })
+            );
+        },
     },
     watch: {
         transactions: {

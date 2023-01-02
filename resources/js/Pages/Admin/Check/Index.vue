@@ -13,7 +13,6 @@
             <div
                 class="border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden"
             >
-                
                 <div class="table-responsive">
                     <table
                         class="min-w-full divide-y divide-gray-300"
@@ -55,17 +54,20 @@
                                 </th>
                                 <th
                                     class="px-3 py-3 text-left text-sm font-semibold text-gray-900"
-                                >
-                                </th>
+                                ></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr
-                                v-for="(transaction, index) in transactions.data"
+                                v-for="(
+                                    transaction, index
+                                ) in transactions.data"
                                 :key="transaction"
                             >
-                            {{ index + 1 }}
-                                <td 
+                                {{
+                                    index + 1
+                                }}
+                                <td
                                     class="whitespace-nowrap py-2 px-3 text-sm font-medium text-gray-900"
                                 >
                                     {{ transaction.user_id }}
@@ -88,7 +90,7 @@
                                 <td
                                     class="whitespace-nowrap py-2 px-3 text-sm font-medium text-gray-900"
                                 >
-                                    {{ transaction.track.name  }}
+                                    {{ transaction.track.name }}
                                 </td>
                                 <td>
                                     <div class="row">
@@ -97,14 +99,17 @@
                                                 v-model="form.track[index]"
                                                 name="size"
                                                 id="size"
-                                                class=" bg-opacity-40 rounded-lg border border-gray-400 focus:border-primary-100 focus:ring-1 focus:ring-primary-100 text-base outline-none text-gray-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                                                class="bg-opacity-40 rounded-lg border border-gray-400 focus:border-primary-100 focus:ring-1 focus:ring-primary-100 text-base outline-none text-gray-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                                             >
                                                 <option value="" disabled>
                                                     Pilih Track Jaket
                                                 </option>
                                                 <!-- <option value=""></option> -->
                                                 <option
-                                                    v-for="track in tracks"
+                                                    v-for="track in tracks.slice(
+                                                        transaction.track_id,
+                                                        8
+                                                    )"
                                                     :key="track.id"
                                                     :value="track.id"
                                                 >
@@ -116,9 +121,7 @@
                                 </td>
                                 <td>
                                     <button
-                                        @click.prevent="
-                                            tes(transaction,index)
-                                        "
+                                        @click.prevent="tes(transaction, index)"
                                     >
                                         <a class="btn btn-danger w-100">
                                             Apply</a
@@ -141,12 +144,12 @@ export default {
         Link,
         AdminLayout,
     },
-    props: { transactions: Object, tracks : Object },
+    props: { transactions: Object, tracks: Object },
     data() {
         return {
             // _value : this.transactions.id
             form: {
-                track : []
+                track: [],
             },
         };
     },
@@ -158,9 +161,15 @@ export default {
     //     }
     // },
     methods: {
-        tes(transaction,index){
+        tes(transaction, index) {
             // console.log(this.form.track[index])
-            this.$inertia.put(route("admin.check.update",{id : transaction.id, index : index}), this.form);
+            this.$inertia.put(
+                route("admin.check.update", {
+                    id: transaction.id,
+                    index: index,
+                }),
+                this.form
+            );
         },
         deletearticle(transaction) {
             if (

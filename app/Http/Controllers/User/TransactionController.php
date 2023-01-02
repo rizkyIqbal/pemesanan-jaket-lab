@@ -24,7 +24,7 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
         if (session()->has("user_name")) {
             $transaction = Transaction::where("user_id", session("user_name"))->latest()->first();
@@ -40,20 +40,19 @@ class TransactionController extends Controller
                     "user_name" => session("user_name"),
                     "full_name" => session("full_name")
                 ];
-                return Inertia::render("User/Transaction/Index", ['jacket' => $jacket, 'sizes' => $sizes, 'user_login' => $user_login]);
+                return Inertia::render("User/Transaction/Index", ['jacket' => $jacket, 'sizes' => $sizes, 'user_login' => $user_login, "id" => $id]);
             } else if ($transaction->status == 1) {
-                return redirect()->route("user.transaction.payment");
+                return redirect()->route("user.transaction.payment", $id);
             } else if ($transaction->status == 2 || $transaction->status == 3) {
-                return redirect()->route("user.transaction.receipt");
+                return redirect()->route("user.transaction.receipt", $id);
             }
         } else {
             return redirect()->route("user.login");
         }
     }
 
-    public function store(CreateRequest $request)
+    public function store(CreateRequest $request, $id)
     {
-
         if (session()->has("user_name")) {
             $nim = intval(substr(session("user_name"), 0, 4));
             if ($nim % 2 == 0) {
@@ -86,21 +85,22 @@ class TransactionController extends Controller
                 "proof" => null,
                 "track_id" => 1,
                 "phone_number" => $request->phone,
+                "order_type" => $id
             ]);
 
-            return redirect()->route("user.transaction.payment")->with("success", "Data Transaksi Berhasil Ditambahkan !");
+            return redirect()->route("user.transaction.payment", $id)->with("success", "Data Transaksi Berhasil Ditambahkan !");
         } else {
             return redirect()->route("user.login");
         }
     }
 
-    public function payment()
+    public function payment($id)
     {
         if (session()->has("user_name")) {
             $transaction = Transaction::where("user_id", session("user_name"))->latest()->first();
             // dd($transaction);
             if ($transaction == null || $transaction->status == 4) {
-                return redirect()->route("user.transaction.index");
+                return redirect()->route("user.transaction.index", $id);
             } else if ($transaction->status == 1) {
                 $user_login = [
                     "user_name" => session("user_name"),
@@ -117,16 +117,16 @@ class TransactionController extends Controller
                 $nim = intval(substr(session("user_name"), 0, 4));
                 $bank = Bank::where("generation", $nim)->get();
 
-                return Inertia::render("User/Transaction/Payment", ['jackets' => $jacket, 'sizes' => $size, 'user_logins' => $user_login, "transactions" => $transaction, "banks" => $bank]);
+                return Inertia::render("User/Transaction/Payment", ['jackets' => $jacket, 'sizes' => $size, 'user_logins' => $user_login, "transactions" => $transaction, "banks" => $bank, 'id' => $id]);
             } else if ($transaction->status == 2 || $transaction->status == 3) {
-                return redirect()->route("user.transaction.receipt");
+                return redirect()->route("user.transaction.receipt", $id);
             }
         } else {
             return redirect()->route("user.login");
         }
     }
 
-    public function store_payment(Request $request)
+    public function store_payment(Request $request, $id)
     {
         if (session()->has("user_name")) {
             // dd($request->id);
@@ -142,13 +142,13 @@ class TransactionController extends Controller
                 "bank_id" => $request->bank,
                 "status" => 2,
             ]);
-            return redirect()->route("user.transaction.receipt")->with("success", "Data Transaksi Berhasil Diubah !");
+            return redirect()->route("user.transaction.receipt", $id)->with("success", "Data Transaksi Berhasil Diubah !");
         } else {
             return redirect()->route("user.login");
         }
     }
 
-    public function receipt()
+    public function receipt($id)
     {
         if (session()->has("user_name")) {
             $transaction = Transaction::where("user_id", session("user_name"))->latest()->first();
@@ -171,7 +171,7 @@ class TransactionController extends Controller
 
                 $bank = Bank::where("id",  $transaction["bank_id"])->first();
 
-                return Inertia::render("User/Transaction/Resi", ['jackets' => $jacket, 'sizes' => $size, 'user_logins' => $user_login, "transactions" => $transaction, "banks" => $bank]);
+                return Inertia::render("User/Transaction/Resi", ['jackets' => $jacket, 'sizes' => $size, 'user_logins' => $user_login, "transactions" => $transaction, "banks" => $bank, 'id' => $id]);
             }
         } else {
             return redirect()->route("user.login");
@@ -185,7 +185,7 @@ class TransactionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function store_receipt(Request $request)
+    public function store_receipt(Request $request, $id)
     {
         if (session()->has("user_name")) {
             $path = null;
@@ -198,13 +198,15 @@ class TransactionController extends Controller
                 "transfer_from" => $request->sender,
                 "track_id" => 2
             ]);
-            return redirect()->route("user.transaction.receipt")->with("success", "Data Transaksi Berhasil Diubah !");
+
+            $transaction = Transaction::where("user_id", session("user_name"))->latest()->first();
+            return redirect()->route("user.transaction.receipt" , $id)->with("success", "Data Transaksi Berhasil Diubah !");
         } else {
             return redirect()->route("user.login");
         }
     }
 
-    public function create_new_order()
+    public function create_new_order($id)
     {
         if (session()->has("user_name")) {
             Transaction::where("user_id", session("user_name"))->update([
@@ -216,10 +218,10 @@ class TransactionController extends Controller
         }
     }
 
-    public function destroy()
+    public function destroy($id)
     {
         $transaction = Transaction::where("user_id", session("user_name"))->latest()->first();
         $transaction->delete();
-        return redirect()->route("user.transaction.index");
+        return redirect()->route("user.transaction.index", $id);
     }
 }

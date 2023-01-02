@@ -20,7 +20,7 @@
                     <div class="mt-14">
                         <p class="font-bold">Personal Informations</p>
                         <div class="mt-6">
-                            <input type="hidden" v-model="form.order_type">
+                            <input type="hidden" v-model="form.order_type" />
                             <label
                                 for="title"
                                 class="leading-7 text-sm text-gray-900"
@@ -347,7 +347,7 @@ export default {
         jacket: Object,
         sizes: Object,
         user_login: Object,
-        id: Object
+        id: Object,
     },
     data() {
         return {
@@ -359,7 +359,6 @@ export default {
                 a: "",
                 b: "",
                 c: "",
-                order_type: this.id
             },
             custom: {
                 a: "",
@@ -370,7 +369,10 @@ export default {
     },
     methods: {
         insert() {
-            this.$inertia.post(this.route("user.transaction.store"), this.form);
+            this.$inertia.post(
+                this.route("user.transaction.store", { id: this.id }),
+                this.form
+            );
         },
         closeModal() {
             isOpen.value = false;

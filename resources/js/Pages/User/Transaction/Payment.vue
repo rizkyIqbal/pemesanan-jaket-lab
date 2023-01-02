@@ -113,12 +113,9 @@
                 <form @submit.prevent="insert" class="space-y-6">
                     <div class="py-12 pl-8 pr-40">
                         <p class="font-bold">Choose Payment</p>
-                        <div class="mt-4"
-                                    v-for="bank in banks"
-                                    :key="bank.id">
+                        <div class="mt-4" v-for="bank in banks" :key="bank.id">
                             <div
                                 class="bg-white border-2 border-gray-700 rounded w-full py-3 pl-4"
-
                             >
                                 <input
                                     class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-400 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
@@ -129,7 +126,7 @@
                                     :value="bank.id"
                                 />
 
-                                <p class="ml-2">{{bank.bank}}</p>
+                                <p class="ml-2">{{ bank.bank }}</p>
                             </div>
                         </div>
                         <div
@@ -139,12 +136,12 @@
                             <div
                                 class="flex absolute lg:inset-y-0 lg:right-0 mt-6 lg:h-12"
                             >
-                                <a
+                                <button
+                                    @click.prevent="deleteTransaction()"
                                     class="text-sm mr-5 lg:mt-4"
-                                    :href="route('user.transaction.destroy')"
                                 >
                                     Cancel Order
-                                </a>
+                                </button>
                                 <button
                                     class="flex items-center py-4 px-4 text-sm text-white bg-theme-primary rounded text-center"
                                     type="submit"
@@ -173,20 +170,27 @@ export default {
         banks: Object,
         user_logins: Object,
         transactions: Object,
+        id: Object,
     },
     data() {
         return {
             form: {
                 bank: "",
-                id: this.transactions.id
+                id: this.transactions.id,
             },
         };
     },
     methods: {
         insert() {
             this.$inertia.post(
-                this.route("user.transaction.store_payment"),
+                this.route("user.transaction.store_payment", { id: this.id }),
                 this.form
+            );
+        },
+        deleteTransaction() {
+            // console.log("haha");
+            this.$inertia.delete(
+                this.route("user.transaction.destroy", { id: this.id })
             );
         },
     },
