@@ -49,7 +49,7 @@
                             <div class="w-1/2">
                                 <p
                                     class="text-sm font-semibold text-right"
-                                    v-if="transactions.size_id == 0"
+                                    v-if="transactions.size_id == 1"
                                 >
                                     Custom
                                 </p>
@@ -137,7 +137,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="mt-8" v-if="transactions.track_id == 1">
+                        <div class="mt-8" v-if="transactions.track_id == 1
+                        ">
                             <div class="flex">
                                 <p class="text-md">Upload Proof</p>
                             </div>
@@ -163,7 +164,7 @@
                             class="text-sm text-red-700 mt-4"
                             v-if="
                                 transactions.status == 3 &&
-                                transactions.track_id == 3
+                                transactions.track_id == 2
                             "
                         >
                             Bukti Pembayaran Sudah Masuk ke Sistem
@@ -172,7 +173,7 @@
                             class="text-sm text-red-700 mt-4"
                             v-else-if="
                                 transactions.status == 3 &&
-                                transactions.track_id == 4
+                                transactions.track_id == 3
                             "
                         >
                             Pembayaran Dikonfirmasi
@@ -181,7 +182,7 @@
                             class="text-sm text-red-700 mt-4"
                             v-else-if="
                                 transactions.status == 3 &&
-                                transactions.track_id == 5
+                                transactions.track_id == 4
                             "
                         >
                             Proses di Penjahit
@@ -190,7 +191,7 @@
                             class="text-sm text-red-700 mt-4"
                             v-else-if="
                                 transactions.status == 3 &&
-                                transactions.track_id == 6
+                                transactions.track_id == 5
                             "
                         >
                             Pesanan Jadi
@@ -199,12 +200,12 @@
                             class="text-sm text-red-700 mt-4"
                             v-else-if="
                                 transactions.status == 3 &&
-                                transactions.track_id == 7
+                                transactions.track_id == 6
                             "
                         >
                             Proses Pengecekan
                         </p>
-                        <div class="cont" v-if="transactions.track_id == 8">
+                        <div class="cont" v-if="transactions.track_id == 7">
                             <p class="text-sm text-green-600 mt-4">
                                 Pesanan Siap Diambil
                             </p>
@@ -241,7 +242,7 @@
                             </div>
                             <div
                                 class="flex absolute lg:inset-y-0 lg:right-0 mt-6 lg:h-12"
-                                v-else-if="transactions.track_id == 8"
+                                v-else-if="transactions.track_id == 7"
                             >
                                 <button
                                     class="flex items-center py-4 px-4 text-sm text-white bg-theme-primary rounded text-center"
@@ -386,7 +387,9 @@ export default {
             isOpen.value = false;
         },
         newOrder() {
-            this.$inertia.put(this.route("user.transaction.create_new_order"));
+            this.$inertia.put(
+                this.route("user.transaction.create_new_order", { id: this.id })
+            );
         },
         deleteTransaction() {
             this.$inertia.delete(
@@ -398,7 +401,7 @@ export default {
         transactions: {
             immediate: true,
             handler(val) {
-                if (val.track_id == 8) {
+                if (val.track_id == 7) {
                     isOpen.value = true;
                 }
             },

@@ -108,7 +108,7 @@
                                                 <option
                                                     v-for="track in tracks.slice(
                                                         transaction.track_id,
-                                                        8
+                                                        7
                                                     )"
                                                     :key="track.id"
                                                     :value="track.id"

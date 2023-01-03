@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('timelines', function (Blueprint $table) {
             $table->id();
             $table->integer("track_id");
-            $table->integer("user_id");
+            $table->unsignedBigInteger("transaction_id");
+            $table->foreign("transaction_id")->references("id")->on("transactions")->onDelete("cascade");
             $table->timestamps();
         });
     }
