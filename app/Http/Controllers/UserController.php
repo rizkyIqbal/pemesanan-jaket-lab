@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Countdown;
 use App\Models\Jacket;
 use App\Models\Size;
 use App\Models\Transaction;
@@ -22,7 +23,8 @@ class UserController extends Controller
     public function index(Request $request)
     {
 
-        return Inertia::render('User/Index');
+        $countdowns = Countdown::pluck('finish_at');
+        return Inertia::render('User/Index', ['countdowns' => $countdowns]);
     }
 
     public function login()

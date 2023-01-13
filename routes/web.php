@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\JacketController;
 use App\Http\Controllers\admin\BankController;
+use App\Http\Controllers\Admin\CountdownController;
 use App\Http\Controllers\admin\TransactionController;
 use App\Http\Controllers\admin\JacketCheckController;
 use App\Http\Controllers\User\TransactionController as UserTransaction;
@@ -88,6 +89,7 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'admin'], function (
         Route::put("/rekening/edit/{id}", "update")->name("admin.bank.update");
     });
 
+
     Route::controller(JacketCheckController::class)->group(function () {
         Route::get("/filtercek", "index")->name("admin.check.index");
         Route::get("/filtercek/tambah", "create")->name("admin.check.create");
@@ -95,6 +97,15 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'admin'], function (
         // Route::delete("/filtercek/hapus/{id}", "destroy")->name("admin.check.destroy");
         // Route::get("/filtercek/edit/{id}", "edit")->name("admin.check.edit");
         // Route::put("/filtercek/edit/{id}", "update")->name("admin.check.update");
+    });
+
+    Route::controller(CountdownController::class)->group(function () {
+        Route::get("/countdown", "index")->name("admin.countdown.index");
+        Route::get("/countdown/tambah", "create")->name("admin.countdown.create");
+        Route::post("/countdown/tambah", "store")->name("admin.countdown.store");
+        Route::delete("/countdown/hapus", "destroy")->name("admin.countdown.destroy");
+        Route::get("/countdown/edit/{id}", "edit")->name("admin.countdown.edit");
+        Route::put("/countdown/edit/{id}", "update")->name("admin.countdown.update");
     });
 
     // Route::get("/logout", [AdminController::class, 'perform'])->name("admin.logout");

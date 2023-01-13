@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('countdowns', function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->dateTime("started_at");
-            $table->dateTime("finish_at");
+            $table->string("started_at");
+            $table->string("finish_at");
             $table->timestamps();
         });
     }
