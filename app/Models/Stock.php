@@ -11,4 +11,9 @@ class Stock extends Model
 
     protected $guarded = [];
     public $timestamps = false;
+
+    public function size()
+    {
+        return $this->belongsTo(Size::class, "size_id", "id");
+    }
 }

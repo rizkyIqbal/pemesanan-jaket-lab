@@ -10,6 +10,7 @@ use App\Models\Jacket;
 use App\Models\Timeline;
 use App\Models\Transaction;
 use App\Models\Size;
+use App\Models\Stock;
 use App\Models\User_Login;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -29,6 +30,7 @@ class TransactionController extends Controller
     {
         if (session()->has("user_name")) {
             $transaction = Transaction::where("user_id", session("user_name"))->latest()->first();
+            $stocks = Stock::with('size')->where('stock', '>',  0)->get();;
             if ($transaction == null || $transaction->status == 4) {
                 $nim = intval(substr(session("user_name"), 0, 4));
                 $jacket = Jacket::first();
@@ -37,7 +39,7 @@ class TransactionController extends Controller
                     "user_name" => session("user_name"),
                     "full_name" => session("full_name")
                 ];
-                return Inertia::render("User/Transaction/Index", ['jacket' => $jacket, 'sizes' => $sizes, 'user_login' => $user_login, "id" => $id]);
+                return Inertia::render("User/Transaction/Index", ['jacket' => $jacket, 'sizes' => $sizes, 'user_login' => $user_login, "id" => $id, "stocks" => $stocks]);
             } else if ($transaction->status == 1) {
                 return redirect()->route("user.transaction.payment", $id);
             } else if ($transaction->status == 2 || $transaction->status == 3) {
@@ -144,9 +146,9 @@ class TransactionController extends Controller
         if (session()->has("user_name")) {
             $transaction = Transaction::where("user_id", session("user_name"))->latest()->first();
             if ($transaction == null || $transaction->status == 4) {
-                return redirect()->route("user.transaction.index");
+                return redirect()->route("user.transaction.index", $id);
             } else if ($transaction->status == 1) {
-                return redirect()->route("user.transaction.payment");
+                return redirect()->route("user.transaction.payment", $id);
             } else if ($transaction->status == 2 || $transaction->status == 3) {
                 $user_login = [
                     "user_name" => session("user_name"),
@@ -194,7 +196,7 @@ class TransactionController extends Controller
                 "transaction_id" => $transaction->id
             ]);
 
-            return redirect()->route("user.transaction.receipt" , $id)->with("success", "Data Transaksi Berhasil Diubah !");
+            return redirect()->route("user.transaction.receipt", $id)->with("success", "Data Transaksi Berhasil Diubah !");
         } else {
             return redirect()->route("user.login");
         }
@@ -206,7 +208,7 @@ class TransactionController extends Controller
             Transaction::where("user_id", session("user_name"))->update([
                 "status" => 4,
             ]);
-            return redirect()->route("user.transaction.index",$id);
+            return redirect()->route("user.transaction.index", $id);
         } else {
             return redirect()->route("user.login");
         }

@@ -2,61 +2,30 @@
     <div class="relative bg-theme-secondary overflow-hidden">
         <div class="max-w-7xl mx-auto h-fit">
             <div
-                class="relative z-10 pb-8 bg-theme-secondary sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32"
-            >
-                <svg
-                    class="hidden lg:block absolute right-0 inset-y-0 h-full w-48 text-white transform translate-x-1/2"
-                    fill="currentColor"
-                    viewBox="0 0 100 100"
-                    preserveAspectRatio="none"
-                    aria-hidden="true"
-                ></svg>
+                class="relative z-10 pb-8 bg-theme-secondary sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
+                <svg class="hidden lg:block absolute right-0 inset-y-0 h-full w-48 text-white transform translate-x-1/2"
+                    fill="currentColor" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg>
 
                 <UserDarkLayout></UserDarkLayout>
 
-                <main
-                    class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28"
-                >
+                <main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
                     <div class="sm:text-center lg:text-left">
-                        <h1
-                            class="text-7xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-7xl"
-                        >
-                            <span class="block xl:inline text-white"
-                                >Order Your Lab's</span
-                            >
+                        <h1 class="text-7xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-7xl">
+                            <span class="block xl:inline text-white">Order Your Lab's</span>
                             {{ " " }}
-                            <span class="block xl:inline text-white"
-                                >Jacket</span
-                            >
+                            <span class="block xl:inline text-white">Jacket</span>
                         </h1>
                         <p
-                            class="mt-3 text-base text-gray-400 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-base lg:mx-0"
-                        >
+                            class="mt-3 text-base text-gray-400 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-base lg:mx-0">
                             Anim aute id magna aliqua ad ad non deserunt sunt.
                             Qui irure qui lorem cupidatat commodo. Elit sunt
                             amet fugiat veniam occaecat fugiat aliqua.
                         </p>
-                        <div
-                            class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start"
-                        >
+                        <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                             <div class="rounded-md shadow">
-                                <button
-                                    @click.prevent="stok()"
-                                    class="bg-theme-primary w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
-                                >
-                                    Stok
-                                </button>
-                            </div>
-                        </div>
-                        <div
-                            class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start"
-                        >
-                            <div class="rounded-md shadow">
-                                <button
-                                    @click.prevent="preorder()"
-                                    class="bg-theme-primary w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
-                                >
-                                    Pre-Order
+                                <button @click="openModal"
+                                    class="bg-theme-primary w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
+                                    Order Now
                                 </button>
                             </div>
                         </div>
@@ -65,11 +34,8 @@
             </div>
         </div>
         <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 lg:pl-24">
-            <img
-                class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-auto lg:h-full lg:right-0"
-                src="https://www.pngall.com/wp-content/uploads/1/Lab-Coat-PNG-Image-HD.png"
-                alt=""
-            />
+            <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-auto lg:h-full lg:right-0"
+                src="https://www.pngall.com/wp-content/uploads/1/Lab-Coat-PNG-Image-HD.png" alt="" />
         </div>
     </div>
     <div class="h-fit bg-white">
@@ -78,11 +44,10 @@
         </div>
         <div class="h-fit bg-white w-full flex">
             <div class="w-1/3 p-16">
-                <img
-                    class="h-12"
-                    src="https://infotech.umm.ac.id/assets/frontside/images/logo_irc.png"
-                />
-                <div><p class="font-bold mb-2 mt-1">Research Center</p></div>
+                <img class="h-12" src="https://infotech.umm.ac.id/assets/frontside/images/logo_irc.png" />
+                <div>
+                    <p class="font-bold mb-2 mt-1">Research Center</p>
+                </div>
                 <div>
                     <p>
                         Web riset adalah website yang bertujuan untuk
@@ -95,11 +60,10 @@
                 </div>
             </div>
             <div class="w-1/3 p-16">
-                <img
-                    class="h-12"
-                    src="https://infotech.umm.ac.id/assets/frontside/images/logo_sevenman.png"
-                />
-                <div><p class="font-bold mb-2 mt-1">Sevenman</p></div>
+                <img class="h-12" src="https://infotech.umm.ac.id/assets/frontside/images/logo_sevenman.png" />
+                <div>
+                    <p class="font-bold mb-2 mt-1">Sevenman</p>
+                </div>
                 <div>
                     <p>
                         Sevenman adalah sistem manajemen inventaris dan
@@ -112,11 +76,10 @@
                 </div>
             </div>
             <div class="w-1/3 p-16">
-                <img
-                    class="h-12 bg-black"
-                    src="https://infotech.umm.ac.id/assets/frontside/images/logo_simponia.png"
-                />
-                <div><p class="font-bold mb-2 mt-1">Simponia</p></div>
+                <img class="h-12 bg-black" src="https://infotech.umm.ac.id/assets/frontside/images/logo_simponia.png" />
+                <div>
+                    <p class="font-bold mb-2 mt-1">Simponia</p>
+                </div>
                 <div>
                     <p>
                         Simponia adalah sistem showcase portofolio dan manajemen
@@ -129,13 +92,75 @@
         </div>
     </div>
 
+    <TransitionRoot>
+        <Dialog :open="isOpen" @close="setIsOpen" class="bg-transparent z-10">
+            <div class="fixed inset-0 bg-black bg-opacity-25" />
+
+            <div class="fixed inset-0 overflow-y-auto">
+                <div class="flex min-h-full items-center justify-center p-4 text-center">
+                    <DialogPanel class="fixed top-80 left-50 bg-white p-6 rounded-2xl z-10" @click="closeModal">
+                        <DialogTitle>Pilih Tipe Pemesanan</DialogTitle>
+                        
+                        <div v-if="countdowns[0]">
+                            <p>
+                                Batas Pre Order Akan Berakhir Pada
+                            </p>
+                            <p class="font-bold"> {{ countdowns[0] }}</p>
+                        </div>
+
+                        <div v-else>
+                            <p>Pemesanan Melalui Pre Order Telah Berakhir</p>
+                        </div>
+
+                        <!-- <button @click="setIsOpen(false)">Cancel</button> -->
+                        <div class="mt-4">
+                            <button type="button"
+                                class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 mr-2"
+                                @click.prevent="stok()">
+                                Stok
+                            </button>
+                            <button v-if="countdowns[0]" type="button"
+                                class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                                @click.prevent="preorder()">
+                                Pre Order
+                            </button>
+                            <button v-else type="button"
+                                class="inline-flex  disabled justify-center rounded-md border border-transparent bg-gray-100 px-4 py-2 text-sm font-medium text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                                disabled>
+                                Pre Order
+                            </button>
+                        </div>
+                    </DialogPanel>
+
+                </div>
+            </div>
+        </Dialog>
+    </TransitionRoot>
     <footerlanding></footerlanding>
 </template>
 
 <script>
 import UserDarkLayout from "@/Layouts/UserDarkLayout";
 import footerlanding from "@/partials/user/FooterLanding";
+import { ref } from "vue";
+import {
+    TransitionRoot,
+    TransitionChild,
+    Dialog,
+    DialogPanel,
+    DialogTitle,
+} from "@headlessui/vue";
+
+const isOpen = ref(false);
 export default {
+    setup() {
+        return {
+            isOpen,
+        };
+    },
+    props: {
+        countdowns: Object
+    },
     components: {
         UserDarkLayout,
         footerlanding,
