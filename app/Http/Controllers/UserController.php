@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class UserController extends Controller
 {
@@ -139,43 +138,5 @@ class UserController extends Controller
     public function about()
     {
         return Inertia::render('User/About');
-    }
-
-    public function testPdf()
-    {
-        if (session()->has("user_name")) {
-            $transaction = Transaction::where("user_id", session("user_name"))->first();
-            if ($transaction->is_paid == 1) {
-                $jacket = Jacket::where("id", $transaction["jacket_id"])->first();
-                $size = Size::where("id", $transaction["size_id"])->first();
-                $name = substr(session("user_name"), 0, 4) . "-" . substr(session("user_name"), 12, 15) . ".pdf";
-
-                $a = intval(substr($transaction->custom, 4, 2));
-                $b = intval(substr($transaction->custom, 14, 2));
-                $c = intval(substr($transaction->custom, 24, 2));
-
-                $data = [
-                    "user_name" => session("user_name"),
-                    "full_name" => session("full_name"),
-                    "transaction" => $transaction,
-                    "jacket" => $jacket,
-                    "size" => $size,
-                    "name" => $name,
-                    "custom" => [
-                        "a" => $a,
-                        "b" => $b,
-                        "c" => $c
-                    ],
-                ];
-
-                $pdf = Pdf::loadView('pdf', $data);
-                return $pdf->stream();
-                // return $pdf->download($name);
-            } else {
-                return redirect()->route("user.transaction.index");
-            }
-        } else {
-            return redirect()->route("user.login");
-        }
     }
 }

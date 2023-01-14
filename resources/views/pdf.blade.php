@@ -62,7 +62,7 @@
         </tr>
         <tr>
             <th colspan="2" class="h150"></th>
-            <th class="text_right">LOGO</th>
+            <th class="text_right">Laboratorium Informatika UMM</th>
         </tr>
         <tr>
             <th class="text_left w400">Bill To</th>
@@ -77,7 +77,7 @@
         <tr>
             <td>{{ $full_name }}</td>
             <th class="text_right">Bank</th>
-            <td class="text_right">{{ $transaction->bank }}</td>
+            <td class="text_right">{{ $bank->bank }}</td>
         </tr>
     </table>
 

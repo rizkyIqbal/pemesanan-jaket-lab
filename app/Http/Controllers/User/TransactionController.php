@@ -14,6 +14,7 @@ use App\Models\Stock;
 use App\Models\User_Login;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class TransactionController extends Controller
 {
@@ -219,5 +220,45 @@ class TransactionController extends Controller
         $transaction = Transaction::where("user_id", session("user_name"))->latest()->first();
         $transaction->delete();
         return redirect()->route("user.transaction.index", $id);
+    }
+
+    public function pdf_receipt($id)
+    {
+        if (session()->has("user_name")) {
+            $transaction = Transaction::where("user_id", session("user_name"))->first();
+            if ($transaction->track_id >= 3) {
+                $jacket = Jacket::where("id", $transaction["jacket_id"])->first();
+                $size = Size::where("id", $transaction["size_id"])->first();
+                $name = substr(session("user_name"), 0, 4) . "-" . substr(session("user_name"), 12, 15) . ".pdf";
+                $bank = Bank::where("id", $transaction->bank_id)->first();
+
+                $a = intval(substr($transaction->custom, 4, 2));
+                $b = intval(substr($transaction->custom, 14, 2));
+                $c = intval(substr($transaction->custom, 24, 2));
+
+                $data = [
+                    "user_name" => session("user_name"),
+                    "full_name" => session("full_name"),
+                    "transaction" => $transaction,
+                    "bank" => $bank,
+                    "jacket" => $jacket,
+                    "size" => $size,
+                    "name" => $name,
+                    "custom" => [
+                        "a" => $a,
+                        "b" => $b,
+                        "c" => $c
+                    ],
+                ];
+
+                $pdf = Pdf::loadView('pdf', $data);
+                return $pdf->stream();
+                // return $pdf->download($name);
+            } else {
+                return redirect()->route("user.transaction.index", $id);
+            }
+        } else {
+            return redirect()->route("user.login");
+        }
     }
 }

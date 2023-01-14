@@ -214,7 +214,7 @@
                             </p>
                             <a
                                 class="text-sm text-sky-500 underline-offset-1 underline"
-                                :href="route('pdf')"
+                                :href="route('user.transaction.pdf_receipt', {id: this.id})"
                             >
                                 Print Disini
                             </a>

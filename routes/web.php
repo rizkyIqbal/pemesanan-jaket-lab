@@ -38,7 +38,7 @@ Route::get("/masuk", [UserController::class, "login"])->name("user.login");
 Route::post("/masuk/ahh", [UserController::class, "sign_in"])->name("user.sign_in");
 Route::get("/keluar", [UserController::class, "logout"])->name("user.logout");
 
-Route::get("/pdf", [UserController::class, "testPdf"])->name("pdf");
+// Route::get("/pdf", [UserController::class, "testPdf"])->name("pdf");
 
 Route::get("/", [UserController::class, "index"])->name("user.index");
 
@@ -51,6 +51,7 @@ Route::controller(UserTransaction::class)->group(function () {
     Route::put("/transaksi/{id}/resi", "store_receipt")->name("user.transaction.store_receipt");
     Route::put("/transaksi/{id}/resi/new-order", "create_new_order")->name("user.transaction.create_new_order");
     Route::delete('/transaksi/{id}/hapus', "destroy")->name('user.transaction.destroy');
+    Route::get("/transaksi/{id}/resi/pdf", "pdf_receipt")->name("user.transaction.pdf_receipt");
 });
 
 Route::get('/about', [UserController::class, 'about'])->name('user.about');
