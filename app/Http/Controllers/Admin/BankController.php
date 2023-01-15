@@ -44,7 +44,7 @@ class BankController extends Controller
             "account_number" => $request->account_number,
             "generation" => $request->generation
         ]);
-        return redirect()->route('admin.bank.index')->with('success', 'Data Jaket Berhasil Ditambahkan !');
+        return redirect()->route('admin.bank.index')->with('success', 'Data Bank Berhasil Ditambahkan !');
     }
 
     /**
@@ -66,7 +66,7 @@ class BankController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRequest $request, $id)
+    public function update(Request $request, $id)
     {
         Bank::where("id", $id)->update([
             "bank" => $request->bank,
@@ -74,6 +74,9 @@ class BankController extends Controller
             "account_number" => $request->account_number,
             "generation" => $request->generation
         ]);
+
+        return redirect()->route('admin.bank.index')->with('success', 'Data Bank Berhasil Ditambahkan !');
+
     }
 
     /**

@@ -55,21 +55,6 @@
                 </div>
                 <div class="mb-4">
                     <label for="title" class="leading-7 text-sm text-gray-900"
-                        >Approval</label
-                    >
-                    <select
-                        v-model="form.approve"
-                        name="size"
-                        id="size"
-                        class="w-full bg-opacity-40 rounded-lg border border-gray-400 focus:border-primary-100 focus:ring-1 focus:ring-primary-100 text-base outline-none text-gray-900 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                    >
-                        <option value="" disabled>Pilih Satu</option>
-                        <option :value="0" selected>Not Approved</option>
-                        <option :value="1">Approve Data</option>
-                    </select>
-                </div>
-                <div class="mb-4">
-                    <label for="title" class="leading-7 text-sm text-gray-900"
                         >Proof</label
                     >
                     <input type="file" @change="upload" />
@@ -109,7 +94,6 @@ export default {
                 custom: this.transaction.custom,
                 price: this.transaction.price,
                 proof: "",
-                approve: "",
                 is_paid: this.transaction.is_paid,
                 _method: "put",
             },

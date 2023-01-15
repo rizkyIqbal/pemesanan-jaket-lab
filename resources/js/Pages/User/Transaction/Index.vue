@@ -87,13 +87,13 @@
                         <div class="mt-1.5">
                             <p class="font-extrabold">Rp. {{ jacket.price }}</p>
                         </div>
-                        <div class="mt-4 text-center">
+                        <!-- <div class="mt-4 text-center">
                             <button
                                 class="items-center w-full py-3 text-sm text-primary rounded text-center border-2 border-theme-primary hover:bg-orange-600 hover:text-white"
                                 type="button" @click="openModal">
                                 Add Custom Size
                             </button>
-                        </div>
+                        </div> -->
 
                         <div class="mt-4">
                             <div class="flex">

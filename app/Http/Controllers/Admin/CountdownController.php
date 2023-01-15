@@ -39,7 +39,7 @@ class CountdownController extends Controller
             ]);
         }
 
-        // return redirect()
+        return redirect()->route('admin.countdown.index')->with('success', 'Data Countdown Berhasil Diedit !');
     }
 
     public function edit($id)
@@ -54,11 +54,13 @@ class CountdownController extends Controller
             "started_at" => $request->started_at,
             "finish_at" => $request->finish_at
         ]);
-        // return redirect()
+        return redirect()->route('admin.countdown.index')->with('success', 'Data Countdown Berhasil Diedit !');
+
     }
 
     public function destroy()
     {
         Countdown::latest()->delete();
+        return redirect()->route('admin.countdown.index')->with('success', 'Data Countdown Berhasil Dihapus !');
     }
 }

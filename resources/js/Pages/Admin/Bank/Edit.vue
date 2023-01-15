@@ -74,7 +74,7 @@ export default {
     },
     methods: {
         insert() {
-            this.$inertia.post(
+            this.$inertia.put(
                 this.route("admin.bank.update", { id: this.bank.id }),
                 this.form
             );

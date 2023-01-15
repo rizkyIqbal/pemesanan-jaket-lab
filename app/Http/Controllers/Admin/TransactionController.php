@@ -114,7 +114,6 @@ class TransactionController extends Controller
             // "status" => $request->status,
             "price" => $price,
             "proof" => $path,
-            "is_paid" => $paid,
         ]);
 
         return redirect()->route("admin.transaction.index")->with("success", "Data Transaksi Berhasil Diubah !");
