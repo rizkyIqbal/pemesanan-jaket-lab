@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Transaction\CreateRequest;
 use App\Http\Requests\Transaction\UpdateRequest;
 use App\Models\Jacket;
-use App\Models\Transaction;
 use App\Models\Size;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class TransactionController extends Controller
 {
+
+    private Collection $sizes;
+    private Collection $jackets;
+
     public function __construct()
     {
         $this->jackets = Jacket::all();

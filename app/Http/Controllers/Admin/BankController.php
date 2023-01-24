@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Http\Requests\Jacket\CreateRequest;
-use App\Http\Requests\Jacket\UpdateRequest;
 use App\Models\Bank;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class BankController extends Controller
