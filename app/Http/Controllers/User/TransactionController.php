@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers\User;
 
-use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Transaction\CreateRequest;
 use App\Models\Bank;
 use App\Models\Jacket;
-use App\Models\Timeline;
-use App\Models\Transaction;
 use App\Models\Size;
 use App\Models\Stock;
-use App\Models\User_Login;
-use Illuminate\Http\Request;
-use Inertia\Inertia;
+use App\Models\Timeline;
+use App\Models\Transaction;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
 
 class TransactionController extends Controller
 {
@@ -25,13 +26,13 @@ class TransactionController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse|\Inertia\Response|void
      */
     public function index($id)
     {
         if (session()->has("user_name")) {
             $transaction = Transaction::where("user_id", session("user_name"))->latest()->first();
-            $stocks = Stock::with('size')->where('stock', '>',  0)->get();;
+            $stocks = Stock::with('size')->where('stock', '>',  0)->get();
             if ($transaction == null || $transaction->status == 4) {
                 $nim = intval(substr(session("user_name"), 0, 4));
                 $jacket = Jacket::first();
@@ -51,7 +52,7 @@ class TransactionController extends Controller
         }
     }
 
-    public function store(CreateRequest $request, $id)
+    public function store(CreateRequest $request, $id): RedirectResponse
     {
         if (session()->has("user_name")) {
             $nim = intval(substr(session("user_name"), 0, 4));
@@ -175,9 +176,9 @@ class TransactionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store_receipt(Request $request, $id)
     {

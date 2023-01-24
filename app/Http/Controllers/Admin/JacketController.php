@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Http\Requests\Jacket\CreateRequest;
 use App\Http\Requests\Jacket\UpdateRequest;
 use App\Models\Jacket;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class JacketController extends Controller
@@ -33,7 +33,7 @@ class JacketController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Foundation\Http\FormRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(CreateRequest $request)

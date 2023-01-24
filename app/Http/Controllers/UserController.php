@@ -3,14 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Countdown;
-use App\Models\Jacket;
-use App\Models\Size;
-use App\Models\Transaction;
 use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\App;
-use Inertia\Inertia;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
+
+// use Illuminate\Support\Facades\App;
 
 class UserController extends Controller
 {
@@ -42,7 +39,7 @@ class UserController extends Controller
             "password" => $request->password
         ]);
 
-        if ($response["success"] == true) {
+        if ($response["success"]) {
             $user = Http::withToken($response["access_token"])->post('https://api.infotech.umm.ac.id/dotlab/api/v1/auth/me');
 
             $request->session()->put("user_name", $user["user_name"]);

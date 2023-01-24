@@ -1,16 +1,14 @@
 <?php
 
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\admin\JacketController;
-use App\Http\Controllers\admin\BankController;
+use App\Http\Controllers\Admin\BankController;
 use App\Http\Controllers\Admin\CountdownController;
-use App\Http\Controllers\admin\TransactionController;
-use App\Http\Controllers\admin\JacketCheckController;
-use App\Http\Controllers\User\TransactionController as UserTransaction;
+use App\Http\Controllers\Admin\JacketCheckController;
+use App\Http\Controllers\Admin\JacketController;
+use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\User\TransactionController as UserTransactionController;
 use App\Http\Controllers\UserController;
-use App\Models\Transaction;
+use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 /*
@@ -42,7 +40,7 @@ Route::get("/keluar", [UserController::class, "logout"])->name("user.logout");
 
 Route::get("/", [UserController::class, "index"])->name("user.index");
 
-Route::controller(UserTransaction::class)->group(function () {
+Route::controller(UserTransactionController::class)->group(function () {
     Route::get("/transaksi/{id}", "index")->name("user.transaction.index");
     Route::post("/transaksi/{id}", "store")->name("user.transaction.store");
     Route::get("/transaksi/{id}/pembayaran", "payment")->name("user.transaction.payment");
@@ -94,7 +92,7 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'admin'], function (
     Route::controller(JacketCheckController::class)->group(function () {
         Route::get("/filtercek", "index")->name("admin.check.index");
         Route::get("/filtercek/tambah", "create")->name("admin.check.create");
-        Route::put("/filtercek/tambah/{id}/{index}", "update")->name("admin.check.update");
+        Route::put("/filtercek/tambah/{id}", "update")->name("admin.check.update");
         // Route::delete("/filtercek/hapus/{id}", "destroy")->name("admin.check.destroy");
         // Route::get("/filtercek/edit/{id}", "edit")->name("admin.check.edit");
         // Route::put("/filtercek/edit/{id}", "update")->name("admin.check.update");
