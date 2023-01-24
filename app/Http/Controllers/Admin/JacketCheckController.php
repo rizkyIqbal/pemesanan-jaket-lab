@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Timeline;
-use App\Models\Transaction;
-use App\Models\Track;
 use App\Models\Stock;
+use App\Models\Timeline;
+use App\Models\Track;
+use App\Models\Transaction;
+use App\Services\TransactionService;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 
@@ -22,23 +23,10 @@ class JacketCheckController extends Controller
         return Inertia::render("Admin/Check/Index", ['transactions' => $transactions, 'tracks' => $tracks]);
     }
 
-    public function update(Request $request, $id, $index)
+    public function update(Request $request, $id, TransactionService $transactionService)
     {
-        $transaction = Transaction::where('id', $id)->first();
-        $stock = Stock::where("size_id", $transaction->size_id)->first();
-        if($request->track[$index] == 3 && $transaction->order_type == 1){
-            Stock::where("size_id", $transaction->size_id)->update([
-                "stock" => $stock->stock - 1
-            ]);
-        }
-
-        $transaction->track_id = $request->track[$index];
-        $transaction->save();
-
-        Timeline::create([
-            "track_id" => $transaction->track_id,
-            "transaction_id" => $transaction->id
-        ]);
+        $transactionService->changeStatus($id, $request->track_id);
         return redirect()->route("admin.check.index")->with("success", "Data Transaksi Berhasil Diubah !");
     }
+
 }

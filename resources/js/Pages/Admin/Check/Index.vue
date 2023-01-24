@@ -166,9 +166,8 @@ export default {
             this.$inertia.put(
                 route("admin.check.update", {
                     id: transaction.id,
-                    index: index,
                 }),
-                this.form
+                { track_id:this.form.track[index] }
             );
         },
         deletearticle(transaction) {
